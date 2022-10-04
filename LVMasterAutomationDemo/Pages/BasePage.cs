@@ -2,6 +2,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+
 
 namespace LVMasterAutomationDemo.Pages
 {
@@ -25,9 +27,30 @@ namespace LVMasterAutomationDemo.Pages
             return driver.Url == this.PageUrl;
         }
 
-        public void WaitForElement(string element)
+        public void WaitForElementToBeVisible(string xpath)
         {
-            IWebElement element12 = wait.Until(ExpectedConditions) 
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            try
+            {
+                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xpath)));
+            }
+            catch (TimeoutException te)
+            {
+                Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", xpath, te.ToString());
+            }
         }
+        
+        public void IWaitForElementAndType(string xpath, string data)
+        {
+            WaitForElementToBeVisible(xpath);
+            driver.FindElement(By.XPath(xpath)).SendKeys(data);
+        }
+
+        public void IClick(IWebElement element)
+        {
+            //WaitForElementToBeVisible(cssselector);
+            driver.FindElement((By)element);
+        }
+
     }
 }

@@ -9,8 +9,9 @@ namespace LVMasterAutomationDemo.Pages
         {
         }
 
-        public IWebElement ibsField => driver.FindElement(By.XPath("//input[contains(@value,'IBS')]"));
-        public IWebElement usernameField => driver.FindElement(By.XPath("//input[@type='text']"));
+        public IWebElement ibsField => driver.FindElement(By.XPath("//input[@data-ui='institution-code-textbox']"));
+        public IWebElement nextButton => driver.FindElement(By.XPath("//button[contains(.,'Next')]"));
+        public IWebElement usernameField => driver.FindElement(By.XPath("//input[@data-ui='login-name-or-email-texbox']"));
         public IWebElement passwordField => driver.FindElement(By.XPath("//input[@type='password']"));
         public IWebElement rememberMe => driver.FindElement(By.XPath("//input[@type='checkbox']"));
         public IWebElement loginButton => driver.FindElement(By.XPath("//button[contains(.,'Log in')]"));
@@ -23,13 +24,16 @@ namespace LVMasterAutomationDemo.Pages
         {
             driver.Navigate().GoToUrl(PageUrl);
             Assert.That(PageUrl, Is.EqualTo(driver.Url));
-            I
-            ibsField.SendKeys("IBS");
+            IWaitForElementAndType("//input[@data-ui='institution-code-textbox']", "IBS");
+            IClick(nextButton);
+            //IWaitForElementAndType2(ibsField, "IBS");
             usernameField.SendKeys("ddimov@vsgbg.com");
             passwordField.SendKeys("De126000!!");
-            rememberMe.Click();
-            loginButton.Click();
-            Assert.IsTrue(IsPageOpen());
+            //rememberMe.Click();
+            //loginButton.Click();
+            //Assert.IsTrue(IsPageOpen());
         }
+
+
     }
 }
