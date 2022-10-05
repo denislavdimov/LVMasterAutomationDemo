@@ -10,47 +10,64 @@ namespace LVMasterAutomationDemo.Pages
     public class BasePage
     {
         protected readonly IWebDriver driver;
+        public static int secondsToLoadPage = 25;
         public BasePage(IWebDriver driver)
         {
             this.driver = driver;
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(secondsToLoadPage);
         }
         public virtual string PageUrl { get; }
+        public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
 
-        public void Open() 
+        public void IOpenPageAndCheckIsItOpen() 
         {
             driver.Navigate().GoToUrl(this.PageUrl);
+            IsPageOpen();
         }
 
         public bool IsPageOpen()
         {
+            IWaitPageToLoad();
             return driver.Url == this.PageUrl;
         }
-
-        public void WaitForElementToBeVisible(string xpath)
+        public void IWaitPageToLoad()
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            var seconds = secondsToLoadPage;
+            for (int i = 0; i < seconds; i++)
+            {
+                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));
+            }
+        }
+
+        public void WaitForElementToBeClickable(IWebElement element)
+        {
+            //WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             try
             {
-                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xpath)));
+                wait.Until(ExpectedConditions.ElementToBeClickable(element));
             }
             catch (TimeoutException te)
             {
-                Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", xpath, te.ToString());
+                Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
             }
         }
-        
-        public void IWaitForElementAndType(string xpath, string data)
+
+
+        public void IWaitForElementAndType(IWebElement element, string data)
         {
-            WaitForElementToBeVisible(xpath);
-            driver.FindElement(By.XPath(xpath)).SendKeys(data);
+            WaitForElementToBeClickable(element);
+            element.SendKeys(data);
         }
 
         public void IClick(IWebElement element)
         {
-            //WaitForElementToBeVisible(cssselector);
-            driver.FindElement((By)element);
+            WaitForElementToBeClickable(element);
+            element.Click();
         }
 
+        public void ISee()
+        {
+            //code
+        }
     }
 }

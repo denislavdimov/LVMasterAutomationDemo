@@ -12,7 +12,7 @@ namespace LVMasterAutomationDemo.Pages
         public PortalPage (IWebDriver driver) : base(driver)
         {
         }
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/#/";
+        public override string PageUrl => "url";
 
 
     }

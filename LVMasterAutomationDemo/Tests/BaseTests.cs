@@ -14,10 +14,24 @@ namespace LVMasterAutomationDemo.Tests
             driver.Manage().Window.Size = new System.Drawing.Size(1440, 900);
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            driver.Manage().Cookies.DeleteAllCookies();
+            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            driver.Manage().Cookies.DeleteAllCookies();
+        }
+
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
             driver.Quit();
         }
+
     }
 }
