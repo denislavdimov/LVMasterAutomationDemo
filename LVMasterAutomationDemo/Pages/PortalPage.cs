@@ -1,9 +1,5 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace LVMasterAutomationDemo.Pages
 {
@@ -14,6 +10,18 @@ namespace LVMasterAutomationDemo.Pages
         }
         public override string PageUrl => "url";
 
+        public IWebElement hamburgerMenu => driver.FindElement(By.CssSelector(".fal.fa-bars"));
+        public IWebElement searchField => driver.FindElement(By.CssSelector("input[placeholder='Search']"));
+        public IWebElement setupAdministratorLink => driver.FindElement(By.XPath("//a[contains(.,'Setup (Administrator)')]"));
+        public IWebElement searchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
 
+        public void ISearchForFileWithId(string id)
+        {
+            IWaitForElementAndType(searchField, id);
+            IWaitAndClick(searchButton);
+            IWaitForLoader();
+            WaitForAjax();
+            Assert.That(driver.Url, Is.EqualTo("https://loanvantage.dev/IBS/master/lvweb/Layout/#"+"/"+id+"/"));
+        }
     }
 }

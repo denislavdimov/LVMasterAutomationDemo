@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using System.Xml.Linq;
 
 
 namespace LVMasterAutomationDemo.Pages
@@ -19,7 +20,7 @@ namespace LVMasterAutomationDemo.Pages
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
 
-        public void IOpenPageAndCheckIsItOpen() 
+        public void IGoToThisPageUrlAndCheckIsItOpen() 
         {
             driver.Navigate().GoToUrl(this.PageUrl);
             IsPageOpen();
@@ -27,10 +28,11 @@ namespace LVMasterAutomationDemo.Pages
 
         public bool IsPageOpen()
         {
-            IWaitPageToLoad();
+            IWaitUntilPageLoadsCompletely();
+            Assert.That(driver.Url, Is.EqualTo(PageUrl));
             return driver.Url == this.PageUrl;
         }
-        public void IWaitPageToLoad()
+        private  void IWaitPageToLoad()
         {
             var seconds = secondsToLoadPage;
             for (int i = 0; i < seconds; i++)
@@ -39,7 +41,7 @@ namespace LVMasterAutomationDemo.Pages
             }
         }
 
-        public void WaitForElementToBeClickable(IWebElement element)
+        public void IWaitForElementToBeClickable(IWebElement element)
         {
             //WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             try
@@ -55,19 +57,51 @@ namespace LVMasterAutomationDemo.Pages
 
         public void IWaitForElementAndType(IWebElement element, string data)
         {
-            WaitForElementToBeClickable(element);
+            IWaitForElementToBeClickable(element);
+            element.Click();
             element.SendKeys(data);
         }
 
-        public void IClick(IWebElement element)
+        public void IWaitAndClick(IWebElement element)
         {
-            WaitForElementToBeClickable(element);
+            IWaitForElementToBeClickable(element);
             element.Click();
         }
 
-        public void ISee()
+        public void ISee(IWebElement element, By by)
         {
-            //code
+            try
+            {
+                wait.Until(ExpectedConditions.ElementExists(by));
+            }
+            catch (TimeoutException te)
+            {
+                Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
+            }
+        }
+
+        public void IWaitForLoader()
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.ElementExists(By.Id("loader")));
+            }
+            catch (TimeoutException te)
+            {
+                Assert.Fail("The element with selector didn't appear.", te.ToString());
+            }
+        }
+
+        protected void WaitForAjax()
+        {
+            var js = (IJavaScriptExecutor)driver;
+            wait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+        }
+
+        protected void IWaitUntilPageLoadsCompletely()
+        {
+            var js = (IJavaScriptExecutor)driver;
+            wait.Until(wd => js.ExecuteScript("return document.readyState").ToString() == "complete");
         }
     }
 }

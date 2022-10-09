@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 
 namespace LVMasterAutomationDemo.Pages
 {
@@ -18,22 +19,20 @@ namespace LVMasterAutomationDemo.Pages
         public IWebElement backButton => driver.FindElement(By.XPath("//button[contains(.,'Back')]"));
         public IWebElement resetPassLink => driver.FindElement(By.LinkText("Reset it now"));
         public IWebElement changePassLink => driver.FindElement(By.LinkText("Change it now"));
-        public override string PageUrl => "url";
+        public override string PageUrl => "https://loanvantage.dev/master#/";
 
         public void OpenLVAndLogin()
         {
-            IOpenPageAndCheckIsItOpen();
-            IWaitForElementAndType(ibsField, "INSTCODE");
-            IClick(nextButton);
-            IWaitForElementAndType(usernameField, "username");
-            IWaitForElementAndType(passwordField, "password");
+            IGoToThisPageUrlAndCheckIsItOpen();
+            IWaitForElementAndType(ibsField, "IBS");
+            IWaitAndClick(nextButton);
+            IWaitForLoader();
+            IWaitForElementAndType(usernameField, "ddimov@vsgbg.com");
+            IWaitForElementAndType(passwordField, "De126000!!");
             //IClick(rememberMe);
-            IClick(loginButton);
-            //Assert.IsTrue(IsPageOpen());
-            IWaitPageToLoad();
-            IsPageOpen();
+            IWaitAndClick(loginButton);
+            IWaitForLoader();
+            IWaitUntilPageLoadsCompletely();          
         }
-
-
     }
 }
