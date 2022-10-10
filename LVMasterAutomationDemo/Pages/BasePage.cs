@@ -29,7 +29,7 @@ namespace LVMasterAutomationDemo.Pages
         public bool IsPageOpen()
         {
             IWaitUntilPageLoadsCompletely();
-            Assert.That(driver.Url, Is.EqualTo(PageUrl));
+            //Assert.That(driver.Url, Is.EqualTo(PageUrl));
             return driver.Url == this.PageUrl;
         }
         private  void IWaitPageToLoad()
