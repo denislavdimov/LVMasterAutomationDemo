@@ -1,0 +1,11 @@
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+
+namespace LVMasterAutomationDemo.Pages
+{
+    public interface IWait
+    {
+        void IWaitAndClick(IWebElement element);
+        void IWaitForElementAndType(IWebElement element, string data);
+    }
+}

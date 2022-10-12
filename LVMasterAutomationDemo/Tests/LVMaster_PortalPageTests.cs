@@ -9,8 +9,8 @@ namespace LVMasterAutomationDemo.Tests
         [Test]
         public void LVMaster_LoginWithValidCredentialsTest()
         {
-            var portalPage = new PortalPage(driver);
-            var loginPage = new LoginPage(driver);
+            var portalPage = new PortalPage(driver, new Wait(driver));
+            var loginPage = new LoginPage(driver, new Wait(driver));
             var basePage = new BasePage(driver);
             loginPage.OpenLVAndLogin();
             basePage.IWaitForLoader();

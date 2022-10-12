@@ -5,8 +5,10 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class PortalPage : BasePage
     {
-        public PortalPage (IWebDriver driver) : base(driver)
+        private readonly IWait _wait;
+        public PortalPage (IWebDriver driver, IWait wait) : base(driver)
         {
+            _wait = wait;
         }
         public override string PageUrl => "url";
 
@@ -18,8 +20,8 @@ namespace LVMasterAutomationDemo.Pages
 
         public void ISearchForFileWithId(string id)
         {
-            IWaitForElementAndType(searchField, id);
-            IWaitAndClick(searchButton);
+            _wait.IWaitForElementAndType(searchField, id);
+            _wait.IWaitAndClick(searchButton);
             IWaitForLoader();
             WaitForAjax();
             //Assert.That(driver.Url, Is.EqualTo("https://loanvantage.dev/IBS/master/lvweb/Layout/#"+"/"+id+"/"));
@@ -27,9 +29,9 @@ namespace LVMasterAutomationDemo.Pages
 
         public void CreatePartyFromSeachField()
         {
-            IWaitForElementAndType(searchField, "denislavdimov");
+            _wait.IWaitForElementAndType(searchField, "denislavdimov");
             IWaitForLoader();
-            IWaitAndClick(addPartyButton);
+            _wait.IWaitAndClick(addPartyButton);
             IWaitForLoader();
             WaitForAjax();
         }

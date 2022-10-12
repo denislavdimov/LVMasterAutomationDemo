@@ -10,12 +10,14 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class BasePage
     {
+        private readonly Wait _wait;
         protected readonly IWebDriver driver;
         public static int secondsToLoadPage = 25;
         public BasePage(IWebDriver driver)
         {
             this.driver = driver;
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(secondsToLoadPage);
+            _wait = new Wait(driver);
         }
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
@@ -41,32 +43,32 @@ namespace LVMasterAutomationDemo.Pages
             }
         }
 
-        public void IWaitForElementToBeClickable(IWebElement element)
-        {
-            //WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            try
-            {
-                wait.Until(ExpectedConditions.ElementToBeClickable(element));
-            }
-            catch (TimeoutException te)
-            {
-                Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
-            }
-        }
+        //public void IWaitForElementToBeClickable(IWebElement element)
+        //{
+        //    //WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+        //    try
+        //    {
+        //        wait.Until(ExpectedConditions.ElementToBeClickable(element));
+        //    }
+        //    catch (TimeoutException te)
+        //    {
+        //        Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
+        //    }
+        //}
 
 
-        public void IWaitForElementAndType(IWebElement element, string data)
-        {
-            IWaitForElementToBeClickable(element);
-            element.Click();
-            element.SendKeys(data);
-        }
+        //public void IWaitForElementAndType(IWebElement element, string data)
+        //{
+        //    _wait.IWaitForElementToBeClickable(element);
+        //    element.Click();
+        //    element.SendKeys(data);
+        //}
 
-        public void IWaitAndClick(IWebElement element)
-        {
-            IWaitForElementToBeClickable(element);
-            element.Click();
-        }
+        //public void IWaitAndClick(IWebElement element)
+        //{
+        //    _wait.IWaitForElementToBeClickable(element);
+        //    element.Click();
+        //}
 
         public void ISee(IWebElement element, By by)
         {

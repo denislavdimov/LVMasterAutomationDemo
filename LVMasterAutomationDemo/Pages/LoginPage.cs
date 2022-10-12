@@ -6,8 +6,10 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class LoginPage : BasePage
     {
-        public LoginPage(IWebDriver driver) : base(driver)
+        private readonly IWait _wait;
+        public LoginPage(IWebDriver driver, IWait wait) : base(driver)
         {
+            _wait = wait; 
         }
 
         //public IWebElement ibsField => driver.FindElement(By.XPath("//input[@data-ui='institution-code-textbox']"));
@@ -24,9 +26,9 @@ namespace LVMasterAutomationDemo.Pages
         public void OpenLVAndLogin()
         {
             IGoToThisPageUrlAndCheckIsItOpen();
-            IWaitForElementAndType(usernameField, "ddimov@vsgbg.com");
-            IWaitForElementAndType(passwordField, "De126000!");
-            IWaitAndClick(loginButton);
+            _wait.IWaitForElementAndType(usernameField, "ddimov@vsgbg.com");
+            _wait.IWaitForElementAndType(passwordField, "De126000!");
+            _wait.IWaitAndClick(loginButton);
             IWaitForLoader();
             IWaitUntilPageLoadsCompletely();          
         }
