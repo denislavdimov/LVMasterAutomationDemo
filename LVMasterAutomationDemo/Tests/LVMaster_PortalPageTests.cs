@@ -11,10 +11,11 @@ namespace LVMasterAutomationDemo.Tests
         {
             var portalPage = new PortalPage(driver, new Wait(driver));
             var loginPage = new LoginPage(driver, new Wait(driver));
-            var basePage = new BasePage(driver);
+            var Wait = new Wait(driver);
             loginPage.OpenLVAndLogin();
-            basePage.IWaitForLoader();
-            portalPage.ISearchForFileWithId("45012");
+            Wait.IWaitForLoader();
+            //portalPage.ISearchForFileWithId("45012");
+            portalPage.IGoToAdmin();
         }
     }
 }

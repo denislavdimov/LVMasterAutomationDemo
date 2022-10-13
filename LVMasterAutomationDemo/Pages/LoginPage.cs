@@ -26,11 +26,11 @@ namespace LVMasterAutomationDemo.Pages
         public void OpenLVAndLogin()
         {
             IGoToThisPageUrlAndCheckIsItOpen();
-            _wait.IWaitForElementAndType(usernameField, "ddimov@vsgbg.com");
-            _wait.IWaitForElementAndType(passwordField, "De126000!");
-            _wait.IWaitAndClick(loginButton);
-            IWaitForLoader();
-            IWaitUntilPageLoadsCompletely();          
+            IWaitForElementAndType(usernameField, "ddimov@vsgbg.com");
+            IWaitForElementAndType(passwordField, "De126000!");
+            IWaitAndClick(loginButton);
+            _wait.IWaitForLoader();
+            _wait.IWaitUntilPageLoadsCompletely();          
         }
     }
 }

@@ -22,21 +22,8 @@ namespace LVMasterAutomationDemo.Pages
             _driver = driver;
         }
 
-        public void IWaitForElementAndType(IWebElement element, string data)
+        public void IWaitForElementToBeClickable(IWebElement element)
         {
-            IWaitForElementToBeClickable(element);
-            element.Click();
-            element.SendKeys(data);
-        }
-
-        public void IWaitAndClick(IWebElement element)
-        {
-            IWaitForElementToBeClickable(element);
-            element.Click();
-        }
-        private void IWaitForElementToBeClickable(IWebElement element)
-        {
-            //WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             try
             {
                 wait.Until(ExpectedConditions.ElementToBeClickable(element));
@@ -44,6 +31,39 @@ namespace LVMasterAutomationDemo.Pages
             catch (TimeoutException te)
             {
                 Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
+            }
+        }
+
+        public void IWaitForLoader()
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.ElementExists(By.Id("loader")));
+            }
+            catch (TimeoutException te)
+            {
+                Assert.Fail("The element with selector didn't appear.", te.ToString());
+            }
+        }
+
+        public void WaitForAjax()
+        {
+            var js = (IJavaScriptExecutor)_driver;
+            wait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+        }
+
+        public void IWaitUntilPageLoadsCompletely()
+        {
+            var js = (IJavaScriptExecutor)_driver;
+            wait.Until(wd => js.ExecuteScript("return document.readyState").ToString() == "complete");
+        }
+
+        public void IWaitPageToLoad()
+        {
+            var seconds = _secondsToLoadPage;
+            for (int i = 0; i < seconds; i++)
+            {
+                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));
             }
         }
     }
