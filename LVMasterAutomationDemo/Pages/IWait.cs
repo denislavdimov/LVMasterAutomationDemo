@@ -11,5 +11,6 @@ namespace LVMasterAutomationDemo.Pages
         void WaitForAjax();
         void IWaitUntilPageLoadsCompletely();
         void IWaitPageToLoad();
+        void IWaitForElementToBeClickable(IWebElement element);
     }
 }

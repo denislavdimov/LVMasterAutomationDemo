@@ -31,6 +31,8 @@ namespace LVMasterAutomationDemo.Tests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
+            if (driver == null)
+                return;
             driver.Quit();
         }
 

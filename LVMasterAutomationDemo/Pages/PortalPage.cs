@@ -7,14 +7,13 @@ namespace LVMasterAutomationDemo.Pages
     public class PortalPage : BasePage
     {
         private readonly IWait _wait;
-        //Actions action = new Actions(driver);
         public PortalPage (IWebDriver driver, IWait wait) : base(driver)
         {
             _wait = wait;
         }
         public override string PageUrl => "url";
 
-        public IWebElement hamburgerMenu => driver.FindElement(By.CssSelector(".fal.fa-bars"));
+        public IWebElement hamburgerMenu => driver.FindElement(By.XPath("//button[@class='lv-dropdown-icon-button']"));
         public IWebElement searchField => driver.FindElement(By.CssSelector("input[placeholder='Search']"));
         public IWebElement setupAdministratorLink => driver.FindElement(By.XPath("//a[contains(.,'Setup (Administrator)')]"));
         public IWebElement searchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
@@ -41,11 +40,12 @@ namespace LVMasterAutomationDemo.Pages
 
         public void IGoToAdmin()
         {
-            var action = new Actions(driver);  
-            ISee(hamburgerMenu, By.CssSelector(".fal.fa-bars"));
-            action.MoveToElement(hamburgerMenu).Click();
+            //var action = new Actions(driver);  
+            ISee(hamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
+            //action.MoveToElement(hamburgerMenu).Click();
+            IWaitAndClick(hamburgerMenu);
             ISee(adminLink, By.LinkText("Setup (Administrator)"));
-            adminLink.Click();
+            IWaitAndClick(adminLink);
         }
     }
 }
