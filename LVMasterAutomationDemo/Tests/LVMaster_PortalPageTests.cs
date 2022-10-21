@@ -17,8 +17,7 @@ namespace LVMasterAutomationDemo.Tests
             Wait.IWaitForLoader();
             //portalPage.ISearchForFileWithId("45012");
             portalPage.IGoToAdmin();
-            Wait.WaitForAjax();
-            adminPage.INavigateToAdminPage();
+            Wait.IWaitPageToLoad();
         }
     }
 }

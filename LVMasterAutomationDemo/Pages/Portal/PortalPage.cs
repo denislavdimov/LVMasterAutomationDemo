@@ -13,12 +13,12 @@ namespace LVMasterAutomationDemo.Pages
         }
         public override string PageUrl => "url";
 
-        public IWebElement hamburgerMenu => driver.FindElement(By.XPath("//button[@class='lv-dropdown-icon-button']"));
-        public IWebElement searchField => driver.FindElement(By.CssSelector("input[placeholder='Search']"));
-        public IWebElement setupAdministratorLink => driver.FindElement(By.XPath("//a[contains(.,'Setup (Administrator)')]"));
-        public IWebElement searchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
-        public IWebElement addPartyButton => driver.FindElement(By.XPath("//button[contains(.,'Add party')]"));
-        public IWebElement adminLink => driver.FindElement(By.LinkText("Setup (Administrator)"));
+        private IWebElement hamburgerMenu => driver.FindElement(By.XPath("//button[@class='lv-dropdown-icon-button']"));
+        private IWebElement searchField => driver.FindElement(By.CssSelector("input[placeholder='Search']"));
+        private IWebElement setupAdministratorLink => driver.FindElement(By.XPath("//a[contains(.,'Setup (Administrator)')]"));
+        private IWebElement searchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
+        private IWebElement addPartyButton => driver.FindElement(By.XPath("//button[contains(.,'Add party')]"));
+        private IWebElement adminLink => driver.FindElement(By.LinkText("Setup (Administrator)"));
 
         public void ISearchForFileWithId(string id)
         {

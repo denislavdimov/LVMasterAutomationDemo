@@ -12,7 +12,7 @@ namespace LVMasterAutomationDemo.Tests
         {
             driver = new ChromeDriver();
             driver.Manage().Window.Size = new System.Drawing.Size(1440, 900);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
+            //driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
         }
 
         [SetUp]
