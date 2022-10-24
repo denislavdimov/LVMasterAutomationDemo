@@ -11,13 +11,15 @@ namespace LVMasterAutomationDemo.Pages
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/";
 
-        private IWebElement linkRoles => driver.FindElement(By.LinkText("Roles"));
+        public IWebElement linkRoles => driver.FindElement(By.LinkText("Roles"));
         private IWebElement linkAdd => driver.FindElement(By.LinkText("Add"));
 
         public void INavigateToAdminPage(IWebElement element)
         {
             _wait.IWaitForElementToBeClickable(element);
             IWaitAndClick(element);
+            _wait.IWaitForLoader();
+            _wait.IWaitPageToLoad();
         }
 
     }

@@ -39,7 +39,7 @@ namespace LVMasterAutomationDemo.Pages
         {
             try
             {
-                wait.Until(ExpectedConditions.ElementExists(by));
+                wait.Until(ExpectedConditions.ElementIsVisible(by));
             }
             catch (TimeoutException te)
             {
@@ -57,6 +57,17 @@ namespace LVMasterAutomationDemo.Pages
         {
             _wait.IWaitForElementToBeClickable(element);
             element.Click();
+        }
+        public void ISeeElements(By by)
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+            }
+            catch (TimeoutException te)
+            {
+                Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", te.ToString());
+            }
         }
     }
 }

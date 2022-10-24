@@ -46,6 +46,8 @@ namespace LVMasterAutomationDemo.Pages
             IWaitAndClick(hamburgerMenu);
             ISee(adminLink, By.LinkText("Setup (Administrator)"));
             IWaitAndClick(adminLink);
+            //_wait.IWaitForLoader();
+            _wait.IWaitPageToLoad();
         }
     }
 }

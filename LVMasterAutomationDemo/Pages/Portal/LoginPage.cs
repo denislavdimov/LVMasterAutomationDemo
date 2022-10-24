@@ -29,8 +29,9 @@ namespace LVMasterAutomationDemo.Pages
             IWaitForElementAndType(usernameField, "ddimov@vsgbg.com");
             IWaitForElementAndType(passwordField, "De126000!");
             IWaitAndClick(loginButton);
+            _wait.WaitForAjax();
             _wait.IWaitForLoader();
-            _wait.IWaitUntilPageLoadsCompletely();          
+            _wait.IWaitPageToLoad();          
         }
     }
 }
