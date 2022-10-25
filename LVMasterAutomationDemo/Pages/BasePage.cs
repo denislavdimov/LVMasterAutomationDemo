@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
+using System;
 using System.Xml.Linq;
 
 
@@ -22,6 +23,9 @@ namespace LVMasterAutomationDemo.Pages
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
 
+        private IList<IWebElement> exception =>
+          driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
+
         public void IGoToThisPageUrlAndCheckIsItOpen()
         {
             driver.Navigate().GoToUrl(this.PageUrl);
@@ -35,7 +39,7 @@ namespace LVMasterAutomationDemo.Pages
             return driver.Url == this.PageUrl;
         }
 
-        public void ISee(IWebElement element, By by)
+        public void ISeeElement(IWebElement element, By by)
         {
             try
             {
@@ -43,9 +47,21 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (TimeoutException te)
             {
-                Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
+                Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
             }
         }
+        public void ISeeElements(By by)
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+            }
+            catch (TimeoutException te)
+            {
+                Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", te.ToString());
+            }
+        }
+
         public void IWaitForElementAndType(IWebElement element, string data)
         {
             _wait.IWaitForElementToBeClickable(element);
@@ -58,16 +74,13 @@ namespace LVMasterAutomationDemo.Pages
             _wait.IWaitForElementToBeClickable(element);
             element.Click();
         }
-        public void ISeeElements(By by)
+        public void ISeeNoErrorAndException()
         {
-            try
-            {
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
-            }
-            catch (TimeoutException te)
-            {
-                Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", te.ToString());
-            }
+            //wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
+            //    By.XPath("//div[contains(@class, 'toast toast-error')]")));
+            //wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
+            //    By.XPath("//div[contains(@class, 'toast toast-warning')]")));
+            Assert.IsTrue(exception.Count == 0, "Exception is thrown on the Page");
         }
     }
 }

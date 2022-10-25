@@ -20,31 +20,22 @@ namespace LVMasterAutomationDemo.Pages
         private IWebElement addPartyButton => driver.FindElement(By.XPath("//button[contains(.,'Add party')]"));
         private IWebElement adminLink => driver.FindElement(By.LinkText("Setup (Administrator)"));
 
-        public void ISearchForFileWithId(string id)
-        {
-            IWaitForElementAndType(searchField, id);
-            IWaitAndClick(searchButton);
-            _wait.IWaitForLoader();
-            _wait.WaitForAjax();
-            //Assert.That(driver.Url, Is.EqualTo("https://loanvantage.dev/IBS/master/lvweb/Layout/#"+"/"+id+"/"));
-        }
-
-        public void CreatePartyFromSeachField()
-        {
-            IWaitForElementAndType(searchField, "denislavdimov");
-            _wait.IWaitForLoader();
-            IWaitAndClick(addPartyButton);
-            _wait.IWaitForLoader();
-            _wait.WaitForAjax();
-        }
+        //public void ISearchForFileWithId(string id)
+        //{
+        //    IWaitForElementAndType(searchField, id);
+        //    IWaitAndClick(searchButton);
+        //    _wait.IWaitForLoader();
+        //    _wait.WaitForAjax();
+        //    Assert.That(driver.Url, Is.EqualTo("https://loanvantage.dev/IBS/master/lvweb/Layout/#"+"/"+id+"/"));
+        //}
 
         public void IGoToAdmin()
         {
             //var action = new Actions(driver);  
-            ISee(hamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
+            ISeeElement(hamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
             //action.MoveToElement(hamburgerMenu).Click();
             IWaitAndClick(hamburgerMenu);
-            ISee(adminLink, By.LinkText("Setup (Administrator)"));
+            ISeeElement(adminLink, By.LinkText("Setup (Administrator)"));
             IWaitAndClick(adminLink);
             //_wait.IWaitForLoader();
             _wait.IWaitPageToLoad();

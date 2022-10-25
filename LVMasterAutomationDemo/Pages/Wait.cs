@@ -2,20 +2,14 @@
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace LVMasterAutomationDemo.Pages
 {
     public class Wait : IWait
     {
         protected readonly IWebDriver _driver;
-        public static int _secondsToLoadPage = 25;
-        private  WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsToLoadPage)); } }
+        public static int _secondsToLoad = 20;
+        private  WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsToLoad)); } }
 
         public Wait(IWebDriver driver)
         {
@@ -60,10 +54,17 @@ namespace LVMasterAutomationDemo.Pages
 
         public void IWaitPageToLoad()
         {
-            var seconds = _secondsToLoadPage;
-            for (int i = 0; i < seconds; i++)
+            var seconds = _secondsToLoad;
+            try
             {
-                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));
+                for (int i = 0; i < seconds; i++)
+                {
+                    wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));
+                }
+            }
+            catch (TimeoutException te)
+            {
+                Assert.Fail("Page failed to load.", te.ToString());
             }
         }
     }
