@@ -13,7 +13,7 @@ namespace LVMasterAutomationDemo.Pages
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Roles/";
         private IWebElement nameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
         private IWebElement linkAdd => driver.FindElement(By.LinkText("Add"));
-        private IWebElement roleModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
+        public IWebElement roleModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
         private IWebElement searchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
         private IWebElement deleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
         private IWebElement addAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll'] strong"));
@@ -25,8 +25,8 @@ namespace LVMasterAutomationDemo.Pages
         private IWebElement confirmationDialog => driver.FindElement(By.CssSelector(".confimation-dialog h5"));
         private IWebElement yesButton => driver.FindElement(By.XPath("//button[contains(.,'Yes')]"));
         private IWebElement editButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
-        //private IReadOnlyList<IWebElement> element => driver.FindElements(By.CssSelector("#assigned > div"));
-        //private IList<IWebElement> assignedItems => driver.FindElements(By.CssSelector("#assigned > div"));
+        private IList<IWebElement> assignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
+        private IList<IWebElement> availableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
 
 
         public void AddRole()
@@ -35,7 +35,7 @@ namespace LVMasterAutomationDemo.Pages
             _wait.IWaitForLoader();
             ISeeElement(roleModal, By.XPath("//div[@class='k-widget k-window']"));
             ISeeElements(By.CssSelector("#available > div"));
-            IWaitForElementAndType(nameInputField, "DenisAutomationRole" + randomNumber);
+            IWaitForElementAndType(nameInputField, "DenisAutomationRoleTest" + randomNumber);
             IWaitAndClick(addAllLink);
             ISeeElements(By.CssSelector("#assigned > div"));
             IWaitAndClick(saveButton);

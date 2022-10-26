@@ -24,7 +24,7 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (TimeoutException te)
             {
-                Assert.Fail("The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
+                Assert.Fail($"The element - {element} didn't appear. The exception was:\n {te}", element, te.ToString());
             }
         }
 
@@ -32,11 +32,11 @@ namespace LVMasterAutomationDemo.Pages
         {
             try
             {
-                wait.Until(ExpectedConditions.ElementExists(By.Id("loader")));
+                wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
             }
             catch (TimeoutException te)
             {
-                Assert.Fail("The element with selector didn't appear.", te.ToString());
+                Assert.Fail($"The element loading image didn't appear., The exception was:\n {te}", te.ToString());
             }
         }
 
@@ -64,7 +64,7 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (TimeoutException te)
             {
-                Assert.Fail("Page failed to load.", te.ToString());
+                Assert.Fail($"Page failed to load. The exception was:\n {te}", te.ToString());
             }
         }
     }
