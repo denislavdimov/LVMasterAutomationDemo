@@ -12,6 +12,7 @@ namespace LVMasterAutomationDemo.Tests
         public void OneTimeSetup()
         {
             driver = new ChromeDriver();
+            PageHelper.PageBuilder(driver);
             driver.Manage().Window.Size = new System.Drawing.Size(1440, 900);
         }
 

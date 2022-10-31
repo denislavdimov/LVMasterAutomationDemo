@@ -11,9 +11,10 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class BasePage
     {
+        private const int C = 30;
         private readonly Wait _wait;
         protected readonly IWebDriver driver;
-        public static int secondsToLoadPage = 25;
+        private static readonly int secondsToLoadPage = C;
         public BasePage(IWebDriver driver)
         {
             this.driver = driver;
@@ -22,8 +23,7 @@ namespace LVMasterAutomationDemo.Pages
         }
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
-
-        private IList<IWebElement> exception =>
+        private IList<IWebElement> Exception =>
           driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
 
         public void IGoToThisPageUrlAndCheckIsItOpen()
@@ -80,7 +80,7 @@ namespace LVMasterAutomationDemo.Pages
             //    By.XPath("//div[contains(@class, 'toast toast-error')]")));
             //wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
             //    By.XPath("//div[contains(@class, 'toast toast-warning')]")));
-            Assert.IsTrue(exception.Count == 0, "Exception is thrown on the Page");
+            Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
         }
     }
 }

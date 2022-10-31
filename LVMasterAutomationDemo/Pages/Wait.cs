@@ -8,7 +8,7 @@ namespace LVMasterAutomationDemo.Pages
     public class Wait : IWait
     {
         protected readonly IWebDriver _driver;
-        public static int _secondsToLoad = 20;
+        public static int _secondsToLoad = 30;
         private  WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsToLoad)); } }
 
         public Wait(IWebDriver driver)

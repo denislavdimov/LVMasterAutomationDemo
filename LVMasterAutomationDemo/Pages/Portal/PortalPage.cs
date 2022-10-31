@@ -13,12 +13,12 @@ namespace LVMasterAutomationDemo.Pages
         }
         public override string PageUrl => "url";
 
-        private IWebElement hamburgerMenu => driver.FindElement(By.XPath("//button[@class='lv-dropdown-icon-button']"));
-        private IWebElement searchField => driver.FindElement(By.CssSelector("input[placeholder='Search']"));
-        private IWebElement setupAdministratorLink => driver.FindElement(By.XPath("//a[contains(.,'Setup (Administrator)')]"));
-        private IWebElement searchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
-        private IWebElement addPartyButton => driver.FindElement(By.XPath("//button[contains(.,'Add party')]"));
-        private IWebElement adminLink => driver.FindElement(By.LinkText("Setup (Administrator)"));
+        private IWebElement HamburgerMenu => driver.FindElement(By.XPath("//button[@class='lv-dropdown-icon-button']"));
+        private IWebElement SearchField => driver.FindElement(By.CssSelector("input[placeholder='Search']"));
+        private IWebElement SetupAdministratorLink => driver.FindElement(By.XPath("//a[contains(.,'Setup (Administrator)')]"));
+        private IWebElement SearchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
+        private IWebElement AddPartyButton => driver.FindElement(By.XPath("//button[contains(.,'Add party')]"));
+        private IWebElement AdminLink => driver.FindElement(By.LinkText("Setup (Administrator)"));
 
         //public void ISearchForFileWithId(string id)
         //{
@@ -32,11 +32,11 @@ namespace LVMasterAutomationDemo.Pages
         public void IGoToAdmin()
         {
             //var action = new Actions(driver);  
-            ISeeElement(hamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
+            ISeeElement(HamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
             //action.MoveToElement(hamburgerMenu).Click();
-            IWaitAndClick(hamburgerMenu);
-            ISeeElement(adminLink, By.LinkText("Setup (Administrator)"));
-            IWaitAndClick(adminLink);
+            IWaitAndClick(HamburgerMenu);
+            ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));
+            IWaitAndClick(AdminLink);
             //_wait.IWaitForLoader();
             _wait.IWaitPageToLoad();
         }

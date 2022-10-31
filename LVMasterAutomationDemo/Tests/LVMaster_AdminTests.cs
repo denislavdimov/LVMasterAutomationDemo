@@ -8,19 +8,30 @@ namespace LVMasterAutomationDemo.Tests
     public class LVMaster_AdminTests : BaseTests
     {
         [Test]
-        public void Add_Delete_RoleTest()
+        //public void Add_Delete_RoleTest()
+        //{
+        //    var portalPage = new PortalPage(driver, new Wait(driver));
+        //    var adminPage = new AdminPage(driver, new Wait(driver));
+        //    var rolesPage = new Roles(driver, new wait(driver));
+        //    var loginPage = new LoginPage(driver, new Wait(driver));
+        //    var loginTests = new LVMaster_LoginTests();
+        //    loginTests.LoginWithValidCredentialsTest();
+        //    loginPage.OpenLVAndLogin();
+        //    portalPage.IGoToAdmin();
+        //    adminPage.INavigateToAdminPage(adminPage.LinkRoles);
+        //    rolesPage.AddRole();
+        //    rolesPage.DeleteRole();
+        //}
+
+        public void Add_Delete_RoleTest2()
         {
-            var portalPage = new PortalPage(driver, new Wait(driver));
-            var adminPage = new AdminPage(driver, new Wait(driver));
-            var rolesPage = new Roles(driver, new Wait(driver));
-            var loginPage = new LoginPage(driver, new Wait(driver));
             //var loginTests = new LVMaster_LoginTests();
             //loginTests.LoginWithValidCredentialsTest();
-            loginPage.OpenLVAndLogin();
-            portalPage.IGoToAdmin();
-            adminPage.INavigateToAdminPage(adminPage.linkRoles);
-            rolesPage.AddRole();
-            rolesPage.DeleteRole();
+            PageHelper.LoginPage.OpenLVAndLogin();
+            PageHelper.PortalPage.IGoToAdmin();
+            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
+            //PageHelper.RolesPage.AddRole();
+            //PageHelper.RolesPage.DeleteRole();
         }
 
         [Test]
@@ -33,8 +44,8 @@ namespace LVMasterAutomationDemo.Tests
             var teamsPage = new Teams(driver, new Wait(driver));
             loginPage.OpenLVAndLogin();
             portalPage.IGoToAdmin();
-            adminPage.INavigateToAdminPage(adminPage.linkTeams);
-            teamsPage.AddTeamWithUserAndRole();
+            adminPage.INavigateToAdminPage(adminPage.LinkTeams);
+            //PageHelper.teamsPage.AddTeamWithUserAndRole();
         }
     }
 }

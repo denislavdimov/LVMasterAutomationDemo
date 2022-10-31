@@ -11,46 +11,46 @@ namespace LVMasterAutomationDemo.Pages
             _wait = wait;
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Roles/";
-        private IWebElement nameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
-        private IWebElement linkAdd => driver.FindElement(By.LinkText("Add"));
-        public IWebElement roleModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
-        private IWebElement searchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
-        private IWebElement deleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
-        private IWebElement addAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll'] strong"));
-        private IWebElement saveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
-        private IWebElement availableColumn => driver.FindElement(By.Id("available"));
-        private IWebElement assignedColumn => driver.FindElement(By.Id("assigned"));
-        private IWebElement availableItem => driver.FindElement(By.CssSelector("#available > div"));
-        private IWebElement assignedItem => driver.FindElement(By.CssSelector("#assigned > div"));
-        private IWebElement confirmationDialog => driver.FindElement(By.CssSelector(".confimation-dialog h5"));
-        private IWebElement yesButton => driver.FindElement(By.XPath("//button[contains(.,'Yes')]"));
-        private IWebElement editButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
-        private IList<IWebElement> assignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
-        private IList<IWebElement> availableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
+        private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@NameInputField='Name']"));
+        private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
+        public IWebElement RoleModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
+        private IWebElement SearchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
+        private IWebElement DeleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
+        private IWebElement AddAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll'] strong"));
+        private IWebElement SaveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
+        private IWebElement AvailableColumn => driver.FindElement(By.Id("available"));
+        private IWebElement AssignedColumn => driver.FindElement(By.Id("assigned"));
+        private IWebElement AvailableItem => driver.FindElement(By.CssSelector("#available > div"));
+        private IWebElement AssignedItem => driver.FindElement(By.CssSelector("#assigned > div"));
+        private IWebElement ConfirmationDialog => driver.FindElement(By.CssSelector(".confimation-dialog h5"));
+        private IWebElement YesButton => driver.FindElement(By.XPath("//button[contains(.,'Yes')]"));
+        private IWebElement EditButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
+        private IList<IWebElement> AssignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
+        private IList<IWebElement> AvailableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
 
 
         public void AddRole()
         {
-            IWaitAndClick(linkAdd);
+            IWaitAndClick(LinkAdd);
             _wait.IWaitForLoader();
-            ISeeElement(roleModal, By.XPath("//div[@class='k-widget k-window']"));
+            ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
             ISeeElements(By.CssSelector("#available > div"));
-            IWaitForElementAndType(nameInputField, "DenisAutomationRoleTest" + randomNumber);
-            IWaitAndClick(addAllLink);
+            IWaitForElementAndType(NameInputField, "DenisAutomationRoleTest" + randomNumber);
+            IWaitAndClick(AddAllLink);
             ISeeElements(By.CssSelector("#assigned > div"));
-            IWaitAndClick(saveButton);
+            IWaitAndClick(SaveButton);
             _wait.IWaitForLoader();
             ISeeNoErrorAndException();
         }
 
         public void DeleteRole()
         {
-            IWaitForElementAndType(searchArea, "DenisAutomationRole");
-            IWaitAndClick(editButton);
+            IWaitForElementAndType(SearchArea, "DenisAutomationRole");
+            IWaitAndClick(EditButton);
             _wait.IWaitForLoader();
-            IWaitAndClick(deleteButton);
-            ISeeElement(confirmationDialog, By.CssSelector(".confimation-dialog h5"));
-            IWaitAndClick(yesButton);
+            IWaitAndClick(DeleteButton);
+            ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
+            IWaitAndClick(YesButton);
             _wait.IWaitForLoader();
             ISeeNoErrorAndException();
         }

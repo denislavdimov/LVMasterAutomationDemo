@@ -12,39 +12,39 @@ namespace LVMasterAutomationDemo.Pages
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Teams/";
 
-        private IWebElement noticeModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
-        private IWebElement noticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
-        private IWebElement linkAdd => driver.FindElement(By.LinkText("Add"));
-        public IWebElement teamsModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
-        private IWebElement editButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
-        private IWebElement searchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
-        private IWebElement nameInputField => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
-        private IWebElement saveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
-        private IWebElement userAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'User Assignment')]"));
-        private IWebElement roleAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'Role Assignment')]"));
-        private IWebElement approvalsTab => driver.FindElement(By.XPath("//span[@unselectable='on'][contains(.,'Approvals')]"));
-        private IList<IWebElement> allAssignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
-        private IList<IWebElement> allAvailableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
-        private IWebElement assignedItem => driver.FindElement(By.CssSelector("#assigned > div"));
+        private IWebElement NoticeModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
+        private IWebElement NoticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
+        private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
+        public IWebElement TeamsModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
+        private IWebElement EditButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
+        private IWebElement SearchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
+        private IWebElement NameInputField => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
+        private IWebElement SaveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
+        private IWebElement UserAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'User Assignment')]"));
+        private IWebElement RoleAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'Role Assignment')]"));
+        private IWebElement ApprovalsTab => driver.FindElement(By.XPath("//span[@unselectable='on'][contains(.,'Approvals')]"));
+        private IList<IWebElement> AllAssignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
+        private IList<IWebElement> AllAvailableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
+        private IWebElement AssignedItem => driver.FindElement(By.CssSelector("#assigned > div"));
 
 
         public void AddTeamWithUserAndRole()
         {
             //IGoToThisPageUrlAndCheckIsItOpen();
             //_wait.IWaitPageToLoad();
-            ISeeElement(noticeModal, By.XPath("//div[@class='k-widget k-window']"));
-            IWaitAndClick(noticeCloseButton);
-            IWaitAndClick(linkAdd);
+            ISeeElement(NoticeModal, By.XPath("//div[@class='k-widget k-window']"));
+            IWaitAndClick(NoticeCloseButton);
+            IWaitAndClick(LinkAdd);
             _wait.IWaitForLoader();
-            ISeeElement(teamsModal, By.XPath("//div[@class='k-widget k-window']"));
-            IWaitForElementAndType(nameInputField, "DenisAutomationTeamTest" + randomNumber);
-            IWaitAndClick(userAssignmentTab);
-            IWaitAndClick(allAvailableItems[1]);
-            ISeeElement(assignedItem, By.CssSelector("#assigned > div"));
-            IWaitAndClick(roleAssignmentTab);
-            IWaitAndClick(allAvailableItems[4]);
-            ISeeElement(assignedItem, By.CssSelector("#assigned > div"));
-            IWaitAndClick(saveButton);
+            ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
+            IWaitForElementAndType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
+            IWaitAndClick(UserAssignmentTab);
+            IWaitAndClick(AllAvailableItems[1]);
+            ISeeElement(AssignedItem, By.CssSelector("#assigned > div"));
+            IWaitAndClick(RoleAssignmentTab);
+            IWaitAndClick(AllAvailableItems[4]);
+            ISeeElement(AssignedItem, By.CssSelector("#assigned > div"));
+            IWaitAndClick(SaveButton);
             ISeeNoErrorAndException();
         }
 

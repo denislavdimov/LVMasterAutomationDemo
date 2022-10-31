@@ -9,6 +9,6 @@ namespace LVMasterAutomationDemo.Pages
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Layout/#/Party/";
 
-        public IWebElement searchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
+        public IWebElement SearchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
     }
 }

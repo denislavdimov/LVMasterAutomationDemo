@@ -12,23 +12,23 @@ namespace LVMasterAutomationDemo.Pages
             _wait = wait; 
         }
 
-        //public IWebElement ibsField => driver.FindElement(By.XPath("//input[@data-ui='institution-code-textbox']"));
-        //public IWebElement nextButton => driver.FindElement(By.XPath("//button[contains(.,'Next')]"));
-        private IWebElement usernameField => driver.FindElement(By.Id("signInName"));
-        private IWebElement passwordField => driver.FindElement(By.Id("password"));
-        //public IWebElement rememberMe => driver.FindElement(By.XPath("//span[.='Remember Me']/following-sibling::input"));
-        private IWebElement loginButton => driver.FindElement(By.XPath("//button[contains(.,'Log in')]"));
-        //public IWebElement backButton => driver.FindElement(By.XPath("//button[contains(.,'Back')]"));
-        //public IWebElement resetPassLink => driver.FindElement(By.LinkText("Reset it now"));
-        //public IWebElement changePassLink => driver.FindElement(By.LinkText("Change it now"));
+        //public IWebElement IbsField => driver.FindElement(By.XPath("//input[@data-ui='institution-code-textbox']"));
+        //public IWebElement NextButton => driver.FindElement(By.XPath("//button[contains(.,'Next')]"));
+        private IWebElement UsernameField => driver.FindElement(By.Id("signInName"));
+        private IWebElement PasswordField => driver.FindElement(By.Id("password"));
+        //public IWebElement RememberMe => driver.FindElement(By.XPath("//span[.='Remember Me']/following-sibling::input"));
+        private IWebElement LoginButton => driver.FindElement(By.XPath("//button[contains(.,'Log in')]"));
+        //public IWebElement BackButton => driver.FindElement(By.XPath("//button[contains(.,'Back')]"));
+        //public IWebElement ResetPassLink => driver.FindElement(By.LinkText("Reset it now"));
+        //public IWebElement ChangePassLink => driver.FindElement(By.LinkText("Change it now"));
         public override string PageUrl => "https://loanvantage.dev/master#/";
 
         public void OpenLVAndLogin()
         {
             IGoToThisPageUrlAndCheckIsItOpen();
-            IWaitForElementAndType(usernameField, "ddimov@vsgbg.com");
-            IWaitForElementAndType(passwordField, "De126000!");
-            IWaitAndClick(loginButton);
+            IWaitForElementAndType(UsernameField, "ddimov@vsgbg.com");
+            IWaitForElementAndType(PasswordField, "De126000!");
+            IWaitAndClick(LoginButton);
             _wait.WaitForAjax();
             //_wait.IWaitForLoader();
             _wait.IWaitPageToLoad();              
