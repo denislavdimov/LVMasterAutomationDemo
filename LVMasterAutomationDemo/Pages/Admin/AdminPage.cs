@@ -22,7 +22,6 @@ namespace LVMasterAutomationDemo.Pages
             _wait.IWaitForLoader();
             _wait.IWaitPageToLoad();
         }
-
     }
 }
  

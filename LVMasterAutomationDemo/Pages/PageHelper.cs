@@ -18,6 +18,5 @@ namespace LVMasterAutomationDemo.Pages
             PortalPage = new PortalPage(driver, new Wait(driver));
             LoginPage = new LoginPage(driver, new Wait(driver));
         }
-
     }
 }

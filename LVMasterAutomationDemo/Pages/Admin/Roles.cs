@@ -11,7 +11,7 @@ namespace LVMasterAutomationDemo.Pages
             _wait = wait;
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Roles/";
-        private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@NameInputField='Name']"));
+        private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
         private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
         public IWebElement RoleModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
         private IWebElement SearchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
