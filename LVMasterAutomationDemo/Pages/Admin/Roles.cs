@@ -40,7 +40,7 @@ namespace LVMasterAutomationDemo.Pages
             ISeeElements(By.CssSelector("#assigned > div"));
             IWaitAndClick(SaveButton);
             _wait.IWaitForLoader();
-            ISeeNoErrorAndException();
+            AssertThereIsNoErrorAndException();
         }
 
         public void DeleteRole()
@@ -52,7 +52,7 @@ namespace LVMasterAutomationDemo.Pages
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
             IWaitAndClick(YesButton);
             _wait.IWaitForLoader();
-            ISeeNoErrorAndException();
+            AssertThereIsNoErrorAndException();
         }
     }
 }

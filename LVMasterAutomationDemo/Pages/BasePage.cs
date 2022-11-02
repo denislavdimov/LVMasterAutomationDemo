@@ -11,12 +11,12 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class BasePage
     {
-        private const int C = 30;
-        private const int FI = 5;
-        private readonly Wait _wait;
-        protected readonly IWebDriver driver;
-        private static readonly int secondsToLoadPage = C;
-        private static readonly int secondsForInvisibility = FI;
+        //private readonly Wait _wait;
+        //protected readonly IWebDriver driver;
+        private Wait _wait;
+        protected IWebDriver driver;
+        private static int secondsToLoadPage = 30;
+        //private static int secondsForInvisibility = 5;
         public BasePage(IWebDriver driver)
         {
             this.driver = driver;
@@ -25,9 +25,11 @@ namespace LVMasterAutomationDemo.Pages
         }
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
-        public WebDriverWait WaitForInvisibility { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsForInvisibility)); } }
+        //public WebDriverWait WaitForInvisibility { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsForInvisibility)); } }
         private IList<IWebElement> Exception =>
           driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
+        private IList<IWebElement> Warning =>
+            driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
 
         public void IGoToThisPageUrlAndCheckIsItOpen()
         {
@@ -48,7 +50,7 @@ namespace LVMasterAutomationDemo.Pages
             {
                 wait.Until(ExpectedConditions.ElementIsVisible(by));
             }
-            catch (TimeoutException te)
+            catch (NoSuchElementException te)
             {
                 Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
             }
@@ -59,7 +61,7 @@ namespace LVMasterAutomationDemo.Pages
             {
                 wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
             }
-            catch (TimeoutException te)
+            catch (NoSuchElementException te)
             {
                 Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", te.ToString());
             }
@@ -77,13 +79,16 @@ namespace LVMasterAutomationDemo.Pages
             _wait.IWaitForElementToBeClickable(element);
             element.Click();
         }
-        public void ISeeNoErrorAndException()
+        public void AssertThereIsNoErrorAndException()
         {
-            WaitForInvisibility.Until(ExpectedConditions.InvisibilityOfElementLocated(
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+            var waitforinvs = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            waitforinvs.Until(ExpectedConditions.InvisibilityOfElementLocated(
                 By.XPath("//div[contains(@class, 'toast toast-error')]")));
-            WaitForInvisibility.Until(ExpectedConditions.InvisibilityOfElementLocated(
+            waitforinvs.Until(ExpectedConditions.InvisibilityOfElementLocated(
                 By.XPath("//div[contains(@class, 'toast toast-warning')]")));
             Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
+            Assert.IsTrue(Warning.Count == 0, "Warning is thrown on the Page");
         }
     }
 }

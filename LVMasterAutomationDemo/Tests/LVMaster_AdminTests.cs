@@ -30,8 +30,8 @@ namespace LVMasterAutomationDemo.Tests
             PageHelper.LoginPage.OpenLVAndLogin();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
-            //PageHelper.RolesPage.AddRole();
-            //PageHelper.RolesPage.DeleteRole();
+            PageHelper.RolesPage.AddRole();
+            PageHelper.RolesPage.DeleteRole();
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace LVMasterAutomationDemo.Tests
             PageHelper.LoginPage.OpenLVAndLogin();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkTeams);
-            //PageHelper.teamsPage.AddTeamWithUserAndRole();
+            PageHelper.TeamsPage.AddTeamWithUserAndRole();
         }
     }
 }

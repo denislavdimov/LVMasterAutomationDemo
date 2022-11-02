@@ -30,7 +30,6 @@ namespace LVMasterAutomationDemo.Pages
             IWaitForElementAndType(PasswordField, "De126000!");
             IWaitAndClick(LoginButton);
             _wait.WaitForAjax();
-            //_wait.IWaitForLoader();
             _wait.IWaitPageToLoad();              
         }
     }

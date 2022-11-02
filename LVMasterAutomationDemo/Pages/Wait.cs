@@ -7,9 +7,10 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class Wait : IWait
     {
-        protected readonly IWebDriver _driver;
-        public static int _secondsToLoad = 30;
-        private  WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsToLoad)); } }
+        //protected readonly IWebDriver _driver;
+        protected IWebDriver _driver;
+        public static int _secondsBeforeTimeout = 30;
+        private  WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
 
         public Wait(IWebDriver driver)
         {
@@ -22,7 +23,7 @@ namespace LVMasterAutomationDemo.Pages
             {
                 wait.Until(ExpectedConditions.ElementToBeClickable(element));
             }
-            catch (TimeoutException te)
+            catch (NoSuchElementException te)
             {
                 Assert.Fail($"The element - {element} didn't appear. The exception was:\n {te}", element, te.ToString());
             }
@@ -32,7 +33,8 @@ namespace LVMasterAutomationDemo.Pages
         {
             try
             {
-                wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
+                //wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
             }
             catch (TimeoutException te)
             {
@@ -54,10 +56,9 @@ namespace LVMasterAutomationDemo.Pages
 
         public void IWaitPageToLoad()
         {
-            var seconds = _secondsToLoad;
             try
             {
-                for (int i = 0; i < seconds; i++)
+                for (int i = 0; i < _secondsBeforeTimeout; i++)
                 {
                     wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));
                 }
