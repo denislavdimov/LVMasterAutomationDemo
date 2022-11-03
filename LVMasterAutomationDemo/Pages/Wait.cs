@@ -29,7 +29,7 @@ namespace LVMasterAutomationDemo.Pages
             }
         }
 
-        public void IWaitForLoader()
+        public void IWaitForLoaderToDissaper()
         {
             try
             {
@@ -38,7 +38,7 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (TimeoutException te)
             {
-                Assert.Fail($"The element loading image didn't appear., The exception was:\n {te}", te.ToString());
+                Assert.Fail($"The Loader didn't disappear., The exception was:\n {te}", te.ToString());
             }
         }
 
@@ -68,5 +68,27 @@ namespace LVMasterAutomationDemo.Pages
                 Assert.Fail($"Page failed to load. The exception was:\n {te}", te.ToString());
             }
         }
+
+        public void WaitForAjax2()
+        {
+            try
+            {
+                while (true)
+                {
+                    bool ajaxIsComplete = (bool)((IJavaScriptExecutor)_driver).ExecuteScript("return jQuery.active == 0");
+                    if (ajaxIsComplete)
+                    {
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Ajax failed to complete");
+                throw;
+            }
+        }
     }
 }
+

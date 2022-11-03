@@ -26,7 +26,7 @@ namespace LVMasterAutomationDemo.Pages
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
         //public WebDriverWait WaitForInvisibility { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsForInvisibility)); } }
-        private IList<IWebElement> Exception =>
+        public IList<IWebElement> Exception =>
           driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
         private IList<IWebElement> Warning =>
             driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
