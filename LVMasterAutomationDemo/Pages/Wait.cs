@@ -42,11 +42,32 @@ namespace LVMasterAutomationDemo.Pages
             }
         }
 
-        public void WaitForAjax()
+        private bool IWaitForLoader()
         {
-            var js = (IJavaScriptExecutor)_driver;
-            wait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+                wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
+            //wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
+            return true;
         }
+        public void IWaitForLoaderToDiss()
+        {
+            try
+            {
+                if (IWaitForLoader() == true)
+                {
+                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Loader did not appear");
+                throw;
+            }
+        }
+        //public void WaitForAjax()
+        //{
+        //    var js = (IJavaScriptExecutor)_driver;
+        //    wait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+        //}
 
         public void IWaitUntilPageLoadsCompletely()
         {
@@ -69,7 +90,7 @@ namespace LVMasterAutomationDemo.Pages
             }
         }
 
-        public void WaitForAjax2()
+        public void WaitForAjax()
         {
             try
             {

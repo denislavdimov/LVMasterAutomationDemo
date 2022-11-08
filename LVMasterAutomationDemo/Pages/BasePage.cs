@@ -82,13 +82,13 @@ namespace LVMasterAutomationDemo.Pages
         public void AssertThereIsNoErrorAndException()
         {
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            var waitforinvs = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            var waitforinvs = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             waitforinvs.Until(ExpectedConditions.InvisibilityOfElementLocated(
-                By.XPath("//div[contains(@class, 'toast toast-error')]")));
+                By.XPath("//div[contains(@class, 'k-loading-color')]")));
             waitforinvs.Until(ExpectedConditions.InvisibilityOfElementLocated(
-                By.XPath("//div[contains(@class, 'toast toast-warning')]")));
-            Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
+                By.XPath("//div[@class='k-loading-image']")));
             Assert.IsTrue(Warning.Count == 0, "Warning is thrown on the Page");
+            Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
         }
     }
 }

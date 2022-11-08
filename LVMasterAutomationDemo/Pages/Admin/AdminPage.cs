@@ -19,7 +19,8 @@ namespace LVMasterAutomationDemo.Pages
         {
             _wait.IWaitForElementToBeClickable(element);
             IWaitAndClick(element);
-            _wait.IWaitForLoaderToDissaper();
+            //_wait.IWaitForLoaderToDissaper();
+            _wait.IWaitForLoaderToDiss();
             _wait.IWaitPageToLoad();
         }
     }

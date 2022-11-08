@@ -47,7 +47,7 @@ namespace LVMasterAutomationDemo.Pages
 
         public void AddTeamWithUserAndRole()
         {
-            _wait.WaitForAjax2();
+            _wait.WaitForAjax();
             ISeeElement(NoticeModal, By.XPath("//div[@class='k-widget k-window']"));
             IWaitAndClick(NoticeCloseButton);
             IWaitAndClick(LinkAdd);
@@ -56,7 +56,7 @@ namespace LVMasterAutomationDemo.Pages
             IWaitForElementAndType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
             AssignUserAndRoleToTeam();
             IWaitAndClick(SaveButton);
-            _wait.WaitForAjax2();
+            _wait.WaitForAjax();
             AssertThereIsNoErrorAndException();
         }
     }

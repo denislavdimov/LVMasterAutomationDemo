@@ -8,29 +8,14 @@ namespace LVMasterAutomationDemo.Tests
     public class LVMaster_AdminTests : BaseTests
     {
         [Test]
-        //public void Add_Delete_RoleTest()
-        //{
-        //    var portalPage = new PortalPage(driver, new Wait(driver));
-        //    var adminPage = new AdminPage(driver, new Wait(driver));
-        //    var rolesPage = new Roles(driver, new wait(driver));
-        //    var loginPage = new LoginPage(driver, new Wait(driver));
-        //    var loginTests = new LVMaster_LoginTests();
-        //    loginTests.LoginWithValidCredentialsTest();
-        //    loginPage.OpenLVAndLogin();
-        //    portalPage.IGoToAdmin();
-        //    adminPage.INavigateToAdminPage(adminPage.LinkRoles);
-        //    rolesPage.AddRole();
-        //    rolesPage.DeleteRole();
-        //}
-
-        public void Add_Delete_RoleTest2()
+        public void Add_Delete_RoleTest()
         {
             //var loginTests = new LVMaster_LoginTests();
             //loginTests.LoginWithValidCredentialsTest();
             PageHelper.LoginPage.OpenLVAndLogin();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
-            PageHelper.RolesPage.AddRole();
+            //PageHelper.RolesPage.AddRole();
             PageHelper.RolesPage.DeleteRole();
         }
 
@@ -40,7 +25,7 @@ namespace LVMasterAutomationDemo.Tests
             PageHelper.LoginPage.OpenLVAndLogin();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkTeams);
-            PageHelper.TeamsPage.AddTeamWithUserAndRole();
+            //PageHelper.TeamsPage.AddTeamWithUserAndRole();
         }
     }
 }

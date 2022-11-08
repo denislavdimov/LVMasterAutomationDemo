@@ -30,14 +30,12 @@ namespace LVMasterAutomationDemo.Pages
         //}
 
         public void IGoToAdmin()
-        {
-            //var action = new Actions(driver);  
+        { 
             ISeeElement(HamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
-            //action.MoveToElement(hamburgerMenu).Click();
             IWaitAndClick(HamburgerMenu);
             ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));
             IWaitAndClick(AdminLink);
-            //_wait.IWaitForLoader();
+            //_wait.WaitForAjax();
             _wait.IWaitPageToLoad();
         }
     }

@@ -32,14 +32,14 @@ namespace LVMasterAutomationDemo.Pages
         public void AddRole()
         {
             IWaitAndClick(LinkAdd);
-            _wait.IWaitForLoaderToDissaper();
+            //_wait.IWaitForLoaderToDissaper();
+            //_wait.IWaitForLoaderToDiss();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
             ISeeElements(By.CssSelector("#available > div"));
             IWaitForElementAndType(NameInputField, "DenisAutomationRoleTest" + randomNumber);
             IWaitAndClick(AddAllLink);
             ISeeElements(By.CssSelector("#assigned > div"));
             IWaitAndClick(SaveButton);
-            _wait.IWaitForLoaderToDissaper();
             AssertThereIsNoErrorAndException();
         }
 
@@ -47,11 +47,12 @@ namespace LVMasterAutomationDemo.Pages
         {
             IWaitForElementAndType(SearchArea, "DenisAutomationRole");
             IWaitAndClick(EditButton);
-            _wait.IWaitForLoaderToDissaper();
+            //_wait.IWaitForLoaderToDissaper();
+            ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
+            ISeeElements(By.CssSelector("#assigned > div"));
             IWaitAndClick(DeleteButton);
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
             IWaitAndClick(YesButton);
-            _wait.IWaitForLoaderToDissaper();
             AssertThereIsNoErrorAndException();
         }
     }
