@@ -30,6 +30,7 @@ namespace LVMasterAutomationDemo.Pages
         private IWebElement ApprovalsTab => driver.FindElement(By.XPath("//span[@unselectable='on'][contains(.,'Approvals')]"));
         private IList<IWebElement> AllAssignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
         private IList<IWebElement> AllAvailableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
+        private IWebElement AvailableItem => driver.FindElement(By.CssSelector("#available > div"));
         private IWebElement AssignedItem => driver.FindElement(By.CssSelector("#assigned > div"));
 
 
@@ -37,8 +38,8 @@ namespace LVMasterAutomationDemo.Pages
         {
             //Add verify that assigned column is empty before assigning items
             IWaitAndClick(UserAssignmentTab);
-            IWaitAndClick(AllAvailableItems[1]);
-            _wait.IWaitForLoaderToDissaper();
+            ISeeElement(AvailableItem, By.CssSelector("#available > div"));
+            IWaitAndClick(AllAvailableItems[1]);          
             ISeeElement(AssignedItem, By.CssSelector("#assigned > div"));
             //IWaitAndClick(RoleAssignmentTab);
             //IWaitAndClick(AllAvailableItems[4]);
@@ -51,7 +52,8 @@ namespace LVMasterAutomationDemo.Pages
             ISeeElement(NoticeModal, By.XPath("//div[@class='k-widget k-window']"));
             IWaitAndClick(NoticeCloseButton);
             IWaitAndClick(LinkAdd);
-            _wait.IWaitForLoaderToDissaper();
+            //_wait.IWaitForLoaderToDissaper();
+            //_wait.IWaitForLoaderToDiss();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
             IWaitForElementAndType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
             AssignUserAndRoleToTeam();

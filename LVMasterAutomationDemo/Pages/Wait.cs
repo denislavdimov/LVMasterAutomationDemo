@@ -10,7 +10,7 @@ namespace LVMasterAutomationDemo.Pages
         //protected readonly IWebDriver _driver;
         protected IWebDriver _driver;
         public static int _secondsBeforeTimeout = 30;
-        private  WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
+        private WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
 
         public Wait(IWebDriver driver)
         {
@@ -44,10 +44,19 @@ namespace LVMasterAutomationDemo.Pages
 
         private bool IWaitForLoader()
         {
+            try
+            {
                 wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
-            //wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
-            return true;
+                return true;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Loader did not appear");
+                throw;
+            }
+
         }
+
         public void IWaitForLoaderToDiss()
         {
             try
@@ -59,10 +68,31 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (Exception)
             {
-                Console.WriteLine("Loader did not appear");
+                Console.WriteLine("Loader did not disappear");
                 throw;
             }
         }
+
+        //public void IWaitForLoaderToDiss2()
+        //{
+        //    try
+        //    {
+        //        if (IWaitForLoader() != true)
+        //        {
+        //            Console.WriteLine("Loader did not appear");
+        //        }
+        //        else
+        //        {
+        //            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Console.WriteLine("Loader did not appear");
+        //        throw;
+        //    }       
+        //}
+
         //public void WaitForAjax()
         //{
         //    var js = (IJavaScriptExecutor)_driver;

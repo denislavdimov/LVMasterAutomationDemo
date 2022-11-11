@@ -11,18 +11,17 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class BasePage
     {
-        //private readonly Wait _wait;
-        //protected readonly IWebDriver driver;
         private Wait _wait;
         protected IWebDriver driver;
         private static int secondsToLoadPage = 30;
-        //private static int secondsForInvisibility = 5;
+
         public BasePage(IWebDriver driver)
         {
             this.driver = driver;
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(secondsToLoadPage);
             _wait = new Wait(driver);
         }
+
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
         //public WebDriverWait WaitForInvisibility { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsForInvisibility)); } }
@@ -69,15 +68,33 @@ namespace LVMasterAutomationDemo.Pages
 
         public void IWaitForElementAndType(IWebElement element, string data)
         {
-            _wait.IWaitForElementToBeClickable(element);
-            element.Click();
-            element.SendKeys(data);
+            try
+            {
+                _wait.IWaitForElementToBeClickable(element);
+                element.Click();
+                Thread.Sleep(1000);
+                element.SendKeys(data);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"The {element} is not clickable");
+                throw;
+            }
         }
 
         public void IWaitAndClick(IWebElement element)
         {
-            _wait.IWaitForElementToBeClickable(element);
-            element.Click();
+            try
+            {
+                _wait.IWaitForElementToBeClickable(element);
+                element.Click();
+                Thread.Sleep(1000);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"The {element} is not clickable");
+                throw;
+            }
         }
         public void AssertThereIsNoErrorAndException()
         {
