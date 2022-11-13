@@ -11,7 +11,7 @@ namespace LVMasterAutomationDemo.Pages
         {
             _wait = wait;
         }
-        public override string PageUrl => "url";
+        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/Index";
 
         private IWebElement HamburgerMenu => driver.FindElement(By.XPath("//button[@class='lv-dropdown-icon-button']"));
         private IWebElement SearchField => driver.FindElement(By.CssSelector("input[placeholder='Search']"));

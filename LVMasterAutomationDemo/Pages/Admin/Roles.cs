@@ -35,7 +35,7 @@ namespace LVMasterAutomationDemo.Pages
             //_wait.IWaitForLoaderToDiss();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
             ISeeElements(By.CssSelector("#available > div"));
-            IWaitForElementAndType(NameInputField, "DenisAutomationRoleTest" + randomNumber);
+            IWaitForElementAndType(NameInputField, "DenisAutomationRoleTest27");
             IWaitAndClick(AddAllLink);
             ISeeElements(By.CssSelector("#assigned > div"));
             IWaitAndClick(SaveButton);

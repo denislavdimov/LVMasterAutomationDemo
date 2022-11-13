@@ -12,7 +12,7 @@ namespace LVMasterAutomationDemo.Tests
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
             PageHelper.RolesPage.AddRole();
-            PageHelper.RolesPage.DeleteRole();
+            //PageHelper.RolesPage.DeleteRole();
         }
 
         [Test]

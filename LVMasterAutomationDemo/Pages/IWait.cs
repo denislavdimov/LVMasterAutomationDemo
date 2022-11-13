@@ -6,7 +6,6 @@ namespace LVMasterAutomationDemo.Pages
     {
         void IWaitForLoaderToDissaper();
         void WaitForAjax();
-        void IWaitUntilPageLoadsCompletely();
         void IWaitPageToLoad();
         void IWaitForElementToBeClickable(IWebElement element);
         void IWaitForLoaderToDiss();

@@ -2,12 +2,13 @@
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
+using OpenQA.Selenium.DevTools.V104.Debugger;
+using NUnit.Framework.Internal;
 
 namespace LVMasterAutomationDemo.Pages
 {
     public class Wait : IWait
     {
-        //protected readonly IWebDriver _driver;
         protected IWebDriver _driver;
         public static int _secondsBeforeTimeout = 30;
         private WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
@@ -61,49 +62,26 @@ namespace LVMasterAutomationDemo.Pages
         {
             try
             {
-                if (IWaitForLoader() == true)
+                if (IWaitForLoader() != true)
+                {
+                    Assert.Fail("Loader did not appear");
+                }
+                else
                 {
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Loader did not disappear");
-                throw;
+                Assert.Fail(e.Message);
             }
         }
-
-        //public void IWaitForLoaderToDiss2()
-        //{
-        //    try
-        //    {
-        //        if (IWaitForLoader() != true)
-        //        {
-        //            Console.WriteLine("Loader did not appear");
-        //        }
-        //        else
-        //        {
-        //            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Console.WriteLine("Loader did not appear");
-        //        throw;
-        //    }       
-        //}
 
         //public void WaitForAjax()
         //{
         //    var js = (IJavaScriptExecutor)_driver;
         //    wait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
         //}
-
-        public void IWaitUntilPageLoadsCompletely()
-        {
-            var js = (IJavaScriptExecutor)_driver;
-            wait.Until(wd => js.ExecuteScript("return document.readyState").ToString() == "complete");
-        }
 
         public void IWaitPageToLoad()
         {

@@ -21,16 +21,17 @@ namespace LVMasterAutomationDemo.Pages
         //public IWebElement BackButton => driver.FindElement(By.XPath("//button[contains(.,'Back')]"));
         //public IWebElement ResetPassLink => driver.FindElement(By.LinkText("Reset it now"));
         //public IWebElement ChangePassLink => driver.FindElement(By.LinkText("Change it now"));
-        public override string PageUrl => "https://loanvantage.dev/master#/";
+        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/Index#/";
 
         public void OpenLVAndLogin()
         {
-            IGoToThisPageUrlAndCheckIsItOpen();
+            IGoToThisPageUrl();
             IWaitForElementAndType(UsernameField, "ddimov@vsgbg.com");
             IWaitForElementAndType(PasswordField, "De126000!");
             IWaitAndClick(LoginButton);
             _wait.WaitForAjax();
-            _wait.IWaitPageToLoad();              
+            _wait.IWaitPageToLoad();
+            IsPageOpen();
         }
     }
 }

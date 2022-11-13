@@ -1,10 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System;
-using System.Xml.Linq;
 
 
 namespace LVMasterAutomationDemo.Pages
@@ -30,17 +27,33 @@ namespace LVMasterAutomationDemo.Pages
         private IList<IWebElement> Warning =>
             driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
 
-        public void IGoToThisPageUrlAndCheckIsItOpen()
+        public void IsPageOpen(string Url)
         {
-            driver.Navigate().GoToUrl(this.PageUrl);
-            IsPageOpen();
+            string DriverUrl = driver.Url;
+            Url = driver.Url;
+            try
+            {
+                Assert.That(driver.Url, Is.EqualTo(Url));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
         }
 
-        public bool IsPageOpen()
+        public void IGoToThisPageUrl()
         {
-            _wait.IWaitUntilPageLoadsCompletely();
-            //Assert.That(driver.Url, Is.EqualTo(PageUrl));
-            return driver.Url == this.PageUrl;
+            try
+            {
+                driver.Navigate().GoToUrl(this.PageUrl);
+                _wait.WaitForAjax();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw;
+            }
         }
 
         public void ISeeElement(IWebElement element, By by)
@@ -51,7 +64,7 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (NoSuchElementException te)
             {
-                Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", element, te.ToString());
+                Assert.Fail($"The element: {element} with selector {by} didn't appear. The exception was:\n {te}", te.ToString());
             }
         }
         public void ISeeElements(By by)
@@ -62,7 +75,7 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (NoSuchElementException te)
             {
-                Assert.Fail($"The element with selector {0} didn't appear. The exception was:\n {1}", te.ToString());
+                Assert.Fail($"The element with selector {by} didn't appear. The exception was:\n {te}", te.ToString());
             }
         }
 
@@ -71,13 +84,12 @@ namespace LVMasterAutomationDemo.Pages
             try
             {
                 _wait.IWaitForElementToBeClickable(element);
-                element.Click();
-                Thread.Sleep(1000);
-                element.SendKeys(data);
+                Interactions.IClick(element);
+                Interactions.IType(element ,data);
             }
             catch (Exception)
             {
-                Console.WriteLine($"The {element} is not clickable");
+                Console.WriteLine($"The {element} can't be filled in");
                 throw;
             }
         }
@@ -87,8 +99,8 @@ namespace LVMasterAutomationDemo.Pages
             try
             {
                 _wait.IWaitForElementToBeClickable(element);
-                element.Click();
-                Thread.Sleep(1000);
+                Interactions.IClick(element);
+
             }
             catch (Exception)
             {
@@ -98,6 +110,7 @@ namespace LVMasterAutomationDemo.Pages
         }
         public void AssertThereIsNoErrorAndException()
         {
+            //try-catch-finally
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
             var waitforinvs = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             waitforinvs.Until(ExpectedConditions.InvisibilityOfElementLocated(
