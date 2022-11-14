@@ -31,7 +31,7 @@ namespace LVMasterAutomationDemo.Pages
             IWaitAndClick(LoginButton);
             _wait.WaitForAjax();
             _wait.IWaitPageToLoad();
-            IsPageOpen();
+            //IsPageOpen();
         }
     }
 }

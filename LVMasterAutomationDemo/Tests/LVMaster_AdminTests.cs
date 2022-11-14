@@ -6,13 +6,13 @@ namespace LVMasterAutomationDemo.Tests
     public class LVMaster_AdminTests : BaseTests
     {
         [Test]
-        public void Add_Delete_RoleTest()
+        public void Add_Delete_Role_Test()
         {
             //PageHelper.LoginPage.OpenLVAndLogin();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
             PageHelper.RolesPage.AddRole();
-            //PageHelper.RolesPage.DeleteRole();
+            PageHelper.RolesPage.DeleteRole();
         }
 
         [Test]
@@ -22,6 +22,8 @@ namespace LVMasterAutomationDemo.Tests
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkTeams);
             PageHelper.TeamsPage.AddTeamWithUserAndRole();
+            PageHelper.TeamsPage.EditTeam();
+            PageHelper.TeamsPage.DeleteTeam();
         }
     }
 }

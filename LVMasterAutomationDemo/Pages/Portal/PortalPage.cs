@@ -35,8 +35,8 @@ namespace LVMasterAutomationDemo.Pages
             IWaitAndClick(HamburgerMenu);
             ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));
             IWaitAndClick(AdminLink);
-            //_wait.WaitForAjax();
             _wait.IWaitPageToLoad();
+            PageHelper.AdminPage.VerifyAdminPage();
         }
     }
 }

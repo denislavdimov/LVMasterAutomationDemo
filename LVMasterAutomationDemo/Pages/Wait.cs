@@ -30,21 +30,10 @@ namespace LVMasterAutomationDemo.Pages
             }
         }
 
-        public void IWaitForLoaderToDissaper()
-        {
-            try
-            {
-                //wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
-                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
-            }
-            catch (TimeoutException te)
-            {
-                Assert.Fail($"The Loader didn't disappear., The exception was:\n {te}", te.ToString());
-            }
-        }
-
         private bool IWaitForLoader()
         {
+            //var LoaderOldAdmin = wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']"))); return true;
+            //var LoaderNewAdmin = wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='lv-loader-container']"))); return true;
             try
             {
                 wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
@@ -55,10 +44,9 @@ namespace LVMasterAutomationDemo.Pages
                 Console.WriteLine("Loader did not appear");
                 throw;
             }
-
         }
 
-        public void IWaitForLoaderToDiss()
+        public void IWaitForLoaderToDissaper()
         {
             try
             {
@@ -73,15 +61,9 @@ namespace LVMasterAutomationDemo.Pages
             }
             catch (Exception e)
             {
-                Assert.Fail(e.Message);
+                Assert.Fail(e.Message.ToString());
             }
         }
-
-        //public void WaitForAjax()
-        //{
-        //    var js = (IJavaScriptExecutor)_driver;
-        //    wait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
-        //}
 
         public void IWaitPageToLoad()
         {
@@ -117,6 +99,23 @@ namespace LVMasterAutomationDemo.Pages
                 Console.WriteLine("Ajax failed to complete");
                 throw;
             }
+        }
+
+        public void SetTimeout(int secondstowait)
+        {
+            if (_driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(_secondsBeforeTimeout))
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(secondstowait);
+            }
+            else { return; }
+        }
+        public void ResetTimeoutToDefault()
+        {
+            if (!_driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(30))
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_secondsBeforeTimeout);
+            }
+            else { return; }
         }
     }
 }

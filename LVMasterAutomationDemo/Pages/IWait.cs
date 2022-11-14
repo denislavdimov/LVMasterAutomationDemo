@@ -8,6 +8,7 @@ namespace LVMasterAutomationDemo.Pages
         void WaitForAjax();
         void IWaitPageToLoad();
         void IWaitForElementToBeClickable(IWebElement element);
-        void IWaitForLoaderToDiss();
+        void SetTimeout(int secondstowait);
+        void ResetTimeoutToDefault();
     }
 }
