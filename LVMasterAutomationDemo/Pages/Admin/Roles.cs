@@ -5,7 +5,7 @@ namespace LVMasterAutomationDemo.Pages
     public class Roles : BasePage
     {
         private readonly IWait _wait;
-        int randomNumber = (int)(new Random().NextInt64(11) + 20);
+        int randomNumber = (int)(new Random().NextInt64(2022) + 20);
         public Roles(IWebDriver driver, IWait wait) : base(driver)
         {
             _wait = wait;
@@ -13,7 +13,7 @@ namespace LVMasterAutomationDemo.Pages
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Roles/";
         private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
         private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
-        public IWebElement RoleModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
+        private IWebElement RoleModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
         private IWebElement SearchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
         private IWebElement DeleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
         private IWebElement AddAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll'] strong"));
@@ -32,6 +32,7 @@ namespace LVMasterAutomationDemo.Pages
         public void AddRole()
         {
             IWaitAndClick(LinkAdd);
+            _wait.WaitForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
             ISeeElements(By.CssSelector("#available > div"));
             IWaitForElementAndType(NameInputField, "DenisAutomationRoleTest" + randomNumber);
@@ -46,6 +47,7 @@ namespace LVMasterAutomationDemo.Pages
         {
             IWaitForElementAndType(SearchArea, "DenisAutomationRole");
             IWaitAndClick(EditButton);
+            _wait.WaitForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
             ISeeElements(By.CssSelector("#assigned > div"));
             IWaitAndClick(DeleteButton);

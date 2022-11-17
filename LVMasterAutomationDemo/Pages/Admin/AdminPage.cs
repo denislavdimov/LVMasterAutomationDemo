@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace LVMasterAutomationDemo.Pages
 {
@@ -25,13 +26,15 @@ namespace LVMasterAutomationDemo.Pages
             _wait.IWaitForElementToBeClickable(HamburgerButton);
             ISeeElement(SearhInputArea, By.XPath("//input[contains(@class,'lv-form-control-input')]"));
             ISeeElements(By.XPath("//div[@class='lv-custom-admin-container']//a"));
+            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
         }
         public void INavigateToAdminPage(IWebElement element)
         {
             _wait.IWaitForElementToBeClickable(element);
             IWaitAndClick(element);
-            _wait.IWaitForLoaderToDissaper();
+            //_wait.IWaitForLoaderToDissaper();
             _wait.IWaitPageToLoad();
+            _wait.WaitForAjax();
         }
     }
 }

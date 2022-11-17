@@ -7,22 +7,21 @@ namespace LVMasterAutomationDemo.Pages
 {
     public class Teams : BasePage
     {
-        //private readonly IWait _wait;
         private IWait _wait;
-        int randomNumber = (int)(new Random().NextInt64(11) + 20);
+        int randomNumber = (int)(new Random().NextInt64(2022) + 20);
         //string RandomNumber = DateTime.Now.ToLocalTime().ToString();
-        public static int _secondsBeforeTimeout = 30;
         public Teams(IWebDriver driver, IWait wait) : base(driver)
         {
             _wait = wait;
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Teams/";
 
-        public IWebElement NoticeModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
-        public IWebElement NoticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
+        private IWebElement NoticeModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
+        private IWebElement NoticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
         private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
         public IWebElement TeamsModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
         private IWebElement EditButton => driver.FindElement(By.XPath("//a[contains(@class,'v-icon icon-edit k-grid-Edit')]"));
+        private IWebElement DeleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
         private IWebElement SearchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
         private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
         private IWebElement SaveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
@@ -54,6 +53,7 @@ namespace LVMasterAutomationDemo.Pages
             ISeeElement(NoticeModal, By.XPath("//div[@class='k-widget k-window']"));
             IWaitAndClick(NoticeCloseButton);
             IWaitAndClick(LinkAdd);
+            _wait.WaitForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
             IWaitForElementAndType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
             AssignUserAndRoleToTeam();
@@ -64,8 +64,9 @@ namespace LVMasterAutomationDemo.Pages
 
         public void EditTeam()
         {
-            IWaitForElementAndType(SearchArea, "DenisAutomationTeam");
+            IWaitForElementAndType(SearchArea, "DenisAutomationTeamTest");
             IWaitAndClick(EditButton);
+            _wait.WaitForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
             IWaitAndClick(UserAssignmentTab);
             ISeeElement(AvailableItem, By.CssSelector("#available > div"));
@@ -78,9 +79,11 @@ namespace LVMasterAutomationDemo.Pages
 
         public void DeleteTeam()
         {
-            IWaitForElementAndType(SearchArea, "DenisAutomationTeam");
+            //IWaitForElementAndType(SearchArea, "DenisAutomationTeam");
             IWaitAndClick(EditButton);
+            _wait.WaitForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
+            IWaitAndClick(DeleteButton);
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
             IWaitAndClick(YesButton);
             _wait.WaitForAjax();

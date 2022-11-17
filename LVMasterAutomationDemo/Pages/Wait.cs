@@ -10,7 +10,7 @@ namespace LVMasterAutomationDemo.Pages
     public class Wait : IWait
     {
         protected IWebDriver _driver;
-        public static int _secondsBeforeTimeout = 30;
+        private static int _secondsBeforeTimeout = 30;
         private WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
 
         public Wait(IWebDriver driver)
@@ -32,8 +32,6 @@ namespace LVMasterAutomationDemo.Pages
 
         private bool IWaitForLoader()
         {
-            //var LoaderOldAdmin = wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']"))); return true;
-            //var LoaderNewAdmin = wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='lv-loader-container']"))); return true;
             try
             {
                 wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
@@ -46,8 +44,9 @@ namespace LVMasterAutomationDemo.Pages
             }
         }
 
-        public void IWaitForLoaderToDissaper()
+        public void IWaitForLoaderToDissaper(int seconds)
         {
+            SetTimeout(seconds);
             try
             {
                 if (IWaitForLoader() != true)
@@ -63,6 +62,7 @@ namespace LVMasterAutomationDemo.Pages
             {
                 Assert.Fail(e.Message.ToString());
             }
+            ResetTimeoutToDefault();
         }
 
         public void IWaitPageToLoad()

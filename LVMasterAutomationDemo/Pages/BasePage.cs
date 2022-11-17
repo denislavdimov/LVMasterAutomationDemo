@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.DevTools.V104.Network;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
@@ -21,26 +22,25 @@ namespace LVMasterAutomationDemo.Pages
 
         public virtual string PageUrl { get; }
         public WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsToLoadPage)); } }
-        //public WebDriverWait WaitForInvisibility { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(secondsForInvisibility)); } }
         public IList<IWebElement> Exception =>
           driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
         private IList<IWebElement> Warning =>
             driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
 
-        public void IsPageOpen(string Url)
-        {
-            string DriverUrl = driver.Url;
-            Url = driver.Url;
-            try
-            {
-                Assert.That(driver.Url, Is.EqualTo(Url));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                throw;
-            }
-        }
+        //public void IsPageOpen(string Url)
+        //{
+        //    string DriverUrl = driver.Url;
+        //    Url = driver.Url;
+        //    try
+        //    {
+        //        Assert.That(driver.Url, Is.EqualTo(Url));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e.ToString());
+        //        throw;
+        //    }
+        //}
 
         public void IGoToThisPageUrl()
         {
@@ -85,7 +85,7 @@ namespace LVMasterAutomationDemo.Pages
             {
                 _wait.IWaitForElementToBeClickable(element);
                 Interactions.IClick(element);
-                Interactions.IType(element ,data);
+                Interactions.IType(element, data);
             }
             catch (Exception)
             {
@@ -112,15 +112,30 @@ namespace LVMasterAutomationDemo.Pages
 
         public void AssertThereIsNoErrorAndException()
         {
-            _wait.SetTimeout(5);
-            var waitforinvs = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-            waitforinvs.Until(ExpectedConditions.InvisibilityOfElementLocated(
-                By.XPath("//div[contains(@class, 'k-loading-color')]")));
-            waitforinvs.Until(ExpectedConditions.InvisibilityOfElementLocated(
-                By.XPath("//div[@class='k-loading-image']")));
-            Assert.IsTrue(Warning.Count == 0, "Warning is thrown on the Page");
-            Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
-            _wait.ResetTimeoutToDefault();
+            try
+            {
+                _wait.SetTimeout(2);
+                var warning = Warning;
+                var exception = Exception;
+                if (warning.Count > 0 || exception.Count > 0)
+                {
+                    _wait.SetTimeout(2);
+                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
+                        By.XPath("//div[contains(@class, 'k-loading-color')]")));
+                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
+                        By.XPath("//div[@class='k-loading-image']")));
+                    Assert.IsTrue(Warning.Count == 0, "Warning is thrown on the Page");
+                    Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
+                    _wait.ResetTimeoutToDefault();
+                }
+                else { _wait.ResetTimeoutToDefault(); 
+                    return; }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("An exception or warning is thrown on the page.");
+                throw;
+            }
         }
     }
 }
