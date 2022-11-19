@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages.Pages.Portal
 {
     public class PartyPage : BasePage
     {

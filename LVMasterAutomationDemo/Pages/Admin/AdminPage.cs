@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages.Pages.Admin
 {
     public class AdminPage : BasePage
     {
@@ -38,4 +38,3 @@ namespace LVMasterAutomationDemo.Pages
         }
     }
 }
- 

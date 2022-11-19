@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages
 {
     public static class Interactions
     {

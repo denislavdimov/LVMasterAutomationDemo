@@ -1,14 +1,14 @@
-﻿using LVMasterAutomationDemo.Pages;
+﻿using LVPages;
 using NUnit.Framework;
 
-namespace LVMasterAutomationDemo.Tests.Admin.UserAccess
+namespace LVTests.Admin.UserAccess
 {
-    public class Add_Delete_Role : BaseTests
+    public class AddDeleteRole : BaseTest
     {
         [Test]
         public void AddDelete_Role_Test()
         {
-            //PageHelper.LoginPage.OpenLVAndLogin();
+            LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
             PageHelper.RolesPage.AddRole();

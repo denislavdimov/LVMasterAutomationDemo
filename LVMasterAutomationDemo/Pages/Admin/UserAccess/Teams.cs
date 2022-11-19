@@ -1,15 +1,11 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
+﻿using OpenQA.Selenium;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages.Pages.Admin.UserAccess
 {
     public class Teams : BasePage
     {
         private IWait _wait;
         int randomNumber = (int)(new Random().NextInt64(2022) + 20);
-        //string RandomNumber = DateTime.Now.ToLocalTime().ToString();
         public Teams(IWebDriver driver, IWait wait) : base(driver)
         {
             _wait = wait;
@@ -41,7 +37,7 @@ namespace LVMasterAutomationDemo.Pages
             //Add verify that assigned column is empty before assigning items
             IWaitAndClick(UserAssignmentTab);
             ISeeElement(AvailableItem, By.CssSelector("#available > div"));
-            IWaitAndClick(AllAvailableItems[1]);          
+            IWaitAndClick(AllAvailableItems[1]);
             ISeeElement(AssignedItem, By.CssSelector("#assigned > div"));
             //IWaitAndClick(RoleAssignmentTab);
             //IWaitAndClick(AllAvailableItems[4]);

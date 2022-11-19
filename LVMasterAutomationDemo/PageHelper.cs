@@ -1,6 +1,9 @@
-﻿using OpenQA.Selenium;
+﻿using LVPages.Pages.Admin;
+using LVPages.Pages.Admin.UserAccess;
+using LVPages.Pages.Portal;
+using OpenQA.Selenium;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages
 {
     public static class PageHelper
     {

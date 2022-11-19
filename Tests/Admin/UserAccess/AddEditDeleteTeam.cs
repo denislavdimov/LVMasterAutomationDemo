@@ -1,14 +1,14 @@
-﻿using LVMasterAutomationDemo.Pages;
+﻿using LVPages;
 using NUnit.Framework;
 
-namespace LVMasterAutomationDemo.Tests.Admin.UserAccess
+namespace LVTests.Admin.UserAccess
 {
-    public class Add_Edit_Delete_Team : BaseTests
+    public class AddEditDeleteTeam : BaseTest
     {
         [Test]
-        public void AddEditDelete_Team_Test()
+        public static void AddEditDelete_Team_Test()
         {
-            //PageHelper.LoginPage.OpenLVAndLogin();
+            LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkTeams);
             PageHelper.TeamsPage.AddTeamWithUserAndRole();

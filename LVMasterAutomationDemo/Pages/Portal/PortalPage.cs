@@ -1,13 +1,12 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages.Pages.Portal
 {
     public class PortalPage : BasePage
     {
         private readonly IWait _wait;
-        public PortalPage (IWebDriver driver, IWait wait) : base(driver)
+        public PortalPage(IWebDriver driver, IWait wait) : base(driver)
         {
             _wait = wait;
         }
@@ -32,7 +31,7 @@ namespace LVMasterAutomationDemo.Pages
         }
 
         public void IGoToAdmin()
-        { 
+        {
             ISeeElement(HamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
             IWaitAndClick(HamburgerMenu);
             ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));

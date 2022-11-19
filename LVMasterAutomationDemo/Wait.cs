@@ -2,10 +2,8 @@
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
-using OpenQA.Selenium.DevTools.V104.Debugger;
-using NUnit.Framework.Internal;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages
 {
     public class Wait : IWait
     {

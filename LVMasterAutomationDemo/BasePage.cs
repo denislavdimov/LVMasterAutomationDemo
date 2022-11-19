@@ -1,11 +1,10 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools.V104.Network;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages
 {
     public class BasePage
     {
@@ -46,7 +45,7 @@ namespace LVMasterAutomationDemo.Pages
         {
             try
             {
-                driver.Navigate().GoToUrl(this.PageUrl);
+                driver.Navigate().GoToUrl(PageUrl);
                 _wait.WaitForAjax();
             }
             catch (Exception e)
@@ -128,8 +127,11 @@ namespace LVMasterAutomationDemo.Pages
                     Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
                     _wait.ResetTimeoutToDefault();
                 }
-                else { _wait.ResetTimeoutToDefault(); 
-                    return; }
+                else
+                {
+                    _wait.ResetTimeoutToDefault();
+                    return;
+                }
             }
             catch (Exception)
             {

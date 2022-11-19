@@ -1,6 +1,6 @@
 ﻿using OpenQA.Selenium;
 
-namespace LVMasterAutomationDemo.Pages
+namespace LVPages.Pages.Admin.UserAccess
 {
     public class Roles : BasePage
     {
@@ -58,4 +58,3 @@ namespace LVMasterAutomationDemo.Pages
         }
     }
 }
- 
