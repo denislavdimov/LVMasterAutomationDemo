@@ -4,7 +4,7 @@ namespace LVPages
 {
     public static class Interactions
     {
-        public static void IClick(IWebElement element)
+        public static void Click(IWebElement element)
         {
             try
             {
@@ -18,7 +18,7 @@ namespace LVPages
             }
         }
 
-        public static void IType(IWebElement element, string data)
+        public static void Type(IWebElement element, string data)
         {
             try
             {

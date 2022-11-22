@@ -45,15 +45,15 @@ namespace LVPages.Pages.Portal
         {
             ISeeElement(UsernameField, By.Id("signInName"));
             ISeeElement(PasswordField, By.Id("password"));
-            IWaitForElementAndType(UsernameField, username);
-            IWaitForElementAndType(PasswordField, password);
+            IType(UsernameField, username);
+            IType(PasswordField, password);
         }
 
         public void OpenLoanVantageAndLogin()
         {
             IGoToThisPageUrl();
             FillInUsernameAndPassword("ddimov@vsgbg.com", "De126000!");
-            IWaitAndClick(LoginButton);
+            IClick(LoginButton);
             _wait.WaitForAjax();
             _wait.IWaitPageToLoad();
             PageHelper.PortalPage.VerifyPortalPage();

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace LVPages.Pages.Admin.UserAccess
 {
@@ -24,64 +25,78 @@ namespace LVPages.Pages.Admin.UserAccess
         private IWebElement UserAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'User Assignment')]"));
         private IWebElement RoleAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'Role Assignment')]"));
         private IWebElement ApprovalsTab => driver.FindElement(By.XPath("//span[@unselectable='on'][contains(.,'Approvals')]"));
-        private IList<IWebElement> AllAssignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
-        private IList<IWebElement> AllAvailableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
-        private IWebElement AvailableItem => driver.FindElement(By.CssSelector("#available > div"));
-        private IWebElement AssignedItem => driver.FindElement(By.CssSelector("#assigned > div"));
+        private IWebElement UserAssignedItem => driver.FindElement(By.CssSelector("#team-user-assignment #assigned div"));
+        private IList<IWebElement> AllUserAvaiableItems => driver.FindElements(By.CssSelector("#team-user-assignment #available div")).ToList();
+        private IWebElement RoleAssignedItem => driver.FindElement(By.CssSelector("#team-role-assignment #assigned div"));
+        private IList<IWebElement> AllRoleAvaiableItems => driver.FindElements(By.CssSelector("#team-role-assignment #available div")).ToList();
         private IWebElement ConfirmationDialog => driver.FindElement(By.CssSelector(".confimation-dialog h5"));
         private IWebElement YesButton => driver.FindElement(By.XPath("//button[contains(.,'Yes')]"));
 
-
+        public void VerifyTeamsPage()
+        {
+            _wait.IWaitForElementToBeClickable(LinkAdd);
+            ISeeElement(SearchArea, By.XPath("//input[contains(@class,'search-query form-control')]"));
+            ISeeElements(By.CssSelector("#teams-kendo-grid tr"));
+            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+        }
         public void AssignUserAndRoleToTeam()
         {
-            //Add verify that assigned column is empty before assigning items
-            IWaitAndClick(UserAssignmentTab);
-            ISeeElement(AvailableItem, By.CssSelector("#available > div"));
-            IWaitAndClick(AllAvailableItems[1]);
-            ISeeElement(AssignedItem, By.CssSelector("#assigned > div"));
-            //IWaitAndClick(RoleAssignmentTab);
-            //IWaitAndClick(AllAvailableItems[4]);
-            //ISeeElement(AssignedItem, By.CssSelector("#assigned > div"));
+            IClick(UserAssignmentTab);
+            ISeeElements(By.CssSelector("#team-user-assignment #available div"));
+            IClick(AllUserAvaiableItems[1]);
+            ISeeElement(UserAssignedItem, By.CssSelector("#team-user-assignment #assigned div"));
+            IClick(RoleAssignmentTab);
+            ISeeElements(By.CssSelector("#team-role-assignment #available div"));
+            IClick(AllRoleAvaiableItems[4]);
+            ISeeElement(RoleAssignedItem, By.CssSelector("#team-role-assignment #assigned div"));
+        }
+        public void EditTheUserAndRole()
+        {
+            IClick(UserAssignmentTab);
+            ISeeElements(By.CssSelector("#team-user-assignment #available div"));
+            IClick(AllUserAvaiableItems[10]);
+            ISeeElements(By.CssSelector("#team-user-assignment #assigned div"));
+            IClick(RoleAssignmentTab);
+            ISeeElements(By.CssSelector("#team-role-assignment #available div"));
+            IClick(AllRoleAvaiableItems[5]);
+            ISeeElements(By.CssSelector("#team-role-assignment #assigned div"));
         }
 
         public void AddTeamWithUserAndRole()
         {
             ISeeElement(NoticeModal, By.XPath("//div[@class='k-widget k-window']"));
-            IWaitAndClick(NoticeCloseButton);
-            IWaitAndClick(LinkAdd);
+            IClick(NoticeCloseButton);
+            IClick(LinkAdd);
             _wait.WaitForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
-            IWaitForElementAndType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
+            IType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
             AssignUserAndRoleToTeam();
-            IWaitAndClick(SaveButton);
+            IClick(SaveButton);
             _wait.WaitForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void EditTeam()
         {
-            IWaitForElementAndType(SearchArea, "DenisAutomationTeamTest");
-            IWaitAndClick(EditButton);
+            IType(SearchArea, "DenisAutomationTeamTest" + randomNumber);
+            _wait.IWaitForOneUserInTheGrid();
+            IClick(EditButton);
             _wait.WaitForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
-            IWaitAndClick(UserAssignmentTab);
-            ISeeElement(AvailableItem, By.CssSelector("#available > div"));
-            IWaitAndClick(AllAvailableItems[10]);
-            ISeeElement(AssignedItem, By.CssSelector("#assigned > div"));
-            IWaitAndClick(SaveButton);
+            EditTheUserAndRole();
+            IClick(SaveButton);
             _wait.WaitForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void DeleteTeam()
         {
-            //IWaitForElementAndType(SearchArea, "DenisAutomationTeam");
-            IWaitAndClick(EditButton);
+            IClick(EditButton);
             _wait.WaitForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
-            IWaitAndClick(DeleteButton);
+            IClick(DeleteButton);
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
-            IWaitAndClick(YesButton);
+            IClick(YesButton);
             _wait.WaitForAjax();
             AssertThereIsNoErrorAndException();
         }

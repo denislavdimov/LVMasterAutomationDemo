@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace LVPages.Pages.Admin.UserAccess
 {
@@ -18,41 +19,46 @@ namespace LVPages.Pages.Admin.UserAccess
         private IWebElement DeleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
         private IWebElement AddAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll'] strong"));
         private IWebElement SaveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
-        private IWebElement AvailableColumn => driver.FindElement(By.Id("available"));
-        private IWebElement AssignedColumn => driver.FindElement(By.Id("assigned"));
-        private IWebElement AvailableItem => driver.FindElement(By.CssSelector("#available > div"));
-        private IWebElement AssignedItem => driver.FindElement(By.CssSelector("#assigned > div"));
         private IWebElement ConfirmationDialog => driver.FindElement(By.CssSelector(".confimation-dialog h5"));
         private IWebElement YesButton => driver.FindElement(By.XPath("//button[contains(.,'Yes')]"));
         private IWebElement EditButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
-        private IList<IWebElement> AssignedItems => driver.FindElements(By.CssSelector("#assigned > div")).ToList();
-        private IList<IWebElement> AvailableItems => driver.FindElements(By.CssSelector("#available > div")).ToList();
+        private IList<IWebElement> AvailableItems => driver.FindElements(By.CssSelector("#admin-menu-role-edit #available div")).ToList();
+        private IList<IWebElement> AssignedItems => driver.FindElements(By.CssSelector("#admin-menu-role-edit #assigned div")).ToList();
+
+        public void VerifyRolesPage()
+        {
+            _wait.IWaitForElementToBeClickable(LinkAdd);
+            ISeeElement(SearchArea, By.XPath("//input[contains(@class,'search-query form-control')]"));
+            ISeeElements(By.CssSelector("#roles-kendo-grid tr"));
+            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+        }
 
 
         public void AddRole()
         {
-            IWaitAndClick(LinkAdd);
+            IClick(LinkAdd);
             _wait.WaitForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
-            ISeeElements(By.CssSelector("#available > div"));
-            IWaitForElementAndType(NameInputField, "DenisAutomationRoleTest" + randomNumber);
-            IWaitAndClick(AddAllLink);
-            ISeeElements(By.CssSelector("#assigned > div"));
-            IWaitAndClick(SaveButton);
+            ISeeElements(By.CssSelector("#admin-menu-role-edit #available div"));
+            IType(NameInputField, "DenisAutomationRoleTest" + randomNumber);
+            IClick(AddAllLink);
+            ISeeElements(By.CssSelector("#admin-menu-role-edit #assigned div"));
+            IClick(SaveButton);
             _wait.WaitForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void DeleteRole()
         {
-            IWaitForElementAndType(SearchArea, "DenisAutomationRole");
-            IWaitAndClick(EditButton);
+            IType(SearchArea, "DenisAutomationRoleTest" + randomNumber);
+            _wait.IWaitForOneUserInTheGrid();
+            IClick(EditButton);
             _wait.WaitForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
-            ISeeElements(By.CssSelector("#assigned > div"));
-            IWaitAndClick(DeleteButton);
+            ISeeElements(By.CssSelector("#admin-menu-role-edit #assigned div"));
+            IClick(DeleteButton);
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
-            IWaitAndClick(YesButton);
+            IClick(YesButton);
             _wait.WaitForAjax();
             AssertThereIsNoErrorAndException();
         }

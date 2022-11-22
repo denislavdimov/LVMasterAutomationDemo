@@ -11,6 +11,7 @@ namespace LVTests.Admin.UserAccess
             LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
+            PageHelper.RolesPage.VerifyRolesPage();
             PageHelper.RolesPage.AddRole();
             PageHelper.RolesPage.DeleteRole();
         }

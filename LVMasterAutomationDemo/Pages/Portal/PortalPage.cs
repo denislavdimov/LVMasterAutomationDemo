@@ -33,9 +33,9 @@ namespace LVPages.Pages.Portal
         public void IGoToAdmin()
         {
             ISeeElement(HamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
-            IWaitAndClick(HamburgerMenu);
+            IClick(HamburgerMenu);
             ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));
-            IWaitAndClick(AdminLink);
+            IClick(AdminLink);
             _wait.IWaitPageToLoad();
             PageHelper.AdminPage.VerifyAdminPage();
         }

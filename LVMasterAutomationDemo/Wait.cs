@@ -115,6 +115,32 @@ namespace LVPages
             }
             else { return; }
         }
+
+        public void IWaitForOneUserInTheGrid()
+        {
+            var OldAdminGridItems = PageHelper.AdminPage.OldAdminGridItems.Count;
+            while (OldAdminGridItems != 1)
+            {
+                Thread.Sleep(500);
+                if (OldAdminGridItems == 1)
+                {
+                    break;
+                }
+            }
+        }
+
+        //public void WaitForOneUserInTheGrid()
+        //{
+        //    var OldAdminGridItems = PageHelper.AdminPage.OldAdminGridItems.Count;
+        //    if (OldAdminGridItems != 1)
+        //    {
+        //        Thread.Sleep(500);
+        //        while (OldAdminGridItems == 1)
+        //        {
+        //            break;
+        //        }
+        //    }
+        //}
     }
 }
 

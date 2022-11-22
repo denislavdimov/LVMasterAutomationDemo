@@ -26,21 +26,6 @@ namespace LVPages
         private IList<IWebElement> Warning =>
             driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
 
-        //public void IsPageOpen(string Url)
-        //{
-        //    string DriverUrl = driver.Url;
-        //    Url = driver.Url;
-        //    try
-        //    {
-        //        Assert.That(driver.Url, Is.EqualTo(Url));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.ToString());
-        //        throw;
-        //    }
-        //}
-
         public void IGoToThisPageUrl()
         {
             try
@@ -74,17 +59,17 @@ namespace LVPages
             }
             catch (NoSuchElementException te)
             {
-                Assert.Fail($"The element with selector {by} didn't appear. The exception was:\n {te}", te.ToString());
+                Assert.Fail($"The elements with selector {by} didn't appear. The exception was:\n {te}", te.ToString());
             }
         }
 
-        public void IWaitForElementAndType(IWebElement element, string data)
+        public void IType(IWebElement element, string data)
         {
             try
             {
                 _wait.IWaitForElementToBeClickable(element);
-                Interactions.IClick(element);
-                Interactions.IType(element, data);
+                Interactions.Click(element);
+                Interactions.Type(element, data);
             }
             catch (Exception)
             {
@@ -93,12 +78,12 @@ namespace LVPages
             }
         }
 
-        public void IWaitAndClick(IWebElement element)
+        public void IClick(IWebElement element)
         {
             try
             {
                 _wait.IWaitForElementToBeClickable(element);
-                Interactions.IClick(element);
+                Interactions.Click(element);
 
             }
             catch (Exception)
@@ -107,7 +92,6 @@ namespace LVPages
                 throw;
             }
         }
-
 
         public void AssertThereIsNoErrorAndException()
         {
@@ -138,6 +122,11 @@ namespace LVPages
                 Console.WriteLine("An exception or warning is thrown on the page.");
                 throw;
             }
+        }
+
+        public void CleanAllInputFields()
+        {
+            ((IJavaScriptExecutor)driver).ExecuteScript("$('input').val('');");
         }
     }
 }

@@ -12,6 +12,7 @@ namespace LVPages
         public static AdminPage AdminPage;
         public static PortalPage PortalPage;
         public static LoginPage LoginPage;
+        public static Users UsersPage;
 
         public static void PageBuilder(IWebDriver driver)
         {
@@ -20,6 +21,7 @@ namespace LVPages
             AdminPage = new AdminPage(driver, new Wait(driver));
             PortalPage = new PortalPage(driver, new Wait(driver));
             LoginPage = new LoginPage(driver, new Wait(driver));
+            UsersPage = new Users(driver, new Wait(driver));
         }
     }
 }

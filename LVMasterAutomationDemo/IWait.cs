@@ -10,5 +10,7 @@ namespace LVPages
         void IWaitForElementToBeClickable(IWebElement element);
         void SetTimeout(int secondstowait);
         void ResetTimeoutToDefault();
+        void IWaitForOneUserInTheGrid();
+        //void WaitForOneUserInTheGrid();
     }
 }
