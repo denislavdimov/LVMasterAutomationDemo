@@ -15,6 +15,7 @@ namespace LVTests.Admin.UserAccess
             PageHelper.TeamsPage.AddTeamWithUserAndRole();
             PageHelper.TeamsPage.EditTeam();
             PageHelper.TeamsPage.DeleteTeam();
+            //some changes
         }
     }
 }
