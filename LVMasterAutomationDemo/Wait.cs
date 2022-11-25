@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
+using OpenQA.Selenium.DevTools.V105.Debugger;
 
 namespace LVPages
 {
@@ -116,31 +117,24 @@ namespace LVPages
             else { return; }
         }
 
-        public void IWaitForOneUserInTheGrid()
+        public void WaitForOneItemInTheGrid(int item)
         {
-            var OldAdminGridItems = PageHelper.AdminPage.OldAdminGridItems.Count;
-            while (OldAdminGridItems != 1)
+            bool success = false;
+            int elapsed = 0;
+            try
             {
-                Thread.Sleep(500);
-                if (OldAdminGridItems == 1)
+                while ((!success) && (elapsed < 10000))
                 {
-                    break;
+                    Thread.Sleep(1000);
+                    elapsed += 1000;
+                    success = item == 1;
                 }
             }
+            finally 
+            {
+                Assert.That(item, Is.EqualTo(1), "There is not only one item in the grid.Please check");
+            }
         }
-
-        //public void WaitForOneUserInTheGrid()
-        //{
-        //    var OldAdminGridItems = PageHelper.AdminPage.OldAdminGridItems.Count;
-        //    if (OldAdminGridItems != 1)
-        //    {
-        //        Thread.Sleep(500);
-        //        while (OldAdminGridItems == 1)
-        //        {
-        //            break;
-        //        }
-        //    }
-        //}
     }
 }
 

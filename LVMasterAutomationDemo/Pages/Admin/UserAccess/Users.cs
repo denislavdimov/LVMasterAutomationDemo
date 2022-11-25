@@ -47,7 +47,7 @@ namespace LVPages.Pages.Admin.UserAccess
             _wait.IWaitForElementToBeClickable(MobileButton);
             ISeeElement(SearchArea, By.XPath("//input[@class='search-query form-control']"));
             ISeeElements(By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr"));
-            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+            AssertDriverUrlIsEqualToPageUrl();
         }
         private void VerifyUsersRequiredFields()
         {
@@ -84,8 +84,7 @@ namespace LVPages.Pages.Admin.UserAccess
         public void EditUser()
         {
             IType(SearchArea, "AutoLoginName" + randomNumber);
-            _wait.IWaitForOneUserInTheGrid();
-            //_wait.WaitForOneUserInTheGrid();
+            //_wait.WaitForOneItemInTheGrid();
             IClick(EditButton);
             _wait.WaitForAjax();
             CleanAllInputFields();

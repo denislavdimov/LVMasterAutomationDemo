@@ -37,7 +37,7 @@ namespace LVPages.Pages.Admin.UserAccess
             _wait.IWaitForElementToBeClickable(LinkAdd);
             ISeeElement(SearchArea, By.XPath("//input[contains(@class,'search-query form-control')]"));
             ISeeElements(By.CssSelector("#teams-kendo-grid tr"));
-            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+            AssertDriverUrlIsEqualToPageUrl();
         }
         public void AssignUserAndRoleToTeam()
         {
@@ -79,7 +79,7 @@ namespace LVPages.Pages.Admin.UserAccess
         public void EditTeam()
         {
             IType(SearchArea, "DenisAutomationTeamTest" + randomNumber);
-            _wait.IWaitForOneUserInTheGrid();
+            //_wait.WaitForOneItemInTheGrid();
             IClick(EditButton);
             _wait.WaitForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));

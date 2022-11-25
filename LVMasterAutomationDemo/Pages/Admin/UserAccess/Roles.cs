@@ -24,13 +24,15 @@ namespace LVPages.Pages.Admin.UserAccess
         private IWebElement EditButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
         private IList<IWebElement> AvailableItems => driver.FindElements(By.CssSelector("#admin-menu-role-edit #available div")).ToList();
         private IList<IWebElement> AssignedItems => driver.FindElements(By.CssSelector("#admin-menu-role-edit #assigned div")).ToList();
+        private IList<IWebElement> GridItems => driver.FindElements(By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr")).ToList();
 
         public void VerifyRolesPage()
         {
             _wait.IWaitForElementToBeClickable(LinkAdd);
             ISeeElement(SearchArea, By.XPath("//input[contains(@class,'search-query form-control')]"));
             ISeeElements(By.CssSelector("#roles-kendo-grid tr"));
-            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+            //Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+            AssertDriverUrlIsEqualToPageUrl();
         }
 
 
@@ -51,7 +53,7 @@ namespace LVPages.Pages.Admin.UserAccess
         public void DeleteRole()
         {
             IType(SearchArea, "DenisAutomationRoleTest" + randomNumber);
-            _wait.IWaitForOneUserInTheGrid();
+            _wait.WaitForOneItemInTheGrid(GridItems.Count);
             IClick(EditButton);
             _wait.WaitForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
