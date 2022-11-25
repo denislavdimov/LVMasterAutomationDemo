@@ -2,7 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-
+using System.Xml;
 
 namespace LVPages
 {
@@ -36,6 +36,19 @@ namespace LVPages
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                throw;
+            }
+        }
+
+        public void AssertDriverUrlIsEqualToPageUrl()
+        {
+            try
+            {
+                Assert.That(driver.Url, Is.EqualTo(PageUrl));
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("The PageUrl and DriverUrl are not equal");
                 throw;
             }
         }
