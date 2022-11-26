@@ -10,7 +10,7 @@ namespace LVTests.Admin.UserAccess
         {
             LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.IGoToAdmin();
-            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkTeams);
+            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.Teams);
             PageHelper.TeamsPage.VerifyTeamsPage();
             PageHelper.TeamsPage.AddTeamWithUserAndRole();
             PageHelper.TeamsPage.EditTeam();

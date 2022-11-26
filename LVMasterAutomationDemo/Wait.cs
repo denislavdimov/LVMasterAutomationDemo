@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
 using SeleniumExtras.WaitHelpers;
-using OpenQA.Selenium.DevTools.V105.Debugger;
+using LVPages.IClasses;
 
 namespace LVPages
 {
@@ -17,7 +17,7 @@ namespace LVPages
             _driver = driver;
         }
 
-        public void IWaitForElementToBeClickable(IWebElement element)
+        public void ForElementToBeClickable(IWebElement element)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace LVPages
             }
         }
 
-        public void IWaitForLoaderToDissaper(int seconds)
+        public void ForLoaderToDissaper(int seconds)
         {
             SetTimeout(seconds);
             try
@@ -64,7 +64,7 @@ namespace LVPages
             ResetTimeoutToDefault();
         }
 
-        public void IWaitPageToLoad()
+        public void ForPageToLoad()
         {
             try
             {
@@ -79,13 +79,14 @@ namespace LVPages
             }
         }
 
-        public void WaitForAjax()
+        public void ForAjax()
         {
             try
             {
                 while (true)
                 {
-                    bool ajaxIsComplete = (bool)((IJavaScriptExecutor)_driver).ExecuteScript("return jQuery.active == 0");
+                    //bool ajaxIsComplete = (bool)((IJavaScriptExecutor)_driver).ExecuteScript("return jQuery.active == 0");
+                    bool ajaxIsComplete = (bool)((IJavaScriptExecutor)_driver).ExecuteScript("return !!window.jQuery && window.jQuery.active == 0");
                     if (ajaxIsComplete)
                     {
                         break;
@@ -117,7 +118,7 @@ namespace LVPages
             else { return; }
         }
 
-        public void WaitForOneItemInTheGrid(int item)
+        public void ForOneItemInTheGrid(int item)
         {
             bool success = false;
             int elapsed = 0;

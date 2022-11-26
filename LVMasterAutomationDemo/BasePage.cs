@@ -1,14 +1,15 @@
-﻿using NUnit.Framework;
+﻿using LVPages.IClasses;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
-using System.Xml;
 
 namespace LVPages
 {
     public class BasePage
     {
-        private Wait _wait;
+        private readonly Wait Wait;
+        private readonly IUserActions I;
         protected IWebDriver driver;
         private static int secondsToLoadPage = 30;
 
@@ -16,7 +17,8 @@ namespace LVPages
         {
             this.driver = driver;
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(secondsToLoadPage);
-            _wait = new Wait(driver);
+            Wait = new Wait(driver);
+            I = new UserActions(driver);
         }
 
         public virtual string PageUrl { get; }
@@ -31,7 +33,7 @@ namespace LVPages
             try
             {
                 driver.Navigate().GoToUrl(PageUrl);
-                _wait.WaitForAjax();
+                Wait.ForAjax();
             }
             catch (Exception e)
             {
@@ -80,9 +82,9 @@ namespace LVPages
         {
             try
             {
-                _wait.IWaitForElementToBeClickable(element);
-                Interactions.Click(element);
-                Interactions.Type(element, data);
+                Wait.ForElementToBeClickable(element);
+                I.Click(element);
+                I.Type(element, data);
             }
             catch (Exception)
             {
@@ -95,8 +97,8 @@ namespace LVPages
         {
             try
             {
-                _wait.IWaitForElementToBeClickable(element);
-                Interactions.Click(element);
+                Wait.ForElementToBeClickable(element);
+                I.Click(element);
 
             }
             catch (Exception)
@@ -106,27 +108,41 @@ namespace LVPages
             }
         }
 
+        public void IDragAndDrop(IWebElement element, IWebElement place)
+        {
+            try
+            {
+                Wait.ForElementToBeClickable(element);
+                I.DragAndDrop(element, place);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"The element: {element} cannot be drag and dropped to place: {place}");
+                throw;
+            }
+        }
+
         public void AssertThereIsNoErrorAndException()
         {
             try
             {
-                _wait.SetTimeout(2);
+                Wait.SetTimeout(2);
                 var warning = Warning;
                 var exception = Exception;
                 if (warning.Count > 0 || exception.Count > 0)
                 {
-                    _wait.SetTimeout(2);
+                    //Wait.SetTimeout(2);
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
                         By.XPath("//div[contains(@class, 'k-loading-color')]")));
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
                         By.XPath("//div[@class='k-loading-image']")));
-                    Assert.IsTrue(Warning.Count == 0, "Warning is thrown on the Page");
                     Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
-                    _wait.ResetTimeoutToDefault();
+                    Assert.IsTrue(Warning.Count == 0, "Warning is thrown on the Page");
+                    Wait.ResetTimeoutToDefault();
                 }
                 else
                 {
-                    _wait.ResetTimeoutToDefault();
+                    Wait.ResetTimeoutToDefault();
                     return;
                 }
             }
@@ -141,5 +157,6 @@ namespace LVPages
         {
             ((IJavaScriptExecutor)driver).ExecuteScript("$('input').val('');");
         }
+
     }
 }

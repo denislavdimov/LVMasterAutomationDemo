@@ -1,14 +1,15 @@
-﻿using NUnit.Framework;
+﻿using LVPages.IClasses;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace LVPages.Pages.Portal
 {
     public class LoginPage : BasePage
     {
-        private readonly IWait _wait;
+        private readonly IWait Wait;
         public LoginPage(IWebDriver driver, IWait wait) : base(driver)
         {
-            _wait = wait;
+            Wait = wait;
         }
 
         //public IWebElement IbsField => driver.FindElement(By.XPath("//input[@data-ui='institution-code-textbox']"));
@@ -29,10 +30,10 @@ namespace LVPages.Pages.Portal
             try
             {
                 driver.Navigate().GoToUrl(CachePage);
-                _wait.IWaitPageToLoad();
-                _wait.SetTimeout(5);
+                Wait.ForPageToLoad();
+                Wait.SetTimeout(5);
                 Assert.IsTrue(CacheTableContent.Count == 0, "The cache is not cleared");
-                _wait.ResetTimeoutToDefault();
+                Wait.ResetTimeoutToDefault();
             }
             catch (Exception e)
             {
@@ -54,8 +55,8 @@ namespace LVPages.Pages.Portal
             IGoToThisPageUrl();
             FillInUsernameAndPassword("ddimov@vsgbg.com", "De126000!");
             IClick(LoginButton);
-            _wait.WaitForAjax();
-            _wait.IWaitPageToLoad();
+            Wait.ForAjax();
+            Wait.ForPageToLoad();
             PageHelper.PortalPage.VerifyPortalPage();
             //IsPageOpen();
         }

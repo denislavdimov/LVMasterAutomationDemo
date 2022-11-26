@@ -10,10 +10,10 @@ namespace LVTests.Admin.UserAccess
         {
             LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.IGoToAdmin();
-            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkRoles);
+            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.Roles);
             PageHelper.RolesPage.VerifyRolesPage();
             PageHelper.RolesPage.AddRole();
-            PageHelper.RolesPage.DeleteRole();
+            //PageHelper.RolesPage.DeleteRole();
         }
     }
 }

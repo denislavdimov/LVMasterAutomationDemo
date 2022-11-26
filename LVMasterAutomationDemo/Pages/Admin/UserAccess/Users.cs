@@ -1,4 +1,5 @@
-﻿using LVPages.Pages.Portal;
+﻿using LVPages.IClasses;
+using LVPages.Pages.Portal;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using System.Reflection.Metadata;
@@ -7,12 +8,12 @@ namespace LVPages.Pages.Admin.UserAccess
 {
     public class Users : BasePage
     {
-        private readonly IWait _wait;
+        private readonly IWait Wait;
         int randomNumber = (int)(new Random().NextInt64(2022) + 20);
         int NewRandomNumber = (int)(new Random().NextInt64(2022) + 20);
         public Users(IWebDriver driver, IWait wait) : base(driver)
         {
-            _wait = wait;
+            Wait = wait;
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Users/";
 
@@ -42,9 +43,9 @@ namespace LVPages.Pages.Admin.UserAccess
 
         public void VerifyUsersPage()
         {
-            _wait.IWaitForElementToBeClickable(AddUserButton);
-            _wait.IWaitForElementToBeClickable(UploadButton);
-            _wait.IWaitForElementToBeClickable(MobileButton);
+            Wait.ForElementToBeClickable(AddUserButton);
+            Wait.ForElementToBeClickable(UploadButton);
+            Wait.ForElementToBeClickable(MobileButton);
             ISeeElement(SearchArea, By.XPath("//input[@class='search-query form-control']"));
             ISeeElements(By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr"));
             AssertDriverUrlIsEqualToPageUrl();
@@ -60,7 +61,7 @@ namespace LVPages.Pages.Admin.UserAccess
         public void AddUser()
         {
             IClick(AddUserButton);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             VerifyUsersRequiredFields();
             IType(LoginField, "AutoLoginName" + randomNumber);
             IType(DisplayNameField, "AutoDisplayName" + randomNumber);
@@ -84,9 +85,9 @@ namespace LVPages.Pages.Admin.UserAccess
         public void EditUser()
         {
             IType(SearchArea, "AutoLoginName" + randomNumber);
-            //_wait.WaitForOneItemInTheGrid();
+            //Wait.ForOneItemInTheGrid();
             IClick(EditButton);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             CleanAllInputFields();
             IType(LoginField, "AutoLoginName" + NewRandomNumber);
             IType(DisplayNameField, "AutoDisplayName" + NewRandomNumber);

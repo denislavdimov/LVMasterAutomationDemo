@@ -10,7 +10,7 @@ namespace LVTests.Admin.UserAccess
         {
             LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.IGoToAdmin();
-            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.LinkUsers);
+            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.Users);
             PageHelper.UsersPage.VerifyUsersPage();
             PageHelper.UsersPage.AddUser();
             PageHelper.UsersPage.EditUser();

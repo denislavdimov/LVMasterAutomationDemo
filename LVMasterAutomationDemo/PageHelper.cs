@@ -1,4 +1,5 @@
 ﻿using LVPages.Pages.Admin;
+using LVPages.Pages.Admin.ProcessFlow;
 using LVPages.Pages.Admin.UserAccess;
 using LVPages.Pages.Portal;
 using OpenQA.Selenium;
@@ -13,6 +14,7 @@ namespace LVPages
         public static PortalPage PortalPage;
         public static LoginPage LoginPage;
         public static Users UsersPage;
+        public static ReportDefinitionPage ReportDefinitionPage;
 
         public static void PageBuilder(IWebDriver driver)
         {
@@ -22,6 +24,7 @@ namespace LVPages
             PortalPage = new PortalPage(driver, new Wait(driver));
             LoginPage = new LoginPage(driver, new Wait(driver));
             UsersPage = new Users(driver, new Wait(driver));
+            ReportDefinitionPage = new ReportDefinitionPage(driver, new Wait(driver));
         }
     }
 }

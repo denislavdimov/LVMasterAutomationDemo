@@ -1,14 +1,15 @@
-﻿using NUnit.Framework;
+﻿using LVPages.IClasses;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace LVPages.Pages.Admin
 {
     public class AdminPage : BasePage
     {
-        private readonly IWait _wait;
+        private readonly IWait Wait;
         public AdminPage(IWebDriver driver, IWait wait) : base(driver)
         {
-            _wait = wait;
+            Wait = wait;
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/";
 
@@ -17,25 +18,26 @@ namespace LVPages.Pages.Admin
         private IWebElement SearhInputArea => driver.FindElement(By.XPath("//input[contains(@class,'lv-form-control-input')]"));
         private IWebElement MainMenuButton => driver.FindElement(By.XPath("//button[contains(@data-ui,'main-menu-header')]"));
         public IList<IWebElement> OldAdminGridItems => driver.FindElements(By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr")).ToList();
-        public IWebElement LinkRoles => driver.FindElement(By.LinkText("Roles"));
-        public IWebElement LinkTeams => driver.FindElement(By.LinkText("Teams"));
-        public IWebElement LinkUsers => driver.FindElement(By.LinkText("Users"));
+        public IWebElement Roles => driver.FindElement(By.LinkText("Roles"));
+        public IWebElement Teams => driver.FindElement(By.LinkText("Teams"));
+        public IWebElement Users => driver.FindElement(By.LinkText("Users"));
+        public IWebElement ReportDefinition => driver.FindElement(By.LinkText("Report Definition"));
 
         public void VerifyAdminPage()
         {
-            _wait.IWaitForElementToBeClickable(MainMenuButton);
-            _wait.IWaitForElementToBeClickable(HamburgerButton);
+            Wait.ForElementToBeClickable(MainMenuButton);
+            Wait.ForElementToBeClickable(HamburgerButton);
             ISeeElement(SearhInputArea, By.XPath("//input[contains(@class,'lv-form-control-input')]"));
             ISeeElements(By.XPath("//div[@class='lv-custom-admin-container']//a"));
             Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
         }
         public void INavigateToAdminPage(IWebElement element)
         {
-            _wait.IWaitForElementToBeClickable(element);
+            Wait.ForElementToBeClickable(element);
             IClick(element);
-            //_wait.IWaitForLoaderToDissaper();
-            _wait.IWaitPageToLoad();
-            _wait.WaitForAjax();
+            //Wait.ForLoaderToDissaper();
+            Wait.ForPageToLoad();
+            //Wait.ForAjax();
         }
     }
 }

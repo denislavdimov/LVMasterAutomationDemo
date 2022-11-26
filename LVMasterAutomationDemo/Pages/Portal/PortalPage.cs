@@ -1,14 +1,15 @@
-﻿using NUnit.Framework;
+﻿using LVPages.IClasses;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace LVPages.Pages.Portal
 {
     public class PortalPage : BasePage
     {
-        private readonly IWait _wait;
+        private readonly IWait Wait;
         public PortalPage(IWebDriver driver, IWait wait) : base(driver)
         {
-            _wait = wait;
+            Wait = wait;
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/Index#/";
 
@@ -23,9 +24,9 @@ namespace LVPages.Pages.Portal
 
         public void VerifyPortalPage()
         {
-            _wait.IWaitForElementToBeClickable(HamburgerMenu);
-            _wait.IWaitForElementToBeClickable(QueuesButton);
-            _wait.IWaitForElementToBeClickable(NewButton);
+            Wait.ForElementToBeClickable(HamburgerMenu);
+            Wait.ForElementToBeClickable(QueuesButton);
+            Wait.ForElementToBeClickable(NewButton);
             ISeeElement(SearchField, By.CssSelector("input[placeholder='Search']"));
             Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
         }
@@ -36,7 +37,7 @@ namespace LVPages.Pages.Portal
             IClick(HamburgerMenu);
             ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));
             IClick(AdminLink);
-            _wait.IWaitPageToLoad();
+            Wait.ForPageToLoad();
             PageHelper.AdminPage.VerifyAdminPage();
         }
     }

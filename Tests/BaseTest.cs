@@ -2,6 +2,8 @@ using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 using LVPages;
+using NUnit.Framework.Interfaces;
+using NUnit.Framework.Internal;
 
 namespace LVTests
 {
@@ -40,6 +42,13 @@ namespace LVTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
+            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
+            {
+                var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+                screenshot.SaveAsFile(@"C:\Users\Denislav\source\repos\LVMasterAutomationDemo\FailingTests\Screenshot.jpg"
+                , ScreenshotImageFormat.Jpeg);
+            }
+
             driver.Manage().Cookies.DeleteAllCookies();
             if (driver == null)
                 return;

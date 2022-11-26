@@ -1,15 +1,15 @@
-﻿using NUnit.Framework;
+﻿using LVPages.IClasses;
 using OpenQA.Selenium;
 
 namespace LVPages.Pages.Admin.UserAccess
 {
     public class Teams : BasePage
     {
-        private IWait _wait;
+        private IWait Wait;
         int randomNumber = (int)(new Random().NextInt64(2022) + 20);
         public Teams(IWebDriver driver, IWait wait) : base(driver)
         {
-            _wait = wait;
+            Wait = wait;
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Teams/";
 
@@ -34,7 +34,7 @@ namespace LVPages.Pages.Admin.UserAccess
 
         public void VerifyTeamsPage()
         {
-            _wait.IWaitForElementToBeClickable(LinkAdd);
+            Wait.ForElementToBeClickable(LinkAdd);
             ISeeElement(SearchArea, By.XPath("//input[contains(@class,'search-query form-control')]"));
             ISeeElements(By.CssSelector("#teams-kendo-grid tr"));
             AssertDriverUrlIsEqualToPageUrl();
@@ -67,37 +67,37 @@ namespace LVPages.Pages.Admin.UserAccess
             ISeeElement(NoticeModal, By.XPath("//div[@class='k-widget k-window']"));
             IClick(NoticeCloseButton);
             IClick(LinkAdd);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
             IType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
             AssignUserAndRoleToTeam();
             IClick(SaveButton);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void EditTeam()
         {
             IType(SearchArea, "DenisAutomationTeamTest" + randomNumber);
-            //_wait.WaitForOneItemInTheGrid();
+            //Wait.ForOneItemInTheGrid();
             IClick(EditButton);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
             EditTheUserAndRole();
             IClick(SaveButton);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void DeleteTeam()
         {
             IClick(EditButton);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
             IClick(DeleteButton);
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
             IClick(YesButton);
-            _wait.WaitForAjax();
+            Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }
     }
