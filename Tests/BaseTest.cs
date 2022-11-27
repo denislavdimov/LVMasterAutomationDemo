@@ -3,7 +3,6 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
 using LVPages;
 using NUnit.Framework.Interfaces;
-using NUnit.Framework.Internal;
 
 namespace LVTests
 {

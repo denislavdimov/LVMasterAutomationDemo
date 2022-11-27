@@ -134,7 +134,7 @@ namespace LVPages
         }
         public void ResetTimeoutToDefault()
         {
-            if (!_driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(30))
+            if (!_driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(_secondsBeforeTimeout))
             {
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_secondsBeforeTimeout);
             }

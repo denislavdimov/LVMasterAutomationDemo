@@ -1,8 +1,5 @@
 ﻿using LVPages.IClasses;
-using LVPages.Pages.Portal;
-using NUnit.Framework;
 using OpenQA.Selenium;
-using System.Reflection.Metadata;
 
 namespace LVPages.Pages.Admin.UserAccess
 {
@@ -92,7 +89,7 @@ namespace LVPages.Pages.Admin.UserAccess
             Wait.ForOneItemInTheGrid(GridItems.Count);
             I.Click(EditButton);
             Wait.ForAjax();
-            CleanAllInputFields();
+            ClearAllInputFields();
             I.FillInField(LoginField, "AutoLoginName" + NewRandomNumber);
             I.FillInField(DisplayNameField, "AutoDisplayName" + NewRandomNumber);
             I.FillInField(FirstNameField, "AutoFirstName" + NewRandomNumber);
