@@ -101,7 +101,6 @@ namespace LVPages
                 var exception = Exception;
                 if (warning.Count > 0 || exception.Count > 0)
                 {
-                    //Wait.SetTimeout(2);
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
                         By.XPath("//div[contains(@class, 'k-loading-color')]")));
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
@@ -123,7 +122,7 @@ namespace LVPages
             }
         }
 
-        public void CleanAllInputFields()
+        public void ClearAllInputFields()
         {
             ((IJavaScriptExecutor)driver).ExecuteScript("$('input').val('');");
         }

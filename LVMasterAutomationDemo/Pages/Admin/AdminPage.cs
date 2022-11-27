@@ -1,5 +1,4 @@
 ﻿using LVPages.IClasses;
-using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace LVPages.Pages.Admin
@@ -31,7 +30,7 @@ namespace LVPages.Pages.Admin
             Wait.ForElementToBeClickable(HamburgerButton);
             ISeeElement(SearhInputArea, By.XPath("//input[contains(@class,'lv-form-control-input')]"));
             ISeeElements(By.XPath("//div[@class='lv-custom-admin-container']//a"));
-            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+            AssertDriverUrlIsEqualToPageUrl();
         }
         public void INavigateToAdminPage(IWebElement element)
         {
