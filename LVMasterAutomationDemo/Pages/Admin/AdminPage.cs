@@ -7,9 +7,11 @@ namespace LVPages.Pages.Admin
     public class AdminPage : BasePage
     {
         private readonly IWait Wait;
-        public AdminPage(IWebDriver driver, IWait wait) : base(driver)
+        private readonly IUserActions I;
+        public AdminPage(IWebDriver driver) : base(driver)
         {
-            Wait = wait;
+            Wait = new Wait(driver);
+            I = new UserActions(driver);
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/";
 
@@ -34,9 +36,9 @@ namespace LVPages.Pages.Admin
         public void INavigateToAdminPage(IWebElement element)
         {
             Wait.ForElementToBeClickable(element);
-            IClick(element);
-            //Wait.ForLoaderToDissaper();
+            I.Click(element);
             Wait.ForPageToLoad();
+            Wait.ForLoaderToDissaper();
             //Wait.ForAjax();
         }
     }

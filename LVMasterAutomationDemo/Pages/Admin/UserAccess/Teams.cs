@@ -5,16 +5,20 @@ namespace LVPages.Pages.Admin.UserAccess
 {
     public class Teams : BasePage
     {
-        private IWait Wait;
+        private readonly IWait Wait;
+        private readonly IUserActions I;
         int randomNumber = (int)(new Random().NextInt64(2022) + 20);
-        public Teams(IWebDriver driver, IWait wait) : base(driver)
+        public Teams(IWebDriver driver) : base(driver)
         {
-            Wait = wait;
+            Wait = new Wait(driver);
+            I = new UserActions(driver);
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Teams/";
 
         private IWebElement NoticeModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
         private IWebElement NoticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
+        private IList<IWebElement> GridItems => driver.FindElements
+            (By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr")).ToList();
         private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
         public IWebElement TeamsModal => driver.FindElement(By.XPath("//div[@class='k-widget k-window']"));
         private IWebElement EditButton => driver.FindElement(By.XPath("//a[contains(@class,'v-icon icon-edit k-grid-Edit')]"));
@@ -41,62 +45,62 @@ namespace LVPages.Pages.Admin.UserAccess
         }
         public void AssignUserAndRoleToTeam()
         {
-            IClick(UserAssignmentTab);
-            ISeeElements(By.CssSelector("#team-user-assignment #available div"));
-            IClick(AllUserAvaiableItems[1]);
+            I.Click(UserAssignmentTab);
+            //ISeeElements(By.CssSelector("#team-user-assignment #available div"));
+            I.Click(AllUserAvaiableItems[1]);
             ISeeElement(UserAssignedItem, By.CssSelector("#team-user-assignment #assigned div"));
-            IClick(RoleAssignmentTab);
-            ISeeElements(By.CssSelector("#team-role-assignment #available div"));
-            IClick(AllRoleAvaiableItems[4]);
+            I.Click(RoleAssignmentTab);
+            //ISeeElements(By.CssSelector("#team-role-assignment #available div"));
+            I.Click(AllRoleAvaiableItems[4]);
             ISeeElement(RoleAssignedItem, By.CssSelector("#team-role-assignment #assigned div"));
         }
         public void EditTheUserAndRole()
         {
-            IClick(UserAssignmentTab);
-            ISeeElements(By.CssSelector("#team-user-assignment #available div"));
-            IClick(AllUserAvaiableItems[10]);
+            I.Click(UserAssignmentTab);
+            //ISeeElements(By.CssSelector("#team-user-assignment #available div"));
+            I.Click(AllUserAvaiableItems[10]);
             ISeeElements(By.CssSelector("#team-user-assignment #assigned div"));
-            IClick(RoleAssignmentTab);
-            ISeeElements(By.CssSelector("#team-role-assignment #available div"));
-            IClick(AllRoleAvaiableItems[5]);
+            I.Click(RoleAssignmentTab);
+            //ISeeElements(By.CssSelector("#team-role-assignment #available div"));
+            I.Click(AllRoleAvaiableItems[5]);
             ISeeElements(By.CssSelector("#team-role-assignment #assigned div"));
         }
 
         public void AddTeamWithUserAndRole()
         {
             ISeeElement(NoticeModal, By.XPath("//div[@class='k-widget k-window']"));
-            IClick(NoticeCloseButton);
-            IClick(LinkAdd);
+            I.Click(NoticeCloseButton);
+            I.Click(LinkAdd);
             Wait.ForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
-            IType(NameInputField, "DenisAutomationTeamTest" + randomNumber);
+            I.FillInField(NameInputField, "DenisAutomationTeamTest" + randomNumber);
             AssignUserAndRoleToTeam();
-            IClick(SaveButton);
+            I.Click(SaveButton);
             Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void EditTeam()
         {
-            IType(SearchArea, "DenisAutomationTeamTest" + randomNumber);
-            //Wait.ForOneItemInTheGrid();
-            IClick(EditButton);
+            I.FillInField(SearchArea, "DenisAutomationTeamTest" + randomNumber);
+            Wait.ForOneItemInTheGrid(GridItems.Count);
+            I.Click(EditButton);
             Wait.ForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
             EditTheUserAndRole();
-            IClick(SaveButton);
+            I.Click(SaveButton);
             Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void DeleteTeam()
         {
-            IClick(EditButton);
+            I.Click(EditButton);
             Wait.ForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));
-            IClick(DeleteButton);
+            I.Click(DeleteButton);
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
-            IClick(YesButton);
+            I.Click(YesButton);
             Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }

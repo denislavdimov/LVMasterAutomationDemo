@@ -18,13 +18,13 @@ namespace LVPages
 
         public static void PageBuilder(IWebDriver driver)
         {
-            TeamsPage = new Teams(driver, new Wait(driver));
-            RolesPage = new Roles(driver, new Wait(driver));
-            AdminPage = new AdminPage(driver, new Wait(driver));
-            PortalPage = new PortalPage(driver, new Wait(driver));
-            LoginPage = new LoginPage(driver, new Wait(driver));
-            UsersPage = new Users(driver, new Wait(driver));
-            ReportDefinitionPage = new ReportDefinitionPage(driver, new Wait(driver));
+            TeamsPage = new Teams(driver);
+            RolesPage = new Roles(driver);
+            AdminPage = new AdminPage(driver);
+            PortalPage = new PortalPage(driver);
+            LoginPage = new LoginPage(driver);
+            UsersPage = new Users(driver);
+            ReportDefinitionPage = new ReportDefinitionPage(driver);
         }
     }
 }

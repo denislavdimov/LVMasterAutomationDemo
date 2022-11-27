@@ -11,6 +11,7 @@ namespace LVTests.Admin.ProcessFlow
             LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.ReportDefinition);
+            PageHelper.ReportDefinitionPage.VerifyReportDefinitionPage();
             PageHelper.ReportDefinitionPage.AddBuildReport();
         }
     }

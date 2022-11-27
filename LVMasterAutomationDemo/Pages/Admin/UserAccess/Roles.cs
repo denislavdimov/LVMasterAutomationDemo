@@ -7,10 +7,12 @@ namespace LVPages.Pages.Admin.UserAccess
     public class Roles : BasePage
     {
         private readonly IWait Wait;
+        private readonly IUserActions I;
         int randomNumber = (int)(new Random().NextInt64(2022) + 20);
-        public Roles(IWebDriver driver, IWait wait) : base(driver)
+        public Roles(IWebDriver driver) : base(driver)
         {
-            Wait = wait;
+            Wait = new Wait(driver);
+            I = new UserActions(driver);
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Roles/";
         private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
@@ -32,36 +34,35 @@ namespace LVPages.Pages.Admin.UserAccess
             Wait.ForElementToBeClickable(LinkAdd);
             ISeeElement(SearchArea, By.XPath("//input[contains(@class,'search-query form-control')]"));
             ISeeElements(By.CssSelector("#roles-kendo-grid tr"));
-            //Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
             AssertDriverUrlIsEqualToPageUrl();
         }
 
 
         public void AddRole()
         {
-            IClick(LinkAdd);
+            I.Click(LinkAdd);
             Wait.ForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
-            ISeeElements(By.CssSelector("#admin-menu-role-edit #available div"));
-            IType(NameInputField, "DenisAutomationRoleTest71");
-            //IClick(AddAllLink);
-            //ISeeElements(By.CssSelector("#admin-menu-role-edit #assigned div"));
-            IClick(SaveButton);
+            //ISeeElements(By.CssSelector("#admin-menu-role-edit #available div"));
+            I.FillInField(NameInputField, "DenisAutomationRoleTest" + randomNumber);
+            I.Click(AddAllLink);
+            ISeeElements(By.CssSelector("#admin-menu-role-edit #assigned div"));
+            I.Click(SaveButton);
             Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }
 
         public void DeleteRole()
         {
-            IType(SearchArea, "DenisAutomationRoleTest" + randomNumber);
+            I.FillInField(SearchArea, "DenisAutomationRoleTest" + randomNumber);
             Wait.ForOneItemInTheGrid(GridItems.Count);
-            IClick(EditButton);
+            I.Click(EditButton);
             Wait.ForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
             ISeeElements(By.CssSelector("#admin-menu-role-edit #assigned div"));
-            IClick(DeleteButton);
+            I.Click(DeleteButton);
             ISeeElement(ConfirmationDialog, By.CssSelector(".confimation-dialog h5"));
-            IClick(YesButton);
+            I.Click(YesButton);
             Wait.ForAjax();
             AssertThereIsNoErrorAndException();
         }

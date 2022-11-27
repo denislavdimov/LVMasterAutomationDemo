@@ -15,7 +15,7 @@ namespace LVTests
         {
             driver = new ChromeDriver();
             PageHelper.PageBuilder(driver);
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 900);
+            driver.Manage().Window.Size = new System.Drawing.Size(1440, 1080);
             driver.Manage().Cookies.DeleteAllCookies();
             PageHelper.LoginPage.ClearCache();
         }

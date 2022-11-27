@@ -78,36 +78,6 @@ namespace LVPages
             }
         }
 
-        public void IType(IWebElement element, string data)
-        {
-            try
-            {
-                Wait.ForElementToBeClickable(element);
-                I.Click(element);
-                I.Type(element, data);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine($"The {element} can't be filled in");
-                throw;
-            }
-        }
-
-        public void IClick(IWebElement element)
-        {
-            try
-            {
-                Wait.ForElementToBeClickable(element);
-                I.Click(element);
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine($"The {element} is not clickable");
-                throw;
-            }
-        }
-
         public void IDragAndDrop(IWebElement element, IWebElement place)
         {
             try

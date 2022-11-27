@@ -7,9 +7,11 @@ namespace LVPages.Pages.Portal
     public class LoginPage : BasePage
     {
         private readonly IWait Wait;
-        public LoginPage(IWebDriver driver, IWait wait) : base(driver)
+        private readonly IUserActions I;
+        public LoginPage(IWebDriver driver) : base(driver)
         {
-            Wait = wait;
+            Wait = new Wait(driver);
+            I = new UserActions(driver);
         }
 
         //public IWebElement IbsField => driver.FindElement(By.XPath("//input[@data-ui='institution-code-textbox']"));
@@ -31,7 +33,7 @@ namespace LVPages.Pages.Portal
             {
                 driver.Navigate().GoToUrl(CachePage);
                 Wait.ForPageToLoad();
-                Wait.SetTimeout(5);
+                Wait.SetTimeout(2);
                 Assert.IsTrue(CacheTableContent.Count == 0, "The cache is not cleared");
                 Wait.ResetTimeoutToDefault();
             }
@@ -46,17 +48,18 @@ namespace LVPages.Pages.Portal
         {
             ISeeElement(UsernameField, By.Id("signInName"));
             ISeeElement(PasswordField, By.Id("password"));
-            IType(UsernameField, username);
-            IType(PasswordField, password);
+            I.FillInField(UsernameField, username);
+            I.FillInField(PasswordField, password);
         }
 
         public void OpenLoanVantageAndLogin()
         {
             IGoToThisPageUrl();
             FillInUsernameAndPassword("ddimov@vsgbg.com", "De126000!");
-            IClick(LoginButton);
-            Wait.ForAjax();
+            I.Click(LoginButton);
             Wait.ForPageToLoad();
+            Wait.ForLoaderToDissaper();
+            Wait.ForAjax();
             PageHelper.PortalPage.VerifyPortalPage();
             //IsPageOpen();
         }
