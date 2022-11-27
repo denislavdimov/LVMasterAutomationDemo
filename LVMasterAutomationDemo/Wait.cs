@@ -43,35 +43,58 @@ namespace LVPages
             }
         }
 
-        public void ForLoaderToDissaper(int seconds)
+        public void ForLoaderToDissaper()
         {
-            SetTimeout(seconds);
+            SetTimeout(1);
+            var NewAdminLoader = _driver.FindElements(By.XPath("//div[@class='lv-loader-container']")).Count;
+            var NewAdminLoaderBackdrop = _driver.FindElements(By.XPath("//div[@class='loader-backdrop']")).Count;
+            int elapsed = 0;
+            int timeout = 15000;
+            bool stop1 = false;
+            bool stop2 = false;
             try
             {
-                if (IWaitForLoader() != true)
+                if (NewAdminLoader > 0 && NewAdminLoaderBackdrop > 0)
                 {
-                    Assert.Fail("Loader did not appear");
+                    while ((!stop1) && (!stop2) && (elapsed <= timeout))
+                    {
+                        Thread.Sleep(1000);
+                        elapsed += 1000;
+                        stop1 = NewAdminLoader == 0;
+                        stop2 = NewAdminLoaderBackdrop == 0;
+                    }
                 }
                 else
                 {
-                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
+                    Thread.Sleep(1000);
+                    if (NewAdminLoader > 0 && NewAdminLoaderBackdrop > 0)
+                    {
+                        while ((!stop1) && (!stop2) && (elapsed <= timeout))
+                        {
+                            Thread.Sleep(1000);
+                            elapsed += 1000;
+                            stop1 = NewAdminLoader == 0;
+                            stop2 = NewAdminLoaderBackdrop == 0;
+                        }
+                    }return;
                 }
             }
-            catch (Exception e)
+            finally
             {
-                Assert.Fail(e.Message.ToString());
+                ResetTimeoutToDefault();
+                Assert.IsTrue(NewAdminLoader == 0 && NewAdminLoaderBackdrop == 0, "Timeout exception. Please check.");
             }
-            ResetTimeoutToDefault();
         }
 
         public void ForPageToLoad()
         {
+            var body = _driver.FindElement(By.XPath("//body")).Displayed;
             try
             {
-                for (int i = 0; i < _secondsBeforeTimeout; i++)
+                if (body != true)
                 {
                     wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));
-                }
+                }return;
             }
             catch (TimeoutException te)
             {
@@ -131,7 +154,7 @@ namespace LVPages
                     success = item == 1;
                 }
             }
-            finally 
+            finally
             {
                 Assert.That(item, Is.EqualTo(1), "There is not only one item in the grid.Please check");
             }

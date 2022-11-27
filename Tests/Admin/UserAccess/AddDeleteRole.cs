@@ -13,7 +13,7 @@ namespace LVTests.Admin.UserAccess
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.Roles);
             PageHelper.RolesPage.VerifyRolesPage();
             PageHelper.RolesPage.AddRole();
-            //PageHelper.RolesPage.DeleteRole();
+            PageHelper.RolesPage.DeleteRole();
         }
     }
 }

@@ -4,7 +4,7 @@ namespace LVPages.IClasses
 {
     public interface IWait
     {
-        void ForLoaderToDissaper(int seconds);
+        void ForLoaderToDissaper();
         void ForAjax();
         void ForPageToLoad();
         void ForElementToBeClickable(IWebElement element);

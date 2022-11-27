@@ -7,9 +7,11 @@ namespace LVPages.Pages.Portal
     public class PortalPage : BasePage
     {
         private readonly IWait Wait;
-        public PortalPage(IWebDriver driver, IWait wait) : base(driver)
+        private readonly IUserActions I;
+        public PortalPage(IWebDriver driver) : base(driver)
         {
-            Wait = wait;
+            Wait = new Wait(driver);
+            I = new UserActions(driver);
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/Index#/";
 
@@ -34,9 +36,9 @@ namespace LVPages.Pages.Portal
         public void IGoToAdmin()
         {
             ISeeElement(HamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
-            IClick(HamburgerMenu);
+            I.Click(HamburgerMenu);
             ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));
-            IClick(AdminLink);
+            I.Click(AdminLink);
             Wait.ForPageToLoad();
             PageHelper.AdminPage.VerifyAdminPage();
         }

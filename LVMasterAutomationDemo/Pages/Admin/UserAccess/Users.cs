@@ -9,11 +9,13 @@ namespace LVPages.Pages.Admin.UserAccess
     public class Users : BasePage
     {
         private readonly IWait Wait;
+        private readonly IUserActions I;
         int randomNumber = (int)(new Random().NextInt64(2022) + 20);
         int NewRandomNumber = (int)(new Random().NextInt64(2022) + 20);
-        public Users(IWebDriver driver, IWait wait) : base(driver)
+        public Users(IWebDriver driver) : base(driver)
         {
-            Wait = wait;
+            Wait = new Wait(driver);
+            I = new UserActions(driver);
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Users/";
 
@@ -60,41 +62,43 @@ namespace LVPages.Pages.Admin.UserAccess
         }
         public void AddUser()
         {
-            IClick(AddUserButton);
+            I.Click(AddUserButton);
             Wait.ForAjax();
             VerifyUsersRequiredFields();
-            IType(LoginField, "AutoLoginName" + randomNumber);
-            IType(DisplayNameField, "AutoDisplayName" + randomNumber);
-            IType(FirstNameField, "AutoFirstName" + randomNumber);
-            IType(LastNameField, "AutoLastName" + randomNumber);
-            IType(EmailField, $"AutoEmail{randomNumber}@mailinator.com");
-            IClick(LoanOfficerTab);
-            IClick(LoanOfficerCheckbox);
+            I.FillInField(LoginField, "AutoLoginName" + randomNumber);
+            I.FillInField(DisplayNameField, "AutoDisplayName" + randomNumber);
+            I.FillInField(FirstNameField, "AutoFirstName" + randomNumber);
+            I.FillInField(LastNameField, "AutoLastName" + randomNumber);
+            I.FillInField(EmailField, $"AutoEmail{randomNumber}@mailinator.com");
+            I.Click(LoanOfficerTab);
+            I.Click(LoanOfficerCheckbox);
             ISeeElement(HostLoanOfficerField, By.XPath("//input[@placeholder='Loan Officer']"));
-            IClick(LoanAssistantTab);
-            IClick(LoanAssistantCheckbox);
-            IClick(ApprovalAuthorityTab);
-            IClick(ApprovalAuthorityCheckbox);
+            I.Click(LoanAssistantTab);
+            I.Click(LoanAssistantCheckbox);
+            I.Click(ApprovalAuthorityTab);
+            I.Click(ApprovalAuthorityCheckbox);
             ISeeElement(ApprovalAuthorityAddAllLink, By.LinkText("Add All"));
             ISeeElement(ApprovalAuthorityRemoveAllLink, By.LinkText("Remove All"));
-            IClick(CancelButton);
+            I.Click(CancelButton);
             //IClick(SaveButton);
             AssertThereIsNoErrorAndException();
         }
 
         public void EditUser()
         {
-            IType(SearchArea, "AutoLoginName" + randomNumber);
-            //Wait.ForOneItemInTheGrid();
-            IClick(EditButton);
+            //I.FillInField(SearchArea, "AutoLoginName" + randomNumber);
+            I.FillInField(SearchArea, "DDimov");
+            Wait.ForAjax();
+            Wait.ForOneItemInTheGrid(GridItems.Count);
+            I.Click(EditButton);
             Wait.ForAjax();
             CleanAllInputFields();
-            IType(LoginField, "AutoLoginName" + NewRandomNumber);
-            IType(DisplayNameField, "AutoDisplayName" + NewRandomNumber);
-            IType(FirstNameField, "AutoFirstName" + NewRandomNumber);
-            IType(LastNameField, "AutoLastName" + NewRandomNumber);
-            IType(EmailField, $"AutoEmail{NewRandomNumber}@mailinator.com");
-            IClick(CancelButton);
+            I.FillInField(LoginField, "AutoLoginName" + NewRandomNumber);
+            I.FillInField(DisplayNameField, "AutoDisplayName" + NewRandomNumber);
+            I.FillInField(FirstNameField, "AutoFirstName" + NewRandomNumber);
+            I.FillInField(LastNameField, "AutoLastName" + NewRandomNumber);
+            I.FillInField(EmailField, $"AutoEmail{NewRandomNumber}@mailinator.com");
+            I.Click(CancelButton);
             //IClick(SaveButton);
             AssertThereIsNoErrorAndException();
         }
