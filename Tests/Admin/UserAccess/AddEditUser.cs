@@ -12,7 +12,7 @@ namespace LVTests.Admin.UserAccess
             PageHelper.PortalPage.IGoToAdmin();
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.Users);
             PageHelper.UsersPage.VerifyUsersPage();
-            //PageHelper.UsersPage.AddUser();
+            PageHelper.UsersPage.AddUser();
             PageHelper.UsersPage.EditUser();
         }
     }

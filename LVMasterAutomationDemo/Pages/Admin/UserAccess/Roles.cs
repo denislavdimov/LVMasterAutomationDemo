@@ -54,7 +54,7 @@ namespace LVPages.Pages.Admin.UserAccess
         public void DeleteRole()
         {
             I.FillInField(SearchArea, "DenisAutomationRoleTest" + randomNumber);
-            Wait.ForOneItemInTheGrid(GridItems.Count);
+            Wait.ForItemInTheGrid(GridItems.Count, 1);
             I.Click(EditButton);
             Wait.ForAjax();
             ISeeElement(RoleModal, By.XPath("//div[@class='k-widget k-window']"));
