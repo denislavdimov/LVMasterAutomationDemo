@@ -39,7 +39,17 @@ namespace LVPages.Pages.Admin.UserAccess
         private IWebElement ApprovalAuthorityCheckbox => driver.FindElement(By.XPath("(//input[contains(@type,'checkbox')])[106]"));
         private IWebElement ApprovalAuthorityAddAllLink => driver.FindElement(By.LinkText("Add All"));
         private IWebElement ApprovalAuthorityRemoveAllLink => driver.FindElement(By.LinkText("Remove All"));
-
+        private IList<string> RequiredFields()
+        {
+            List<string> requiredfields = new List<string>()
+            {
+                "Login",
+                "Display Name",
+                "First Name",
+                "Last Name"
+            };
+            return requiredfields.AsReadOnly();
+        }
         public void VerifyUsersPage()
         {
             Wait.ForElementToBeClickable(AddUserButton);
@@ -49,24 +59,22 @@ namespace LVPages.Pages.Admin.UserAccess
             ISeeElements(By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr"));
             AssertDriverUrlIsEqualToPageUrl();
         }
-        private void VerifyUsersRequiredFields()
+
+        private void FillInTheRequiredFields(IList<string> ReqFields)
         {
-            ISeeElement(LoginField, By.XPath("//input[@placeholder='Login']"));
-            ISeeElement(DisplayNameField, By.XPath("//input[@placeholder='Display Name']"));
-            ISeeElement(FirstNameField, By.XPath("//input[@placeholder='First Name']"));
-            ISeeElement(LastNameField, By.XPath("//input[@placeholder='Last Name']"));
-            ISeeElement(EmailField, By.XPath("//input[@placeholder='Email Address']"));
+            foreach (var field in ReqFields)
+            {
+                var RequiredField = driver.FindElement(By.XPath($"//input[@placeholder='{field}']"));
+                I.FillInField(RequiredField, $"Auto{field}{randomNumber}");
+            }
+            I.FillInField(EmailField, $"AutoEmail{randomNumber}@mailinator.com");
         }
+
         public void AddUser()
         {
             I.Click(AddUserButton);
             Wait.ForAjax();
-            VerifyUsersRequiredFields();
-            I.FillInField(LoginField, "AutoLoginName" + randomNumber);
-            I.FillInField(DisplayNameField, "AutoDisplayName" + randomNumber);
-            I.FillInField(FirstNameField, "AutoFirstName" + randomNumber);
-            I.FillInField(LastNameField, "AutoLastName" + randomNumber);
-            I.FillInField(EmailField, $"AutoEmail{randomNumber}@mailinator.com");
+            FillInTheRequiredFields(RequiredFields());
             I.Click(LoanOfficerTab);
             I.Click(LoanOfficerCheckbox);
             ISeeElement(HostLoanOfficerField, By.XPath("//input[@placeholder='Loan Officer']"));
@@ -83,17 +91,17 @@ namespace LVPages.Pages.Admin.UserAccess
 
         public void EditUser()
         {
-            //I.FillInField(SearchArea, "AutoLoginName" + randomNumber);
+            I.FillInField(SearchArea, $"AutoLoginName{randomNumber}");
             I.FillInField(SearchArea, "DDimov");
             Wait.ForAjax();
-            Wait.ForOneItemInTheGrid(GridItems.Count);
+            Wait.ForItemInTheGrid(GridItems.Count, 1);
             I.Click(EditButton);
             Wait.ForAjax();
             ClearAllInputFields();
-            I.FillInField(LoginField, "AutoLoginName" + NewRandomNumber);
-            I.FillInField(DisplayNameField, "AutoDisplayName" + NewRandomNumber);
-            I.FillInField(FirstNameField, "AutoFirstName" + NewRandomNumber);
-            I.FillInField(LastNameField, "AutoLastName" + NewRandomNumber);
+            I.FillInField(LoginField, $"AutoLoginName{NewRandomNumber}");
+            I.FillInField(DisplayNameField, $"AutoDisplayName{NewRandomNumber}");
+            I.FillInField(FirstNameField, $"AutoFirstName{NewRandomNumber}");
+            I.FillInField(LastNameField, $"AutoLastName{NewRandomNumber}");
             I.FillInField(EmailField, $"AutoEmail{NewRandomNumber}@mailinator.com");
             I.Click(CancelButton);
             //IClick(SaveButton);

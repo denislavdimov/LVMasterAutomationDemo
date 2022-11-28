@@ -10,6 +10,6 @@ namespace LVPages.IClasses
         void ForElementToBeClickable(IWebElement element);
         void SetTimeout(int secondstowait);
         void ResetTimeoutToDefault();
-        void ForOneItemInTheGrid(int item);
+        void ForItemInTheGrid(int Item, int NumberOfItems);
     }
 }

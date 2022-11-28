@@ -83,7 +83,7 @@ namespace LVPages.Pages.Admin.UserAccess
         public void EditTeam()
         {
             I.FillInField(SearchArea, "DenisAutomationTeamTest" + randomNumber);
-            Wait.ForOneItemInTheGrid(GridItems.Count);
+            Wait.ForItemInTheGrid(GridItems.Count, 1);
             I.Click(EditButton);
             Wait.ForAjax();
             ISeeElement(TeamsModal, By.XPath("//div[@class='k-widget k-window']"));

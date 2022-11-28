@@ -11,7 +11,10 @@ namespace LVPages
         protected IWebDriver _driver;
         private static int _secondsBeforeTimeout = 30;
         private WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
-
+        private IList<IWebElement> Loader =>
+            _driver.FindElements(By.XPath("//div[@class='lv-loader-container']")).ToList();
+        private IList<IWebElement> LoaderBackdrop =>
+            _driver.FindElements(By.XPath("//div[@class='loader-backdrop']")).ToList();
         public Wait(IWebDriver driver)
         {
             _driver = driver;
@@ -46,43 +49,44 @@ namespace LVPages
         public void ForLoaderToDissaper()
         {
             SetTimeout(1);
-            var NewAdminLoader = _driver.FindElements(By.XPath("//div[@class='lv-loader-container']")).Count;
-            var NewAdminLoaderBackdrop = _driver.FindElements(By.XPath("//div[@class='loader-backdrop']")).Count;
+            var NewAdminLoader = Loader;
+            var NewAdminLoaderBackdrop = LoaderBackdrop;
             int elapsed = 0;
             int timeout = 20000;
             bool stop1 = false;
             bool stop2 = false;
             try
             {
-                if (NewAdminLoader > 0 && NewAdminLoaderBackdrop > 0)
+                if (Loader.Count > 0 || LoaderBackdrop.Count > 0)
                 {
                     while ((!stop1) && (!stop2) && (elapsed <= timeout))
                     {
                         Thread.Sleep(1000);
                         elapsed += 1000;
-                        stop1 = NewAdminLoader == 0;
-                        stop2 = NewAdminLoaderBackdrop == 0;
+                        stop1 = Loader.Count == 0;
+                        stop2 = LoaderBackdrop.Count == 0;
                     }
                 }
                 else
                 {
-                    Thread.Sleep(1000);
-                    if (NewAdminLoader > 0 && NewAdminLoaderBackdrop > 0)
+                    Thread.Sleep(2000);
+                    if (Loader.Count > 0 || LoaderBackdrop.Count > 0)
                     {
                         while ((!stop1) && (!stop2) && (elapsed <= timeout))
                         {
                             Thread.Sleep(1000);
                             elapsed += 1000;
-                            stop1 = NewAdminLoader == 0;
-                            stop2 = NewAdminLoaderBackdrop == 0;
+                            stop1 = Loader.Count == 0;
+                            stop2 = LoaderBackdrop.Count == 0;
                         }
-                    }return;
+                    }
+                    return;
                 }
             }
             finally
             {
                 ResetTimeoutToDefault();
-                Assert.IsTrue(NewAdminLoader == 0 && NewAdminLoaderBackdrop == 0, "Timeout exception. Please check.");
+                Assert.IsTrue(Loader.Count == 0 && LoaderBackdrop.Count == 0, "Timeout exception. Please check.");
             }
         }
 
@@ -94,7 +98,8 @@ namespace LVPages
                 if (body != true)
                 {
                     wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));
-                }return;
+                }
+                return;
             }
             catch (TimeoutException te)
             {
@@ -141,7 +146,7 @@ namespace LVPages
             else { return; }
         }
 
-        public void ForOneItemInTheGrid(int item)
+        public void ForItemInTheGrid(int Item, int NumberOfItems)
         {
             bool success = false;
             int elapsed = 0;
@@ -151,12 +156,12 @@ namespace LVPages
                 {
                     Thread.Sleep(1000);
                     elapsed += 1000;
-                    success = item == 1;
+                    success = Item == NumberOfItems;
                 }
             }
             finally
             {
-                Assert.That(item, Is.EqualTo(1), "There is not only one item in the grid.Please check");
+                Assert.That(Item, Is.EqualTo(NumberOfItems), $"There is not only {NumberOfItems} item in the grid.Please check");
             }
         }
     }
