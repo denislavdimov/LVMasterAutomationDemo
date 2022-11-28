@@ -14,7 +14,7 @@ namespace LVTests
         {
             driver = new ChromeDriver();
             PageHelper.PageBuilder(driver);
-            driver.Manage().Window.Size = new System.Drawing.Size(1440, 1080);
+            driver.Manage().Window.Size = new System.Drawing.Size(1440, 900);
             driver.Manage().Cookies.DeleteAllCookies();
             PageHelper.LoginPage.ClearCache();
         }
@@ -41,12 +41,12 @@ namespace LVTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
-            {
-                var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
-                screenshot.SaveAsFile(@"C:\Users\Denislav\source\repos\LVMasterAutomationDemo\FailingTests\Screenshot.jpg"
-                , ScreenshotImageFormat.Jpeg);
-            }
+            //if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
+            //{
+            //    var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+            //    screenshot.SaveAsFile(@"C:\Users\Denislav\source\repos\LVMasterAutomationDemo\FailingTests\Screenshot.jpg"
+            //    , ScreenshotImageFormat.Jpeg);
+            //}
 
             driver.Manage().Cookies.DeleteAllCookies();
             if (driver == null)
