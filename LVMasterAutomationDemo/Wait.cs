@@ -49,7 +49,7 @@ namespace LVPages
             var NewAdminLoader = _driver.FindElements(By.XPath("//div[@class='lv-loader-container']")).Count;
             var NewAdminLoaderBackdrop = _driver.FindElements(By.XPath("//div[@class='loader-backdrop']")).Count;
             int elapsed = 0;
-            int timeout = 15000;
+            int timeout = 20000;
             bool stop1 = false;
             bool stop2 = false;
             try

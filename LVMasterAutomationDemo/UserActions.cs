@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using System.Drawing;
 
 namespace LVPages
 {
@@ -80,13 +81,19 @@ namespace LVPages
             var UserAction = new Actions(driver);
             try
             {
-                var dragndrop = UserAction.ClickAndHold(element1)
-                    .Pause(TimeSpan.FromSeconds(1))
-                    .MoveToElement(element2)
-                    .Pause(TimeSpan.FromSeconds(1))
-                    .Release()
-                    .Build();
-                dragndrop.Perform();
+                //var dragndrop = UserAction.ClickAndHold(element1)
+                //    .Pause(TimeSpan.FromSeconds(1))
+                //    .MoveToElement(element2)
+                //    .Pause(TimeSpan.FromSeconds(1))
+                //    .Release()
+                //    .Build();
+                //dragndrop.Perform();
+
+                //UserAction.DragAndDrop(element1, element2).Build().Perform();
+
+                Point start = element1.Location;
+                Point finish = element2.Location;
+                UserAction.DragAndDropToOffset(element1, finish.X - start.X, finish.Y - start.Y).Perform(); ;
             }
             catch (Exception)
             {
