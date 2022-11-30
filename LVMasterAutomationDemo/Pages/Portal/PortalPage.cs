@@ -22,23 +22,27 @@ namespace LVPages.Pages.Portal
         private IWebElement SetupAdministratorLink => driver.FindElement(By.XPath("//a[contains(.,'Setup (Administrator)')]"));
         private IWebElement SearchButton => driver.FindElement(By.XPath("//button[contains(.,'Search')]"));
         private IWebElement AddPartyButton => driver.FindElement(By.XPath("//button[contains(.,'Add party')]"));
-        private IWebElement AdminLink => driver.FindElement(By.LinkText("Setup (Administrator)"));
+        private IWebElement SetupAdministrator => driver.FindElement(By.LinkText("Setup (Administrator)"));
+
+        private By SearchArea = By.CssSelector("input[placeholder='Search']");
+        private By Hamburger = By.XPath("//button[@class='lv-dropdown-icon-button']");
+        private By AdminLink = By.LinkText("Setup (Administrator)");
 
         public void VerifyPortalPage()
         {
             Wait.ForElementToBeClickable(HamburgerMenu);
             Wait.ForElementToBeClickable(QueuesButton);
             Wait.ForElementToBeClickable(NewButton);
-            ISeeElement(SearchField, By.CssSelector("input[placeholder='Search']"));
-            Assert.That(driver.Url, Is.EqualTo(PageUrl), "The PageUrl and DriverUrl are not equal");
+            Wait.ToSeeElement(SearchArea);
+            AssertDriverUrlIsEqualToPageUrl();
         }
 
         public void IGoToAdmin()
         {
-            ISeeElement(HamburgerMenu, By.XPath("//button[@class='lv-dropdown-icon-button']"));
+            Wait.ToSeeElement(Hamburger);
             I.Click(HamburgerMenu);
-            ISeeElement(AdminLink, By.LinkText("Setup (Administrator)"));
-            I.Click(AdminLink);
+            Wait.ToSeeElement(AdminLink);
+            I.Click(SetupAdministrator);
             Wait.ForPageToLoad();
             PageHelper.AdminPage.VerifyAdminPage();
         }

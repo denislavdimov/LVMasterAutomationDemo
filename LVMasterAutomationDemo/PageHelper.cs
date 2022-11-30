@@ -8,6 +8,7 @@ namespace LVPages
 {
     public static class PageHelper
     {
+        public static BasePage BasePage;
         public static Teams TeamsPage;
         public static Roles RolesPage;
         public static AdminPage AdminPage;
@@ -18,6 +19,7 @@ namespace LVPages
 
         public static void PageBuilder(IWebDriver driver)
         {
+            BasePage = new BasePage(driver);
             TeamsPage = new Teams(driver);
             RolesPage = new Roles(driver);
             AdminPage = new AdminPage(driver);

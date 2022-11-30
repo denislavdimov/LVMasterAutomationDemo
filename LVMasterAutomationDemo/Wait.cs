@@ -1,23 +1,51 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
-using SeleniumExtras.WaitHelpers;
+//using SeleniumExtras.WaitHelpers;
 using LVPages.IClasses;
+using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace LVPages
 {
     public class Wait : IWait
     {
-        protected IWebDriver _driver;
+        protected IWebDriver driver;
         private static int _secondsBeforeTimeout = 30;
-        private WebDriverWait wait { get { return new WebDriverWait(_driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
+        private WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
         private IList<IWebElement> Loader =>
-            _driver.FindElements(By.XPath("//div[@class='lv-loader-container']")).ToList();
+            driver.FindElements(By.XPath("//div[@class='lv-loader-container']")).ToList();
         private IList<IWebElement> LoaderBackdrop =>
-            _driver.FindElements(By.XPath("//div[@class='loader-backdrop']")).ToList();
+            driver.FindElements(By.XPath("//div[@class='loader-backdrop']")).ToList();
+
         public Wait(IWebDriver driver)
         {
-            _driver = driver;
+            this.driver = driver;
+        }
+
+        public void ToSeeElement(By by)
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.ElementIsVisible(by));
+            }
+            catch (TimeoutException)
+            {
+                Console.WriteLine($"The element with selector: {by} didn't appear for - {_secondsBeforeTimeout}");
+                throw;
+            }
+        }
+
+        public void ToSeeElements(By by)
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+            }
+            catch (TimeoutException)
+            {
+                Console.WriteLine($"The element with selector: {by} didn't appear for - {_secondsBeforeTimeout}");
+                throw;
+            }
         }
 
         public void ForElementToBeClickable(IWebElement element)
@@ -34,6 +62,8 @@ namespace LVPages
 
         private bool IWaitForLoader()
         {
+            var element = By.XPath("");
+            var elemetn2 = wait.Until(ExpectedConditions.ElementIsVisible(element));
             try
             {
                 wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@class='k-loading-image']")));
@@ -90,9 +120,154 @@ namespace LVPages
             }
         }
 
+        public bool TheElementIsDisplayed(By path)
+        {
+            try
+            {
+                return driver.FindElement(path).Displayed;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public bool UntilElementIsNotDisplayed(By by)
+        {
+            for (int i = 0; i < _secondsBeforeTimeout; i++)
+            {
+                if (!TheElementIsDisplayed(by))
+                {
+                    Thread.Sleep(10);
+                    return true;
+                }
+                Thread.Sleep(1000);
+            }
+            return false;
+        }
+
+        public void ForNoLoader()
+        {
+            //try
+            //{
+            //    if (!UntilElementIsNotDisplayed(By.XPath("//div[@class='lv-loader-container']")))
+            //    {
+            //        var loader = driver.FindElement(By.XPath("//div[@class='lv-loader-container']"));
+            //        if (loader.Displayed)
+            //        {
+            //            UntilElementIsNotDisplayed(By.XPath("//div[@class='lv-loader-container']"));
+            //            Assert.IsTrue(Exception.Count > 0, "An exception is thrown");
+            //            return;
+            //        }
+            //        else if (!loader.Displayed)
+            //        {
+            //            Thread.Sleep(800);
+            //            UntilElementIsNotDisplayed(By.XPath("//div[@class='lv-loader-container']"));
+            //            Assert.IsTrue(Exception.Count > 0, "An exception is thrown");
+            //            return;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        UntilElementIsNotDisplayed(By.XPath("//div[@class='lv-loader-container']"));
+            //        Assert.IsTrue(Exception.Count > 0, "An exception is thrown");
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    Console.WriteLine("The Loader is not displayed on the page.");
+            //    throw;
+            //}
+        }
+
+        public bool CheckForElement(By by)
+        {
+            try
+            {
+                return driver.FindElement(by).Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+        }
+
+        //public void ForNoErrorAndException()
+        //{
+        //    try
+        //    {
+        //        SetTimeout(2);
+        //        var Warning = PageHelper.BasePage.Warning;
+        //        var Exception = PageHelper.BasePage.Exception;
+        //        if (Warning.Count > 0 || Exception.Count > 0)
+        //        {
+        //            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
+        //                By.XPath("//div[contains(@class, 'k-loading-color')]")));
+        //            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
+        //                By.XPath("//div[@class='k-loading-image']")));
+        //            Assert.IsTrue(Exception.Count == 0, "Exception is thrown on the Page");
+        //            Assert.IsTrue(Warning.Count == 0, "Warning is thrown on the Page");
+        //            ResetTimeoutToDefault();
+        //        }
+        //        else
+        //        {
+        //            ResetTimeoutToDefault();
+        //            return;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Console.WriteLine("An exception or warning is thrown on the page.");
+        //        throw;
+        //    }
+        //}
+
+        public void ForNoErrorAndException()
+        {
+            try
+            {
+                //SetTimeout(1);
+                var WarningIsDisplayed = CheckForElement(By.XPath("//div[contains(@class, 'toast toast-warning')]"));
+                var ExceptionIsDisplayed = CheckForElement(By.XPath("//div[@class='toast toast-error']"));
+                if (WarningIsDisplayed || ExceptionIsDisplayed)
+                {
+                    var LoadingIsDisplayed = CheckForElement(By.XPath("//div[@class='k-loading-image']"));
+                    if (LoadingIsDisplayed)
+                    {
+                        wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
+                        Assert.IsFalse(ExceptionIsDisplayed, "Exception is thrown on the Page");
+                        Assert.IsFalse(WarningIsDisplayed, "Warning is thrown on the Page");
+                    }
+                    else if (!LoadingIsDisplayed)
+                    {
+                        Thread.Sleep(1000);
+                        Assert.IsFalse(ExceptionIsDisplayed, "Exception is thrown on the Page");
+                        Assert.IsFalse(WarningIsDisplayed, "Warning is thrown on the Page");
+                    }
+                }
+                else
+                {
+                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='k-loading-image']")));
+                    Assert.IsFalse(ExceptionIsDisplayed, "Exception is thrown on the Page");
+                    Assert.IsFalse(WarningIsDisplayed, "Warning is thrown on the Page");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Please check. ", e.ToString());
+                throw;
+            }
+            finally
+            {
+                //ResetTimeoutToDefault();
+            }
+
+        }
+
         public void ForPageToLoad()
         {
-            var body = _driver.FindElement(By.XPath("//body")).Displayed;
+            var body = driver.FindElement(By.XPath("//body")).Displayed;
             try
             {
                 if (body != true)
@@ -114,7 +289,7 @@ namespace LVPages
                 while (true)
                 {
                     //bool ajaxIsComplete = (bool)((IJavaScriptExecutor)_driver).ExecuteScript("return jQuery.active == 0");
-                    bool ajaxIsComplete = (bool)((IJavaScriptExecutor)_driver).ExecuteScript("return !!window.jQuery && window.jQuery.active == 0");
+                    bool ajaxIsComplete = (bool)((IJavaScriptExecutor)driver).ExecuteScript("return !!window.jQuery && window.jQuery.active == 0");
                     if (ajaxIsComplete)
                     {
                         break;
@@ -131,17 +306,17 @@ namespace LVPages
 
         public void SetTimeout(int secondstowait)
         {
-            if (_driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(_secondsBeforeTimeout))
+            if (driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(_secondsBeforeTimeout))
             {
-                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(secondstowait);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(secondstowait);
             }
             else { return; }
         }
         public void ResetTimeoutToDefault()
         {
-            if (!_driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(_secondsBeforeTimeout))
+            if (!driver.Manage().Timeouts().ImplicitWait.Seconds.Equals(_secondsBeforeTimeout))
             {
-                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_secondsBeforeTimeout);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(_secondsBeforeTimeout);
             }
             else { return; }
         }

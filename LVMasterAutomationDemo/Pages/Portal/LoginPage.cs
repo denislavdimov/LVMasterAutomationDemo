@@ -10,22 +10,21 @@ namespace LVPages.Pages.Portal
         private readonly IUserActions I;
         public LoginPage(IWebDriver driver) : base(driver)
         {
+            this.driver = driver;
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
 
-        //public IWebElement IbsField => driver.FindElement(By.XPath("//input[@data-ui='institution-code-textbox']"));
-        //public IWebElement NextButton => driver.FindElement(By.XPath("//button[contains(.,'Next')]"));
-        private IWebElement UsernameField => driver.FindElement(By.Id("signInName"));
-        private IWebElement PasswordField => driver.FindElement(By.Id("password"));
-        //public IWebElement RememberMe => driver.FindElement(By.XPath("//span[.='Remember Me']/following-sibling::input"));
+        private IWebElement Username => driver.FindElement(By.Id("signInName"));
+        private IWebElement Password => driver.FindElement(By.Id("password"));
         private IWebElement LoginButton => driver.FindElement(By.XPath("//button[contains(.,'Log in')]"));
-        //public IWebElement BackButton => driver.FindElement(By.XPath("//button[contains(.,'Back')]"));
-        //public IWebElement ResetPassLink => driver.FindElement(By.LinkText("Reset it now"));
-        //public IWebElement ChangePassLink => driver.FindElement(By.LinkText("Change it now"));
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/Index#/";
         private string CachePage => "https://loanvantage.dev/IBS/master/lvweb/Cache/ClearAll";
         private IList<IWebElement> CacheTableContent => driver.FindElements(By.XPath("//div[@id='cache-table-content']//tr")).ToList();
+
+        public By UsernameField = By.Id("signInName");
+        public By PasswordField = By.Id("password");
+        public By Login = By.XPath("//button[contains(.,'Log in')]");
 
         public void ClearCache()
         {
@@ -33,9 +32,7 @@ namespace LVPages.Pages.Portal
             {
                 driver.Navigate().GoToUrl(CachePage);
                 Wait.ForPageToLoad();
-                Wait.SetTimeout(2);
                 Assert.IsTrue(CacheTableContent.Count == 0, "The cache is not cleared");
-                Wait.ResetTimeoutToDefault();
             }
             catch (Exception e)
             {
@@ -46,10 +43,11 @@ namespace LVPages.Pages.Portal
 
         private void FillInUsernameAndPassword(string username, string password)
         {
-            ISeeElement(UsernameField, By.Id("signInName"));
-            ISeeElement(PasswordField, By.Id("password"));
-            I.FillInField(UsernameField, username);
-            I.FillInField(PasswordField, password);
+            Wait.ToSeeElement(UsernameField);
+            Wait.ToSeeElement(PasswordField);
+            Wait.ToSeeElement(Login);
+            I.FillInField(Username, username);
+            I.FillInField(Password, password);
         }
 
         public void OpenLoanVantageAndLogin()
@@ -58,10 +56,9 @@ namespace LVPages.Pages.Portal
             FillInUsernameAndPassword("ddimov@vsgbg.com", "De126000!");
             I.Click(LoginButton);
             Wait.ForPageToLoad();
-            Wait.ForLoaderToDissaper();
             Wait.ForAjax();
+            //Wait.ForNoErrorAndException();
             PageHelper.PortalPage.VerifyPortalPage();
-            //IsPageOpen();
         }
     }
 }

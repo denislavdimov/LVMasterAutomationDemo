@@ -11,5 +11,9 @@ namespace LVPages.IClasses
         void SetTimeout(int secondstowait);
         void ResetTimeoutToDefault();
         void ForItemInTheGrid(int Item, int NumberOfItems);
+        void ForNoLoader();
+        void ToSeeElements(By by);
+        void ForNoErrorAndException();
+        void ToSeeElement(By by);
     }
 }

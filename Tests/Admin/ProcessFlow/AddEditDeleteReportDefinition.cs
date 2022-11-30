@@ -13,8 +13,8 @@ namespace LVTests.Admin.ProcessFlow
             PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.ReportDefinition);
             PageHelper.ReportDefinitionPage.VerifyReportDefinitionPage();
             PageHelper.ReportDefinitionPage.AddBuildReport();
-            PageHelper.ReportDefinitionPage.EditBuildReport();
-            PageHelper.ReportDefinitionPage.DeleteBuildReport();
+            //PageHelper.ReportDefinitionPage.EditBuildReport();
+            //PageHelper.ReportDefinitionPage.DeleteBuildReport();
         }
     }
 }

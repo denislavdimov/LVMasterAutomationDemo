@@ -24,12 +24,15 @@ namespace LVPages.Pages.Admin
         public IWebElement Users => driver.FindElement(By.LinkText("Users"));
         public IWebElement ReportDefinition => driver.FindElement(By.LinkText("Report Definition"));
 
+        private By AllAdminPages = By.XPath("//div[@class='lv-custom-admin-container']//a");
+        private By SearchArea = By.XPath("//input[contains(@class,'lv-form-control-input')]");
+
         public void VerifyAdminPage()
         {
             Wait.ForElementToBeClickable(MainMenuButton);
             Wait.ForElementToBeClickable(HamburgerButton);
-            ISeeElement(SearhInputArea, By.XPath("//input[contains(@class,'lv-form-control-input')]"));
-            ISeeElements(By.XPath("//div[@class='lv-custom-admin-container']//a"));
+            Wait.ToSeeElement(SearchArea);
+            Wait.ToSeeElements(AllAdminPages);
             AssertDriverUrlIsEqualToPageUrl();
         }
         public void INavigateToAdminPage(IWebElement element)
@@ -37,7 +40,9 @@ namespace LVPages.Pages.Admin
             Wait.ForElementToBeClickable(element);
             I.Click(element);
             Wait.ForPageToLoad();
-            Wait.ForLoaderToDissaper();
+            Wait.ForNoErrorAndException();
+            //Wait.ForLoaderToDissaper();
+            //Wait.ForNoLoader();
             //Wait.ForAjax();
         }
     }
