@@ -3,6 +3,8 @@ using NUnit.Framework;
 
 namespace LVTests.Admin.UserAccess
 {
+    [TestFixture]
+    [Category("Admin/UserAccess")]
     public class AddEditDeleteTeam : BaseTest
     {
         [Test]

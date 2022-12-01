@@ -10,7 +10,6 @@ namespace LVPages.Pages.Portal
         private readonly IUserActions I;
         public LoginPage(IWebDriver driver) : base(driver)
         {
-            this.driver = driver;
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }

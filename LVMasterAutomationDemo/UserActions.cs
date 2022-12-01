@@ -38,7 +38,7 @@ namespace LVPages
                     }
                 }
             }
-            catch (Exception)
+            catch (StaleElementReferenceException)
             {
                 Console.WriteLine($"The element: {element} is not clickable");
                 throw;
@@ -69,7 +69,7 @@ namespace LVPages
                     }
                 }
             }
-            catch (Exception)
+            catch (StaleElementReferenceException)
             {
                 Console.WriteLine("Cannot fill in data");
                 throw;

@@ -7,7 +7,7 @@ namespace LVPages.Pages.Admin.UserAccess
     {
         private readonly IWait Wait;
         private readonly IUserActions I;
-        int randomNumber = (int)(new Random().NextInt64(2022) + 20);
+        //int randomNumber = (int)(new Random().NextInt64(2022) + 20);
         public Roles(IWebDriver driver) : base(driver)
         {
             Wait = new Wait(driver);
@@ -31,6 +31,7 @@ namespace LVPages.Pages.Admin.UserAccess
         private By RoleModal = By.XPath("//div[@class='k-widget k-window']");
         private By RoleAssignedItems = By.CssSelector("#admin-menu-role-edit #assigned div");
         private By ConfirmationDialog = By.CssSelector(".confimation-dialog h5");
+
         public void VerifyRolesPage()
         {
             Wait.ForElementToBeClickable(LinkAdd);
@@ -39,16 +40,15 @@ namespace LVPages.Pages.Admin.UserAccess
             AssertDriverUrlIsEqualToPageUrl();
         }
 
-
         public void AddRole()
         {
             I.Click(LinkAdd);
             Wait.ForAjax();
             Wait.ToSeeElement(RoleModal);
             //ISeeElements(By.CssSelector("#admin-menu-role-edit #available div"));
-            I.FillInField(NameInputField, $"DenisAutomationRoleTest{randomNumber}");
             I.Click(AddAllLink);
             Wait.ToSeeElements(RoleAssignedItems);
+            I.FillInField(NameInputField, $"DenisAutomationRoleTest{randomNumber}");
             I.Click(SaveButton);
             Wait.ForAjax();
             Wait.ForNoErrorAndException();

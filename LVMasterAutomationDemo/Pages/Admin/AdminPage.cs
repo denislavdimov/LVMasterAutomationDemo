@@ -35,15 +35,14 @@ namespace LVPages.Pages.Admin
             Wait.ToSeeElements(AllAdminPages);
             AssertDriverUrlIsEqualToPageUrl();
         }
+
         public void INavigateToAdminPage(IWebElement element)
         {
             Wait.ForElementToBeClickable(element);
             I.Click(element);
             Wait.ForPageToLoad();
             Wait.ForNoErrorAndException();
-            //Wait.ForLoaderToDissaper();
-            //Wait.ForNoLoader();
-            //Wait.ForAjax();
+            Wait.ForLoaderToDissaper();
         }
     }
 }

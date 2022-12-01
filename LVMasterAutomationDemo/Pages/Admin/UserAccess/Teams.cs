@@ -7,12 +7,13 @@ namespace LVPages.Pages.Admin.UserAccess
     {
         private readonly IWait Wait;
         private readonly IUserActions I;
-        int randomNumber = (int)(new Random().NextInt64(2022) + 20);
+
         public Teams(IWebDriver driver) : base(driver)
         {
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
+
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Teams/";
 
         private IWebElement NoticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
@@ -46,6 +47,7 @@ namespace LVPages.Pages.Admin.UserAccess
             Wait.ToSeeElements(TeamsGrid);
             AssertDriverUrlIsEqualToPageUrl();
         }
+
         public void AssignUserAndRoleToTeam()
         {
             I.Click(UserAssignmentTab);
@@ -57,6 +59,7 @@ namespace LVPages.Pages.Admin.UserAccess
             I.Click(AvailableRoles[4]);
             Wait.ToSeeElement(RoleAssignedItem);
         }
+
         public void EditTheUserAndRole()
         {
             I.Click(UserAssignmentTab);
