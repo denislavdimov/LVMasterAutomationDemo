@@ -7,13 +7,13 @@ namespace LVPages.Pages.Admin.UserAccess
     {
         private readonly IWait Wait;
         private readonly IUserActions I;
-        int randomNumber = (int)(new Random().NextInt64(2022) + 20);
-        int NewRandomNumber = (int)(new Random().NextInt64(2022) + 20);
+
         public Users(IWebDriver driver) : base(driver)
         {
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
+
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Users/";
 
         private IWebElement AddUserButton => driver.FindElement(By.XPath("//button[contains(.,'Add')]"));
@@ -42,6 +42,7 @@ namespace LVPages.Pages.Admin.UserAccess
         private By HostLoanOfficerField = By.XPath("//input[@placeholder='Loan Officer']");
         private By ApprovalAuthorityAddAllLink = By.LinkText("Add All");
         private By ApprovalAuthorityRemoveAllLink = By.LinkText("Remove All");
+
         private IList<string> RequiredFields()
         {
             List<string> requiredfields = new List<string>()

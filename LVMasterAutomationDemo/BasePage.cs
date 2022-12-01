@@ -9,7 +9,8 @@ namespace LVPages
         private readonly Wait Wait;
         private readonly IUserActions I;
         protected IWebDriver driver;
-        //private static int secondsToLoadPage = 30;
+        public int randomNumber = (int)(new Random().NextInt64(2022) + 20);
+        public int NewRandomNumber = (int)(new Random().NextInt64(2022) + 20);
 
         public BasePage(IWebDriver driver)
         {
@@ -23,11 +24,6 @@ namespace LVPages
           driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
         public IList<IWebElement> Warning =>
             driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
-
-        public IWebElement Exception2 =>
-            driver.FindElement(By.XPath("//div[@class='toast toast-error']"));
-        public IWebElement Warning2 =>
-            driver.FindElement(By.XPath("//div[contains(@class, 'toast toast-warning')]"));
 
         public void IGoToThisPageUrl()
         {

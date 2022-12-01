@@ -3,9 +3,11 @@ using NUnit.Framework;
 
 namespace LVTests.Admin.UserAccess
 {
+    [TestFixture]
+    [Category("Admin/UserAccess")]
     public class AddEditUser : BaseTest
     {
-        [Test]
+        //[Test]
         public static void AddEdit_User_Test()
         {
             LoginTest.LoginWithValidCredentials();
