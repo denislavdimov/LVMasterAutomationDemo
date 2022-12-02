@@ -9,6 +9,7 @@ namespace LVTests
         {
             //PageHelper.LoginPage.ClearCache();
             PageHelper.LoginPage.OpenLoanVantageAndLogin();
+            PageHelper.PortalPage.VerifyPortalPage();
         }
     }
 }

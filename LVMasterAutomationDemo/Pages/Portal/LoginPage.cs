@@ -56,8 +56,7 @@ namespace LVPages.Pages.Portal
             I.Click(LoginButton);
             Wait.ForPageToLoad();
             Wait.ForAjax();
-            //Wait.ForNoErrorAndException();
-            PageHelper.PortalPage.VerifyPortalPage();
+            Wait.ForLoaderToDissaper();
         }
     }
 }
