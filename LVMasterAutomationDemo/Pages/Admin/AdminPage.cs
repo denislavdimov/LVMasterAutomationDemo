@@ -41,6 +41,7 @@ namespace LVPages.Pages.Admin
             Wait.ForElementToBeClickable(element);
             I.Click(element);
             Wait.ForPageToLoad();
+            Wait.ForAjax();
             Wait.ForNoErrorAndException();
             Wait.ForLoaderToDissaper();
         }

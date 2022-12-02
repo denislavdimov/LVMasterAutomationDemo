@@ -58,15 +58,15 @@ namespace LVPages
 
         public void ForLoaderToDissaper()
         {
-            var NewAdminLoaderIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='lv-loader-container']"));
-            var NewAdminLoaderBackdropIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='loader-backdrop']"));
-            var Exception = PageHelper.BasePage.Exception;
-            int elapsed = 0;
-            int timeout = 15000;
-            bool stop1 = false;
-            bool stop2 = false;
             try
             {
+                var NewAdminLoaderIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='lv-loader-container']"));
+                var NewAdminLoaderBackdropIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='loader-backdrop']"));
+                var Exception = PageHelper.BasePage.Exception;
+                int elapsed = 0;
+                int timeout = 15000;
+                bool stop1 = false;
+                bool stop2 = false;
                 if (NewAdminLoaderIsDisplayed && NewAdminLoaderBackdropIsDisplayed)
                 {
                     while ((!stop1) && (!stop2) && (elapsed <= timeout))
@@ -186,18 +186,33 @@ namespace LVPages
 
         public void ForAjax()
         {
+            //bool ajaxIsComplete = (bool)((IJavaScriptExecutor)driver).ExecuteScript
+            //    ("return !!window.jQuery && window.jQuery.active == 0");
             try
             {
-                while (true)
+                int toTimeout = 0;
+                int timeBeforeTimeout = 30000;
+                bool isReady = (bool)((IJavaScriptExecutor)driver).ExecuteScript
+                    ("return (window.jQuery != null) && (jQuery.active === 0);");
+                while ((!isReady) && (toTimeout < timeBeforeTimeout))
                 {
-                    //bool ajaxIsComplete = (bool)((IJavaScriptExecutor)_driver).ExecuteScript("return jQuery.active == 0");
-                    bool ajaxIsComplete = (bool)((IJavaScriptExecutor)driver).ExecuteScript("return !!window.jQuery && window.jQuery.active == 0");
-                    if (ajaxIsComplete)
+                    var jQueryIsNotDefined = (bool)((IJavaScriptExecutor)driver).ExecuteScript("return typeof jQuery === 'undefined'");
+                    if (jQueryIsNotDefined)
                     {
+                        wait.Until(driver => (bool)((IJavaScriptExecutor)driver).ExecuteScript("return (document.readyState === 'complete')"));
                         break;
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(500);
+                    if (!isReady)
+                    {
+                        wait.Until(driver => (bool)((IJavaScriptExecutor)driver).ExecuteScript
+                        ("return (window.jQuery != null) && (jQuery.active === 0);"));
+                        break;
+                    }
+                    Thread.Sleep(250);
+                    toTimeout += 250;
                 }
+                Thread.Sleep(800);
             }
             catch (Exception)
             {

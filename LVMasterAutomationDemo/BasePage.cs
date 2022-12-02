@@ -30,6 +30,7 @@ namespace LVPages
             try
             {
                 driver.Navigate().GoToUrl(PageUrl);
+                Wait.ForPageToLoad();
                 Wait.ForAjax();
             }
             catch (Exception e)
