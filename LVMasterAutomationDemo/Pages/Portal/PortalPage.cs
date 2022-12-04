@@ -33,17 +33,19 @@ namespace LVPages.Pages.Portal
             Wait.ForElementToBeClickable(HamburgerMenu);
             Wait.ForElementToBeClickable(QueuesButton);
             Wait.ForElementToBeClickable(NewButton);
-            Wait.ToSeeElement(SearchArea);
+            Wait.ForElement(SearchArea);
             AssertDriverUrlIsEqualToPageUrl();
         }
 
-        public void IGoToAdmin()
+        public void GoToAdmin()
         {
-            Wait.ToSeeElement(Hamburger);
+            Wait.ForElement(Hamburger);
             I.Click(HamburgerMenu);
-            Wait.ToSeeElement(AdminLink);
+            Wait.ForElement(AdminLink);
             I.Click(SetupAdministrator);
             Wait.ForPageToLoad();
+            Wait.ForAjax();
+            Wait.ForTheLoader();
             PageHelper.AdminPage.VerifyAdminPage();
         }
     }

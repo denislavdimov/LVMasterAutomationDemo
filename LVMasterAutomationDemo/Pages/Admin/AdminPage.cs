@@ -31,19 +31,19 @@ namespace LVPages.Pages.Admin
         {
             Wait.ForElementToBeClickable(MainMenuButton);
             Wait.ForElementToBeClickable(HamburgerButton);
-            Wait.ToSeeElement(SearchArea);
-            Wait.ToSeeElements(AllAdminPages);
+            Wait.ForElement(SearchArea);
+            Wait.ForElements(AllAdminPages);
             AssertDriverUrlIsEqualToPageUrl();
         }
 
-        public void INavigateToAdminPage(IWebElement element)
+        public void NavigateToAdminPage(IWebElement element)
         {
             Wait.ForElementToBeClickable(element);
             I.Click(element);
             Wait.ForPageToLoad();
             Wait.ForAjax();
+            Wait.ForTheLoader();
             Wait.ForNoErrorAndException();
-            Wait.ForLoaderToDissaper();
         }
     }
 }

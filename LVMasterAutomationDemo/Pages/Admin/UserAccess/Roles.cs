@@ -7,7 +7,6 @@ namespace LVPages.Pages.Admin.UserAccess
     {
         private readonly IWait Wait;
         private readonly IUserActions I;
-        //int randomNumber = (int)(new Random().NextInt64(2022) + 20);
         public Roles(IWebDriver driver) : base(driver)
         {
             Wait = new Wait(driver);
@@ -35,8 +34,8 @@ namespace LVPages.Pages.Admin.UserAccess
         public void VerifyRolesPage()
         {
             Wait.ForElementToBeClickable(LinkAdd);
-            Wait.ToSeeElement(SearchInputArea);
-            Wait.ToSeeElements(RolesGrid);
+            Wait.ForElement(SearchInputArea);
+            Wait.ForElements(RolesGrid);
             AssertDriverUrlIsEqualToPageUrl();
         }
 
@@ -44,10 +43,9 @@ namespace LVPages.Pages.Admin.UserAccess
         {
             I.Click(LinkAdd);
             Wait.ForAjax();
-            Wait.ToSeeElement(RoleModal);
-            //ISeeElements(By.CssSelector("#admin-menu-role-edit #available div"));
+            Wait.ForElement(RoleModal);
             I.Click(AddAllLink);
-            Wait.ToSeeElements(RoleAssignedItems);
+            Wait.ForElements(RoleAssignedItems);
             I.FillInField(NameInputField, $"DenisAutomationRoleTest{randomNumber}");
             I.Click(SaveButton);
             Wait.ForAjax();
@@ -60,10 +58,9 @@ namespace LVPages.Pages.Admin.UserAccess
             Wait.ForItemInTheGrid(GridItems.Count, 1);
             I.Click(EditButton);
             Wait.ForAjax();
-            Wait.ToSeeElement(RoleModal);
-            Wait.ToSeeElements(RoleAssignedItems);
+            Wait.ForElement(RoleModal);
             I.Click(DeleteButton);
-            Wait.ToSeeElement(ConfirmationDialog);
+            Wait.ForElement(ConfirmationDialog);
             I.Click(YesButton);
             Wait.ForAjax();
             Wait.ForNoErrorAndException();

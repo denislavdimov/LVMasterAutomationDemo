@@ -17,7 +17,7 @@ namespace LVPages
             this.driver = driver;
         }
 
-        public void ToSeeElement(By by)
+        public void ForElement(By by)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace LVPages
             }
         }
 
-        public void ToSeeElements(By by)
+        public void ForElements(By by)
         {
             try
             {
@@ -39,6 +39,19 @@ namespace LVPages
             catch (TimeoutException)
             {
                 Console.WriteLine($"The elements with selector: {by} didn't appear for - {_secondsBeforeTimeout}");
+                throw;
+            }
+        }
+
+        public void ForNoElement(By by)
+        {
+            try
+            {
+                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"The element with selector: {by} is visible on the page.");
                 throw;
             }
         }
@@ -105,11 +118,53 @@ namespace LVPages
             }
         }
 
-        public bool IsElementDisplayed(By path)
+        public void ForTheLoader()
         {
             try
             {
-                return driver.FindElement(path).Displayed;
+                var NewAdminLoaderIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='lv-loader-container']"));
+                var NewAdminLoaderBackdropIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='loader-backdrop']"));
+                var Exception = PageHelper.BasePage.Exception;
+                if (NewAdminLoaderIsDisplayed || NewAdminLoaderBackdropIsDisplayed)
+                {
+                    if (NewAdminLoaderIsDisplayed)
+                    {
+                        wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='lv-loader-container']")));
+                        Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                    }
+                    else if (NewAdminLoaderBackdropIsDisplayed)
+                    {
+                        wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='loader-backdrop']")));
+                        Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                    }
+                    else
+                    {
+                        wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='lv-loader-container']")));
+                        wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='loader-backdrop']")));
+                        Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                        return;
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(500);
+                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='lv-loader-container']")));
+                    wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='loader-backdrop']")));
+                    Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The loader is not displayed. ", e.Message);
+                throw;
+            }   
+        }
+
+        public bool IsElementDisplayed(By by)
+        {
+            try
+            {
+                return driver.FindElement(by).Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -236,7 +291,7 @@ namespace LVPages
             }
             finally
             {
-                Assert.That(Item, Is.EqualTo(NumberOfItems), $"There is not only {NumberOfItems} item/s in the grid.");
+                Assert.That(Item, Is.EqualTo(NumberOfItems), $"There is/are not only {NumberOfItems} item/s in the grid.");
             }
         }
     }

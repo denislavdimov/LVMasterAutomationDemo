@@ -32,10 +32,12 @@ namespace LVPages
                 driver.Navigate().GoToUrl(PageUrl);
                 Wait.ForPageToLoad();
                 Wait.ForAjax();
+                Wait.ForTheLoader();
+                Wait.ForNoErrorAndException();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("Pages failed to load", e.Message);
                 throw;
             }
         }

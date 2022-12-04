@@ -23,7 +23,7 @@ namespace LVPages
                     if (element.Displayed && element.Enabled)
                     {
                         element.Click();
-                        Thread.Sleep(1000);
+                        Thread.Sleep(700);
                         break;
                     }
                     else if (timeout >= 5000)

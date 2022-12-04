@@ -11,8 +11,8 @@ namespace LVTests.Admin.UserAccess
         public static void AddEditDelete_Team_Test()
         {
             LoginTest.LoginWithValidCredentials();
-            PageHelper.PortalPage.IGoToAdmin();
-            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.Teams);
+            PageHelper.PortalPage.GoToAdmin();
+            PageHelper.AdminPage.NavigateToAdminPage(PageHelper.AdminPage.Teams);
             PageHelper.TeamsPage.VerifyTeamsPage();
             PageHelper.TeamsPage.AddTeamWithUserAndRole();
             PageHelper.TeamsPage.EditTeam();

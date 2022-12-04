@@ -59,8 +59,8 @@ namespace LVPages.Pages.Admin.UserAccess
             Wait.ForElementToBeClickable(AddUserButton);
             Wait.ForElementToBeClickable(UploadButton);
             Wait.ForElementToBeClickable(MobileButton);
-            Wait.ToSeeElement(SearchArea);
-            Wait.ToSeeElements(UsersInTheGrid);
+            Wait.ForElement(SearchArea);
+            Wait.ForElements(UsersInTheGrid);
             AssertDriverUrlIsEqualToPageUrl();
         }
 
@@ -81,13 +81,13 @@ namespace LVPages.Pages.Admin.UserAccess
             FillInTheRequiredFields(RequiredFields());
             I.Click(LoanOfficerTab);
             I.Click(LoanOfficerCheckbox);
-            Wait.ToSeeElement(HostLoanOfficerField);
+            Wait.ForElement(HostLoanOfficerField);
             I.Click(LoanAssistantTab);
             I.Click(LoanAssistantCheckbox);
             I.Click(ApprovalAuthorityTab);
             I.Click(ApprovalAuthorityCheckbox);
-            Wait.ToSeeElement(ApprovalAuthorityAddAllLink);
-            Wait.ToSeeElement(ApprovalAuthorityRemoveAllLink);
+            Wait.ForElement(ApprovalAuthorityAddAllLink);
+            Wait.ForElement(ApprovalAuthorityRemoveAllLink);
             I.Click(CancelButton);
             //IClick(SaveButton);
             Wait.ForNoErrorAndException();

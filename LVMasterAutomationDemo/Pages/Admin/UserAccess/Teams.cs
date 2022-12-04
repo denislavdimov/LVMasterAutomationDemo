@@ -43,42 +43,38 @@ namespace LVPages.Pages.Admin.UserAccess
         public void VerifyTeamsPage()
         {
             Wait.ForElementToBeClickable(LinkAdd);
-            Wait.ToSeeElement(SearchArea);
-            Wait.ToSeeElements(TeamsGrid);
+            Wait.ForElement(SearchArea);
+            Wait.ForElements(TeamsGrid);
             AssertDriverUrlIsEqualToPageUrl();
         }
 
         public void AssignUserAndRoleToTeam()
         {
             I.Click(UserAssignmentTab);
-            //ISeeElements(By.CssSelector("#team-user-assignment #available div"));
             I.Click(AvailableUsers[1]);
-            Wait.ToSeeElement(UserAssignedItem);
+            Wait.ForElement(UserAssignedItem);
             I.Click(RoleAssignmentTab);
-            //ISeeElements(By.CssSelector("#team-role-assignment #available div"));
             I.Click(AvailableRoles[4]);
-            Wait.ToSeeElement(RoleAssignedItem);
+            Wait.ForElement(RoleAssignedItem);
         }
 
         public void EditTheUserAndRole()
         {
             I.Click(UserAssignmentTab);
-            //ISeeElements(By.CssSelector("#team-user-assignment #available div"));
             I.Click(AvailableUsers[10]);
-            Wait.ToSeeElements(UserAssignedItem);
+            Wait.ForElements(UserAssignedItem);
             I.Click(RoleAssignmentTab);
-            //ISeeElements(By.CssSelector("#team-role-assignment #available div"));
             I.Click(AvailableRoles[5]);
-            Wait.ToSeeElements(RoleAssignedItem);
+            Wait.ForElements(RoleAssignedItem);
         }
 
         public void AddTeamWithUserAndRole()
         {
-            Wait.ToSeeElement(NoticeModal);
+            Wait.ForElement(NoticeModal);
             I.Click(NoticeCloseButton);
             I.Click(LinkAdd);
             Wait.ForAjax();
-            Wait.ToSeeElement(TeamsModal);
+            Wait.ForElement(TeamsModal);
             I.FillInField(NameInputField, $"DenisAutomationTeamTest{randomNumber}");
             AssignUserAndRoleToTeam();
             I.Click(SaveButton);
@@ -92,7 +88,7 @@ namespace LVPages.Pages.Admin.UserAccess
             Wait.ForItemInTheGrid(GridItems.Count, 1);
             I.Click(EditButton);
             Wait.ForAjax();
-            Wait.ToSeeElement(TeamsModal);
+            Wait.ForElement(TeamsModal);
             EditTheUserAndRole();
             I.Click(SaveButton);
             Wait.ForAjax();
@@ -103,9 +99,9 @@ namespace LVPages.Pages.Admin.UserAccess
         {
             I.Click(EditButton);
             Wait.ForAjax();
-            Wait.ToSeeElement(TeamsModal);
+            Wait.ForElement(TeamsModal);
             I.Click(DeleteButton);
-            Wait.ToSeeElement(ConfirmationDialog);
+            Wait.ForElement(ConfirmationDialog);
             I.Click(YesButton);
             Wait.ForAjax();
             Wait.ForNoErrorAndException();
