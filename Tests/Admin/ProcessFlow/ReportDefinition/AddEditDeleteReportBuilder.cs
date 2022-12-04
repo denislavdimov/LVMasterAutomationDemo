@@ -11,8 +11,8 @@ namespace LVTests.Admin.ProcessFlow.ReportDefinition
         public void AddEditDelete_ReportDefinition_Test()
         {
             LoginTest.LoginWithValidCredentials();
-            PageHelper.PortalPage.IGoToAdmin();
-            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.ReportDefinition);
+            PageHelper.PortalPage.GoToAdmin();
+            PageHelper.AdminPage.NavigateToAdminPage(PageHelper.AdminPage.ReportDefinition);
             PageHelper.ReportDefinitionPage.VerifyReportDefinitionPage();
             PageHelper.ReportDefinitionPage.AddBuildReport();
             PageHelper.ReportDefinitionPage.EditBuildReport();

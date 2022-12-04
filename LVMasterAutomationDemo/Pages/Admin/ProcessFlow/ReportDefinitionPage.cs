@@ -17,6 +17,8 @@ namespace LVPages.Pages.Admin.ProcessFlow
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/Define-Reports/";
 
         //private IList<IWebElement> PresentationGridElements => driver.FindElements(By.CssSelector("#reportsGrid tr")).ToList();
+
+        //BuilderTab
         private IWebElement AddNewPresentationReportButton => driver.FindElement(By.XPath("//button[contains(.,'Add New Presentation Report')]"));
         private IWebElement BuilderTab => driver.FindElement(By.CssSelector("span[data-ui='report-definitions-tab-item-title-builder']"));
         private IList<IWebElement> BuilderReports => driver.FindElements(By.CssSelector("#report-builder-tab div[class='k-grid-container'] tr")).ToList();
@@ -34,11 +36,13 @@ namespace LVPages.Pages.Admin.ProcessFlow
         private IWebElement SaveBuildReportButton => driver.FindElement(By.CssSelector("button[data-ui='report-builder-save']"));
 
         private By AllAssignedBuildReportComponents = By.CssSelector("#lv-droppable-assigned-drop-area div[class='lv-draggable-item']");
-        private By AllAvailableBuildReportComponents = By.CssSelector("div[data-ui='report-builder-drop-area'] div[class='lv-draggable-item']");
+        private By AllAvailableBuildReportComponents = By.CssSelector
+            ("//div[@id='lv-droppable-Prerequisite Conditions']//div[@data-ui='report-builder-component-draggable-item']");
         private By AdminBreadCrumbLink = By.XPath("//a[contains(.,'Admin')]");
         private By AboutPresentationReportsLink = By.XPath("//a[contains(.,'About Presentation Reports')]");
         private By WarningMessage = By.XPath("//div[contains(@class,'Toastify__toast Toastify__toast--warning')]");
 
+        //SectionTab
         private IWebElement SectionTab => driver.FindElement(By.CssSelector("span[data-ui=report-definitions-tab-title-sections]"));
         private IWebElement SectionTabSearchBox => driver.FindElement(By.CssSelector("#report-builder-sections-tab input[data-ui='search-component-input'] "));
         private IList<IWebElement> SectionReports => driver.FindElements(By.CssSelector("#report-builder-sections-tab div[class='k-grid-container'] tr")).ToList();
@@ -54,6 +58,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
         private IWebElement FacilityCheckbox => driver.FindElement(By.CssSelector("label[data-ui='report-builder-add-edit-facility']"));
 
         private By AllSectionAssignedComponents = By.CssSelector("#lv-droppable-AssignedArea div[class='lv-draggable-item']");
+        private By AllSectionAvailableComponents = By.CssSelector("#lv-droppable-AvailableArea div[data-ui=drag-n-drop-items]");
 
         public IList<string> BuilderComponents()
         {
@@ -78,8 +83,8 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ForElementToBeClickable(AddNewPresentationReportButton);
             Wait.ForElementToBeClickable(BuilderTab);
             Wait.ForElementToBeClickable(SectionTab);
-            Wait.ToSeeElement(AboutPresentationReportsLink);
-            Wait.ToSeeElement(AdminBreadCrumbLink);
+            Wait.ForElement(AboutPresentationReportsLink);
+            Wait.ForElement(AdminBreadCrumbLink);
         }
 
         public void AddComponentsFromEachSection(IList<string> Components)
@@ -89,23 +94,25 @@ namespace LVPages.Pages.Admin.ProcessFlow
                 var section = driver.FindElement(By.XPath($"//span[contains(.,'{item}')]"));
                 I.Click(section);
                 I.Click(AddAllBuilderComponentsButton);
-                Wait.ToSeeElements(AllAssignedBuildReportComponents);
+                Wait.ForNoElement(AllAvailableBuildReportComponents);
+                Wait.ForElements(AllAssignedBuildReportComponents);
             }
         }
 
         public void AddBuildReport()
         {
             I.Click(BuilderTab);
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
             I.Click(AddBuildReportButton);
-            Wait.ForAjax();
+            Wait.ForTheLoader();
             I.FillInField(BuildReportName, $"DDAutomationBuildReport{randomNumber}");
             I.Click(BuildReportIsActiveCheckbox);
+            Wait.ForTheLoader();
             I.Click(BuilderModalComponentsTab);
             AddComponentsFromEachSection(BuilderComponents());
             I.Click(SaveBuildReportButton);
             Wait.ForAjax();
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
         }
 
         public void EditBuildReport()
@@ -114,19 +121,20 @@ namespace LVPages.Pages.Admin.ProcessFlow
             BuilderSearchBox.SendKeys(Keys.Enter);
             Wait.ForItemInTheGrid(BuilderReports.Count, 1);
             I.Click(EditBuildReportButton);
-            Wait.ForAjax();
+            Wait.ForTheLoader();
             I.Click(BuildReportIsBoardingCheckbox);
+            Wait.ForTheLoader();
             I.Click(BuilderModalComponentsTab);            
-            Wait.ToSeeElements(AllAssignedBuildReportComponents);
+            Wait.ForElements(AllAssignedBuildReportComponents);
             I.Click(RemoveAllBuilderComponentsButton);
-            Wait.ToSeeElements(AllAvailableBuildReportComponents);
             I.Click(SaveBuildReportButton);
-            Wait.ToSeeElement(WarningMessage);
+            Wait.ForElement(WarningMessage);
             I.Click(AddAllBuilderComponentsButton);
-            Wait.ToSeeElements(AllAssignedBuildReportComponents);
+            Wait.ForNoElement(AllAvailableBuildReportComponents);
+            Wait.ForElements(AllAssignedBuildReportComponents);
             I.Click(SaveBuildReportButton);
             Wait.ForAjax();
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
         }
 
         public void DeleteBuildReport()
@@ -134,23 +142,23 @@ namespace LVPages.Pages.Admin.ProcessFlow
             I.Click(DeleteBuildReportButton);
             I.Click(DeleteBuildReportYesButton);
             Wait.ForAjax();
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
         }
 
         public void AddSection()
         {
             I.Click(SectionTab);
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
             I.Click(AddSectionButton);
-            Wait.ForAjax();
+            Wait.ForTheLoader();
             I.FillInField(SectionCode, $"DDAuto{randomNumber}");
             I.FillInField(SectionDescription, $"DDAutomationSection{randomNumber}");
             I.Click(SectionComponentsTab);
             I.Click(AddAllSectionComponentsButton);
-            Wait.ToSeeElements(AllSectionAssignedComponents);
+            Wait.ForElements(AllSectionAssignedComponents);
             I.Click(SaveSectionButton);
             Wait.ForAjax();
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
         }
 
         public void EditSection()
@@ -159,15 +167,17 @@ namespace LVPages.Pages.Admin.ProcessFlow
             SectionTabSearchBox.SendKeys(Keys.Enter);
             Wait.ForItemInTheGrid(SectionReports.Count, 1);
             I.Click(EditSectionButton);
-            Wait.ForAjax();
+            Wait.ForTheLoader();
             I.Click(FacilityCheckbox);
+            Wait.ForTheLoader();
             I.Click(SectionComponentsTab);
             I.Click(SaveSectionButton);
-            Wait.ToSeeElement(WarningMessage);
+            Wait.ForElement(WarningMessage);
             I.Click(AddAllSectionComponentsButton);
+            Wait.ForNoElement(AllSectionAvailableComponents);
             I.Click(SaveSectionButton);
             Wait.ForAjax();
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
         }
 
         public void DeleteSection()
@@ -175,7 +185,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             I.Click(DeleteSectionButton);
             I.Click(DeleteSectionYesButton);
             Wait.ForAjax();
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
         }
     }
 }

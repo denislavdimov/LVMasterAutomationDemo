@@ -11,8 +11,8 @@ namespace LVTests.Admin.UserAccess
         public static void AddEdit_User_Test()
         {
             LoginTest.LoginWithValidCredentials();
-            PageHelper.PortalPage.IGoToAdmin();
-            PageHelper.AdminPage.INavigateToAdminPage(PageHelper.AdminPage.Users);
+            PageHelper.PortalPage.GoToAdmin();
+            PageHelper.AdminPage.NavigateToAdminPage(PageHelper.AdminPage.Users);
             PageHelper.UsersPage.VerifyUsersPage();
             PageHelper.UsersPage.AddUser();
             PageHelper.UsersPage.EditUser();

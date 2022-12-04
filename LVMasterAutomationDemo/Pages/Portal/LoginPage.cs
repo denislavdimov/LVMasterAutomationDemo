@@ -42,9 +42,9 @@ namespace LVPages.Pages.Portal
 
         private void FillInUsernameAndPassword(string username, string password)
         {
-            Wait.ToSeeElement(UsernameField);
-            Wait.ToSeeElement(PasswordField);
-            Wait.ToSeeElement(Login);
+            Wait.ForElement(UsernameField);
+            Wait.ForElement(PasswordField);
+            Wait.ForElement(Login);
             I.FillInField(Username, username);
             I.FillInField(Password, password);
         }
@@ -56,7 +56,7 @@ namespace LVPages.Pages.Portal
             I.Click(LoginButton);
             Wait.ForPageToLoad();
             Wait.ForAjax();
-            Wait.ForLoaderToDissaper();
+            Wait.ForTheLoader();
         }
     }
 }
