@@ -1,6 +1,10 @@
 ﻿using LVPages.IClasses;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 
 namespace LVPages
 {
@@ -19,11 +23,62 @@ namespace LVPages
             I = new UserActions(driver);
         }
 
+        public enum Browsers
+        {
+            Chrome, IE, Firefox
+        }
+
         public virtual string PageUrl { get; }
         public IList<IWebElement> Exception =>
           driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
         public IList<IWebElement> Warning =>
             driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
+
+        public IWebDriver CreateInstance(Browsers browser)
+        {
+            if (Browsers.Chrome == browser)
+            {
+                ChromeOptions options = new ChromeOptions();
+                options.AddArguments("--window-size=1440,900", "--ignore-certificate-errors", "--disable-popup-blocking");
+                return new ChromeDriver(options);
+            }
+            else if (Browsers.Chrome == browser)
+            {
+                return new InternetExplorerDriver();
+            }
+            else
+            {
+                return new FirefoxDriver();
+            }
+        }
+
+        public void StartBrowser()
+        {
+            driver = CreateInstance(Browsers.Chrome);
+            PageHelper.PageBuilder(driver);
+            driver.Manage().Cookies.DeleteAllCookies();
+        }
+
+        public void CloseBrowser()
+        {
+            driver.Manage().Cookies.DeleteAllCookies();
+            if (driver == null)
+                return;
+            driver.Close();
+            driver.Quit();
+        }
+
+        public void TakeScreenshotIfTestFails()
+        {
+            string path = "C:\\LVFailingTests";
+            string testname = TestContext.CurrentContext.Test.Name;
+            if (TestContext.CurrentContext.Result.Outcome != ResultState.Success)
+            {
+                System.IO.Directory.CreateDirectory(path);
+                var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
+                screenshot.SaveAsFile($@"{path}\{testname}.jpg", ScreenshotImageFormat.Jpeg);
+            }
+        }
 
         public void IGoToThisPageUrl()
         {

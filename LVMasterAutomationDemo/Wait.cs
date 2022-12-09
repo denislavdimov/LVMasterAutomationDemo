@@ -56,6 +56,18 @@ namespace LVPages
             }
         }
 
+        public bool ToSee(By by)
+        {
+            try
+            {
+                return driver.FindElement(by).Displayed;
+            }
+            catch (NoSuchElementException)
+            {
+                throw;
+            }
+        }
+
         public void ForElementToBeClickable(IWebElement element)
         {
             try
@@ -173,18 +185,6 @@ namespace LVPages
             }
         }
 
-        public bool CheckForElement(By by)
-        {
-            try
-            {
-                return driver.FindElement(by).Displayed;
-            }
-            catch (NoSuchElementException)
-            {
-                throw;
-            }
-        }
-
         public void ForNoErrorAndException()
         {
             try
@@ -223,9 +223,9 @@ namespace LVPages
 
         public void ForPageToLoad()
         {
-            var body = CheckForElement(By.XPath("//body"));
             try
             {
+                var body = IsElementDisplayed(By.XPath("//body"));
                 if (body != true)
                 {
                     wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(By.XPath("//body")));

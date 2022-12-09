@@ -13,21 +13,21 @@ namespace LVPages.Pages.Admin.UserAccess
             I = new UserActions(driver);
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Roles/";
-        private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
-        private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
-        private IWebElement SearchArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
-        private IWebElement DeleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
-        private IWebElement AddAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll'] strong"));
-        private IWebElement SaveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
-        private IWebElement YesButton => driver.FindElement(By.XPath("//button[contains(.,'Yes')]"));
-        private IWebElement EditButton => driver.FindElement(By.XPath("(//a[contains(@class,'v-icon icon-edit k-grid-Edit')])"));
+        private IWebElement LinkAdd => driver.FindElement(By.CssSelector("a[data-bind='click: add']"));
+        private IWebElement NameInputField => driver.FindElement(By.CssSelector("input[name='Name']"));
+        private IWebElement SearchArea => driver.FindElement(By.CssSelector("input[name='GridToolbarSearch']"));
+        private IWebElement DeleteButton => driver.FindElement(By.CssSelector("button[data-toggle='delete-confirmation']"));
+        private IWebElement YesButton => driver.FindElement(By.CssSelector("button[data-ui='confirmation-yes']"));
+        private IWebElement AddAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll']"));
+        private IWebElement SaveButton => driver.FindElement(By.CssSelector("button[data-bind='visible: permission.AdminRolesEdit, click: save']"));
+        private IWebElement EditButton => driver.FindElement(By.CssSelector("a[class='v-icon icon-edit k-grid-Edit']"));
         private IList<IWebElement> AvailableItems => driver.FindElements(By.CssSelector("#admin-menu-role-edit #available div")).ToList();
         private IList<IWebElement> AssignedItems => driver.FindElements(By.CssSelector("#admin-menu-role-edit #assigned div")).ToList();
-        private IList<IWebElement> GridItems => driver.FindElements(By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr")).ToList();
+        private IList<IWebElement> GridItems => driver.FindElements(By.CssSelector("div[class='k-grid-content k-auto-scrollable'] tr")).ToList();
 
-        private By SearchInputArea = By.XPath("//input[contains(@class,'search-query form-control')]");
+        private By SearchInputArea = By.CssSelector("input[name='GridToolbarSearch']");
         private By RolesGrid = By.CssSelector("#roles-kendo-grid tr");
-        private By RoleModal = By.XPath("//div[@class='k-widget k-window']");
+        private By RoleModal = By.CssSelector("div[class='k-widget k-window']");
         private By RoleAssignedItems = By.CssSelector("#admin-menu-role-edit #assigned div");
         private By ConfirmationDialog = By.CssSelector(".confimation-dialog h5");
 
@@ -64,6 +64,7 @@ namespace LVPages.Pages.Admin.UserAccess
             I.Click(YesButton);
             Wait.ForAjax();
             Wait.ForNoErrorAndException();
+            Wait.ForItemInTheGrid(GridItems.Count, 0);
         }
     }
 }

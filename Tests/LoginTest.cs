@@ -7,7 +7,7 @@ namespace LVTests
     {
         public static void LoginWithValidCredentials()
         {
-            //PageHelper.LoginPage.ClearCache();
+            PageHelper.LoginPage.ClearCache();
             PageHelper.LoginPage.OpenLoanVantageAndLogin();
             PageHelper.PortalPage.VerifyPortalPage();
         }

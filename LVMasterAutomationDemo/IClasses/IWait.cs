@@ -12,6 +12,7 @@ namespace LVPages.IClasses
         void ForElement(By by);
         void ForElements(By by);
         void ForNoElement(By by);
+        bool ToSee(By by);
         void ForNoErrorAndException();
         void ForTheLoader();
     }
