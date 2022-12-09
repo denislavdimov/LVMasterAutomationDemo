@@ -14,11 +14,9 @@ namespace LVPages.Pages.Admin
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/";
 
-        private IList<IWebElement> AdminPageLinks => driver.FindElements(By.XPath("//div[@class='lv-custom-admin-container']//a"));
         private IWebElement HamburgerButton => driver.FindElement(By.XPath("//div[@class='lv-header-dropdown-menu']//button"));
         private IWebElement SearhInputArea => driver.FindElement(By.XPath("//input[contains(@class,'lv-form-control-input')]"));
         private IWebElement MainMenuButton => driver.FindElement(By.XPath("//button[contains(@data-ui,'main-menu-header')]"));
-        public IList<IWebElement> OldAdminGridItems => driver.FindElements(By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr")).ToList();
         public IWebElement Roles => driver.FindElement(By.LinkText("Roles"));
         public IWebElement Teams => driver.FindElement(By.LinkText("Teams"));
         public IWebElement Users => driver.FindElement(By.LinkText("Users"));
@@ -41,8 +39,8 @@ namespace LVPages.Pages.Admin
             Wait.ForElementToBeClickable(element);
             I.Click(element);
             Wait.ForPageToLoad();
-            Wait.ForAjax();
             Wait.ForTheLoader();
+            Wait.ForAjax();
             Wait.ForNoErrorAndException();
         }
     }

@@ -16,10 +16,25 @@ namespace LVPages.Pages.Admin.ProcessFlow
         }
         public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/Define-Reports/";
 
-        //private IList<IWebElement> PresentationGridElements => driver.FindElements(By.CssSelector("#reportsGrid tr")).ToList();
+        //PresentationReportsTab
+        // //td[text()='No records available']
+        private IList<IWebElement> PresentationReports => driver.FindElements(By.CssSelector("#reportsGrid div[class='k-grid-container'] tr")).ToList();
+        private IWebElement AddNewPrReportButton => driver.FindElement(By.CssSelector("button[data-ui='pr-reports-add-new']"));
+        private IWebElement PrReportCode => driver.FindElement(By.CssSelector("input[data-ui='presentation-report-edit-name']"));
+        private IWebElement PrReportSearchBox => driver.FindElement(By.CssSelector("input[data-ui='search-component-input']"));
+        private IWebElement PrReportEditButton => driver.FindElement(By.CssSelector("button[data-ui='prensetation-report-modify-item']"));
+        private IWebElement PrReportSaveButton => driver.FindElement(By.CssSelector("button[data-ui='presentation-report-save']"));
+        private IWebElement PrReportDeleteButton => driver.FindElement(By.CssSelector("button[data-confirmation]"));
+        private IWebElement PrReportDeleteYesButton => driver.FindElement(By.CssSelector("button[data-ui='presentation-report-delete-confirm']"));
+        private IWebElement PrReportIsBoardingCheckbox => driver.FindElement(By.CssSelector("label[data-ui='presentation-report-edit-is-boarding']"));
+        private IWebElement PrReportSubReportAssignmentTab => driver.FindElement(By.CssSelector("span[data-ui='presetnation-reports-tab-item-sub-reports-title']"));
+
+        private By AllPrReportAvailableComponents = By.CssSelector("#lv-droppable-AvailableArea div[data-ui='drag-n-drop-items']");
+        private By AllPrReportAssignedComponents = By.CssSelector("#lv-droppable-AssignedArea div[data-ui='drag-n-drop-items']");
+        private By NoRecordsAvailable = By.XPath("//td[text()='No records available']");
+
 
         //BuilderTab
-        private IWebElement AddNewPresentationReportButton => driver.FindElement(By.XPath("//button[contains(.,'Add New Presentation Report')]"));
         private IWebElement BuilderTab => driver.FindElement(By.CssSelector("span[data-ui='report-definitions-tab-item-title-builder']"));
         private IList<IWebElement> BuilderReports => driver.FindElements(By.CssSelector("#report-builder-tab div[class='k-grid-container'] tr")).ToList();
         private IWebElement BuilderSearchBox => driver.FindElement(By.CssSelector("div[data-ui='report-builder-tab-toolbar'] div input[name='searchBox']"));
@@ -53,12 +68,43 @@ namespace LVPages.Pages.Admin.ProcessFlow
         private IWebElement SectionCode => driver.FindElement(By.CssSelector("input[data-ui='report-builder-add-edit-code']"));
         private IWebElement SectionDescription => driver.FindElement(By.CssSelector("input[data-ui='report-builder-add-edit-description']"));
         private IWebElement SectionComponentsTab => driver.FindElement(By.CssSelector("span[data-ui='report-builder-add-edit-tab-title-section']"));
-        private IWebElement AddAllSectionComponentsButton => driver.FindElement(By.CssSelector("button[data-ui='drag-n-drop-add-all-button']"));
+        private IWebElement AddAllButton => driver.FindElement(By.CssSelector("button[data-ui='drag-n-drop-add-all-button']"));
         private IWebElement SaveSectionButton => driver.FindElement(By.CssSelector("button[data-ui='report-builder-add-edit-add-or-update']"));
         private IWebElement FacilityCheckbox => driver.FindElement(By.CssSelector("label[data-ui='report-builder-add-edit-facility']"));
 
         private By AllSectionAssignedComponents = By.CssSelector("#lv-droppable-AssignedArea div[class='lv-draggable-item']");
         private By AllSectionAvailableComponents = By.CssSelector("#lv-droppable-AvailableArea div[data-ui=drag-n-drop-items]");
+
+        public void AddPresentationReport()
+        {
+            I.Click(AddNewPrReportButton);
+            Wait.ForTheLoader();
+            I.FillInField(PrReportCode, $"DDAutomationPrReport{randomNumber}");
+            I.Click(PrReportIsBoardingCheckbox);
+            I.Click(PrReportSubReportAssignmentTab);
+            I.Click(AddAllButton);
+            Wait.ForElements(AllPrReportAssignedComponents);
+            I.Click(PrReportSaveButton);
+            Wait.ForAjax();
+            Wait.ForTheLoader();
+        }
+
+        public void DeletePresentationReport()
+        {
+            I.FillInField(PrReportSearchBox, $"DDAutomationPrReport{randomNumber}");
+            PrReportSearchBox.SendKeys(Keys.Enter);
+            Wait.ForItemInTheGrid(PresentationReports.Count, 1);
+            I.Click(PrReportEditButton);
+            Wait.ForTheLoader();
+            I.Click(PrReportSubReportAssignmentTab);
+            Wait.ForNoElement(AllPrReportAvailableComponents);
+            Wait.ForElements(AllPrReportAssignedComponents);
+            I.Click(PrReportDeleteButton);
+            I.Click(PrReportDeleteYesButton);
+            Wait.ForAjax();
+            Wait.ForTheLoader();
+            Wait.ToSee(NoRecordsAvailable);
+        }
 
         public IList<string> BuilderComponents()
         {
@@ -80,7 +126,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
 
         public void VerifyReportDefinitionPage()
         {
-            Wait.ForElementToBeClickable(AddNewPresentationReportButton);
+            Wait.ForElementToBeClickable(AddNewPrReportButton);
             Wait.ForElementToBeClickable(BuilderTab);
             Wait.ForElementToBeClickable(SectionTab);
             Wait.ForElement(AboutPresentationReportsLink);
@@ -143,6 +189,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             I.Click(DeleteBuildReportYesButton);
             Wait.ForAjax();
             Wait.ForTheLoader();
+            Wait.ToSee(NoRecordsAvailable);
         }
 
         public void AddSection()
@@ -154,7 +201,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             I.FillInField(SectionCode, $"DDAuto{randomNumber}");
             I.FillInField(SectionDescription, $"DDAutomationSection{randomNumber}");
             I.Click(SectionComponentsTab);
-            I.Click(AddAllSectionComponentsButton);
+            I.Click(AddAllButton);
             Wait.ForElements(AllSectionAssignedComponents);
             I.Click(SaveSectionButton);
             Wait.ForAjax();
@@ -173,7 +220,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             I.Click(SectionComponentsTab);
             I.Click(SaveSectionButton);
             Wait.ForElement(WarningMessage);
-            I.Click(AddAllSectionComponentsButton);
+            I.Click(AddAllButton);
             Wait.ForNoElement(AllSectionAvailableComponents);
             I.Click(SaveSectionButton);
             Wait.ForAjax();
@@ -186,6 +233,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             I.Click(DeleteSectionYesButton);
             Wait.ForAjax();
             Wait.ForTheLoader();
+            Wait.ToSee(NoRecordsAvailable);
         }
     }
 }

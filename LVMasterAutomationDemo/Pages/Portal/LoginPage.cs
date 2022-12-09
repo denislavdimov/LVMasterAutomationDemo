@@ -31,11 +31,12 @@ namespace LVPages.Pages.Portal
             {
                 driver.Navigate().GoToUrl(CachePage);
                 Wait.ForPageToLoad();
+                Wait.ForAjax();
                 Assert.IsTrue(CacheTableContent.Count == 0, "The cache is not cleared");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(e.Message);
                 throw;
             }
         }

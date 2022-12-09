@@ -105,6 +105,7 @@ namespace LVPages.Pages.Admin.UserAccess
             I.Click(YesButton);
             Wait.ForAjax();
             Wait.ForNoErrorAndException();
+            Wait.ForItemInTheGrid(GridItems.Count, 0);
         }
     }
 }
