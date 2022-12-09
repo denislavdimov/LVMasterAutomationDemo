@@ -18,19 +18,21 @@ namespace LVPages.Pages.Admin.UserAccess
 
         private IWebElement NoticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
         private IList<IWebElement> GridItems => driver.FindElements
-            (By.XPath("//div[contains(@class,'k-grid-content k-auto-scrollable')]//tr")).ToList();
-        private IWebElement SearchInputArea => driver.FindElement(By.XPath("//input[contains(@class,'search-query form-control')]"));
-        private IWebElement LinkAdd => driver.FindElement(By.LinkText("Add"));
-        private IWebElement EditButton => driver.FindElement(By.XPath("//a[contains(@class,'v-icon icon-edit k-grid-Edit')]"));
-        private IWebElement DeleteButton => driver.FindElement(By.XPath("//button[contains(.,'Delete')]"));
-        private IWebElement NameInputField => driver.FindElement(By.XPath("//input[@name='Name']"));
-        private IWebElement SaveButton => driver.FindElement(By.XPath("//button[contains(.,'Save')]"));
-        private IWebElement UserAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'User Assignment')]"));
-        private IWebElement RoleAssignmentTab => driver.FindElement(By.XPath("//span[contains(.,'Role Assignment')]"));
-        private IWebElement ApprovalsTab => driver.FindElement(By.XPath("//span[@unselectable='on'][contains(.,'Approvals')]"));
+            (By.CssSelector("div[class='k-grid-content k-auto-scrollable'] tr")).ToList();
+        private IWebElement SearchInputArea => driver.FindElement(By.CssSelector("input[name='GridToolbarSearch']"));
+        private IWebElement LinkAdd => driver.FindElement(By.CssSelector("a[data-bind='click: add']"));
+        private IWebElement NameInputField => driver.FindElement(By.CssSelector("input[name='Name']"));
+        private IWebElement DeleteButton => driver.FindElement(By.CssSelector("button[data-bind='visible: displayRemoveBtn, click: remove']"));
+        private IWebElement YesButton => driver.FindElement(By.CssSelector("button[data-ui='confirmation-yes']"));
+        private IWebElement AddAllLink => driver.FindElement(By.CssSelector("a[data-bind='click: addAll']"));
+        private IWebElement SaveButton => driver.FindElement(By.CssSelector("button[data-bind='visible: permission.AdminTeamEdit, click: onSave']"));
+        private IWebElement EditButton => driver.FindElement(By.CssSelector("a[class='v-icon icon-edit k-grid-Edit']"));
+        private IWebElement UserAssignmentTab => driver.FindElement(By.XPath("//span[text()='User Assignment']"));
+        private IWebElement RoleAssignmentTab => driver.FindElement(By.XPath("//span[text()='Role Assignment']"));
         private IList<IWebElement> AvailableUsers => driver.FindElements(By.CssSelector("#team-user-assignment #available div")).ToList();
         private IList<IWebElement> AvailableRoles => driver.FindElements(By.CssSelector("#team-role-assignment #available div")).ToList();
-        private IWebElement YesButton => driver.FindElement(By.XPath("//button[contains(.,'Yes')]"));
+
+
 
         private By TeamsGrid = By.CssSelector("#teams-kendo-grid tr");
         private By SearchArea = By.XPath("//input[contains(@class,'search-query form-control')]");

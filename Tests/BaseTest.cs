@@ -18,7 +18,7 @@ namespace LVTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            PageHelper.BasePage.TakeScreenshotIfTestFails();
+            //PageHelper.BasePage.TakeScreenshotIfTestFails();
             PageHelper.BasePage.CloseBrowser();
         }
     }

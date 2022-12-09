@@ -9,7 +9,7 @@ namespace LVPages
     public class Wait : IWait
     {
         protected IWebDriver driver;
-        private static int _secondsBeforeTimeout = 30;
+        private static int _secondsBeforeTimeout = 35;
         private WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
 
         public Wait(IWebDriver driver)
