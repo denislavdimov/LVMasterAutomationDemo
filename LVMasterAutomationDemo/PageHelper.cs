@@ -16,6 +16,7 @@ namespace LVPages
         public static LoginPage LoginPage;
         public static Users UsersPage;
         public static ReportDefinitionPage ReportDefinitionPage;
+        public static PostApprovalPage PostApprovalPage;
 
         public static void PageBuilder(IWebDriver driver)
         {
@@ -27,6 +28,7 @@ namespace LVPages
             LoginPage = new LoginPage(driver);
             UsersPage = new Users(driver);
             ReportDefinitionPage = new ReportDefinitionPage(driver);
+            PostApprovalPage = new PostApprovalPage(driver);
         }
     }
 }

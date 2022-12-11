@@ -75,6 +75,15 @@ namespace LVPages.Pages.Admin.ProcessFlow
         private By AllSectionAssignedComponents = By.CssSelector("#lv-droppable-AssignedArea div[class='lv-draggable-item']");
         private By AllSectionAvailableComponents = By.CssSelector("#lv-droppable-AvailableArea div[data-ui=drag-n-drop-items]");
 
+        public void VerifyReportDefinitionPage()
+        {
+            Wait.ForElementToBeClickable(AddNewPrReportButton);
+            Wait.ForElementToBeClickable(BuilderTab);
+            Wait.ForElementToBeClickable(SectionTab);
+            Wait.ForElement(AboutPresentationReportsLink);
+            Wait.ForElement(AdminBreadCrumbLink);
+        }
+
         public void AddPresentationReport()
         {
             I.Click(AddNewPrReportButton);
@@ -124,14 +133,6 @@ namespace LVPages.Pages.Admin.ProcessFlow
             return componentslist.AsReadOnly();
         }
 
-        public void VerifyReportDefinitionPage()
-        {
-            Wait.ForElementToBeClickable(AddNewPrReportButton);
-            Wait.ForElementToBeClickable(BuilderTab);
-            Wait.ForElementToBeClickable(SectionTab);
-            Wait.ForElement(AboutPresentationReportsLink);
-            Wait.ForElement(AdminBreadCrumbLink);
-        }
 
         public void AddComponentsFromEachSection(IList<string> Components)
         {

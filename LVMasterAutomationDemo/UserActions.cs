@@ -1,7 +1,9 @@
 ﻿using LVPages.IClasses;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.DevTools.V105.CSS;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 using System.Drawing;
 
 namespace LVPages
@@ -9,6 +11,8 @@ namespace LVPages
     public class UserActions : IUserActions
     {
         protected IWebDriver driver;
+        private Actions action => new Actions(driver);
+
         int timeout = 0;
         public UserActions(IWebDriver driver)
         {
@@ -76,24 +80,36 @@ namespace LVPages
             }
         }
         
-        public void DragAndDrop(IWebElement element1, IWebElement element2)
+        public void SelectFromDropdown(IWebElement dropdown, IWebElement item)
         {
-            var UserAction = new Actions(driver);
             try
             {
-                //var dragndrop = UserAction.ClickAndHold(element1)
-                //    .Pause(TimeSpan.FromSeconds(1))
-                //    .MoveToElement(element2)
-                //    .Pause(TimeSpan.FromSeconds(1))
-                //    .Release()
-                //    .Build();
-                //dragndrop.Perform();
+                Click(dropdown);
+                if (item.Displayed && item.Enabled)
+                {
+                    var SelectItem = action.MoveToElement(item).Click().Build();
+;                   SelectItem.Perform();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"Cannot select item: {item} from dropdown: {dropdown}");
+                throw;
+            }
 
-                //UserAction.DragAndDrop(element1, element2).Build().Perform();
+        }
 
-                Point start = element1.Location;
-                Point finish = element2.Location;
-                UserAction.DragAndDropToOffset(element1, finish.X - start.X, finish.Y - start.Y).Perform(); ;
+        public void DragAndDrop(IWebElement element1, IWebElement element2)
+        {
+            try
+            {
+                var UserAction = new Actions(driver);
+                //var jsFile = File.ReadAllText(@"C:\Users\Denislav\Desktop\DragDropHelper\drag_and_drop_helper.js");
+                //IJavaScriptExecutor js = driver as IJavaScriptExecutor;
+                //js.ExecuteScript(jsFile + "$('').simulateDragDrop({ dropTarget: ''});");
+
+                UserAction.DragAndDrop(element1, element2).Perform();
+
             }
             catch (Exception)
             {

@@ -39,7 +39,7 @@ namespace LVPages
             if (Browsers.Chrome == browser)
             {
                 ChromeOptions options = new ChromeOptions();
-                options.AddArguments("--window-size=1440,900", "--ignore-certificate-errors", "--disable-popup-blocking");
+                options.AddArguments("--window-size=1440,900", "--disable-extensions", "--disable-popup-blocking");
                 return new ChromeDriver(options);
             }
             else if (Browsers.Chrome == browser)

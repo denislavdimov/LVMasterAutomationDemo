@@ -21,6 +21,7 @@ namespace LVPages.Pages.Admin
         public IWebElement Teams => driver.FindElement(By.LinkText("Teams"));
         public IWebElement Users => driver.FindElement(By.LinkText("Users"));
         public IWebElement ReportDefinition => driver.FindElement(By.LinkText("Report Definition"));
+        public IWebElement PostApproval => driver.FindElement(By.LinkText("Post-Approvals"));
 
         private By AllAdminPages = By.XPath("//div[@class='lv-custom-admin-container']//a");
         private By SearchArea = By.XPath("//input[contains(@class,'lv-form-control-input')]");

@@ -7,5 +7,6 @@ namespace LVPages.IClasses
         void Click(IWebElement element);
         void FillInField(IWebElement element, string data);
         void DragAndDrop(IWebElement element1, IWebElement element2);
+        void SelectFromDropdown(IWebElement dropdown, IWebElement item);
     }
 }
