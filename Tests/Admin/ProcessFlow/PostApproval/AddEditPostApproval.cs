@@ -13,7 +13,9 @@ namespace LVTests.Admin.ProcessFlow.PostApproval
             LoginTest.LoginWithValidCredentials();
             PageHelper.PortalPage.GoToAdmin();
             PageHelper.AdminPage.NavigateToAdminPage(PageHelper.AdminPage.PostApproval);
+            PageHelper.PostApprovalPage.VerifyPostApprovalPage();
             PageHelper.PostApprovalPage.AddPostApproval();
+            PageHelper.PostApprovalPage.EditPostApproval();
         }
     }
 }
