@@ -42,7 +42,7 @@ namespace LVPages
                 options.AddArguments("--window-size=1440,900", "--disable-extensions", "--disable-popup-blocking");
                 return new ChromeDriver(options);
             }
-            else if (Browsers.Chrome == browser)
+            else if (Browsers.IE == browser)
             {
                 return new InternetExplorerDriver();
             }
@@ -110,19 +110,6 @@ namespace LVPages
             }
         }
 
-        public void IDragAndDrop(IWebElement element, IWebElement place)
-        {
-            try
-            {
-                Wait.ForElementToBeClickable(element);
-                I.DragAndDrop(element, place);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine($"The element: {element} cannot be drag and dropped to place: {place}");
-                throw;
-            }
-        }
 
         public void ClearAllInputFields()
         {

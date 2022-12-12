@@ -1,23 +1,23 @@
 ﻿using LVPages.IClasses;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.DevTools.V105.CSS;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using System.Drawing;
 
 namespace LVPages
 {
     public class UserActions : IUserActions
     {
         protected IWebDriver driver;
+        private readonly IWait Wait;
         private Actions action => new Actions(driver);
-
         int timeout = 0;
+
         public UserActions(IWebDriver driver)
         {
+            Wait = new Wait(driver);
             this.driver = driver;
         }
+
         public void Click(IWebElement element)
         {
             try
@@ -80,42 +80,101 @@ namespace LVPages
             }
         }
         
-        public void SelectFromDropdown(IWebElement dropdown, IWebElement item)
+        public void SelectItemFromDropdown(IWebElement dropdown, int itemnumber)
+        {
+            SelectDropdown(dropdown);
+            SelectDropdownItem(dropdown, itemnumber);
+        }
+
+        private void SelectDropdown(IWebElement dropdown)
         {
             try
             {
-                Click(dropdown);
-                if (item.Displayed && item.Enabled)
+                if (dropdown.Displayed && dropdown.Enabled)
                 {
-                    var SelectItem = action.MoveToElement(item).Click().Build();
-;                   SelectItem.Perform();
+                    action.MoveToElement(dropdown).Click(dropdown).Build().Perform();
+                    var items = driver.FindElements(By.XPath("//div[contains(@class,'lv-select__option')]")).ToList();
+                    var multiItems = driver.FindElements(By.XPath("//div[contains(@class,'lv-multi-select__option')]")).ToList();
+                    if (items.Count > 0)
+                    {
+                        Wait.ForElements(By.XPath("//div[contains(@class,'lv-select__option')]"));
+                        return;
+                    }
+                    else if (multiItems.Count > 0)
+                    {
+                        Wait.ForElements(By.XPath("//div[contains(@class,'lv-multi-select__option')]"));
+                        return;
+                    }
+                }
+                else
+                {
+                    Click(dropdown);
+                    var items = driver.FindElements(By.XPath("//div[contains(@class,'lv-select__option')]")).ToList();
+                    var multiItems = driver.FindElements(By.XPath("//div[contains(@class,'lv-multi-select__option')]")).ToList();
+                    if (items.Count > 0)
+                    {
+                        Wait.ForElements(By.XPath("//div[contains(@class,'lv-select__option')]"));
+                        return;
+                    }
+                    else if (multiItems.Count > 0)
+                    {
+                        Wait.ForElements(By.XPath("//div[contains(@class,'lv-multi-select__option')]"));
+                        return;
+                    }
+                }
+                Wait.ForTheLoader();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"There is no such dropdown: {dropdown}");
+                throw;
+            }
+        }
+
+        private void SelectDropdownItem(IWebElement dropdown, int itemnumber)
+        {
+            try
+            {
+                var items = driver.FindElements(By.XPath("//div[contains(@class,'lv-select__option')]")).ToList();
+                var multiItems = driver.FindElements(By.XPath("//div[contains(@class,'lv-multi-select__option')]")).ToList();
+                if (items.Count > 0)
+                {
+                    action.MoveToElement(items[itemnumber]).Click(items[itemnumber]).Build().Perform();
+                    Wait.ForTheLoader();
+                }
+                else if (multiItems.Count > 0)
+                {
+                    action.MoveToElement(multiItems[itemnumber]).Click(multiItems[itemnumber]).Build().Perform();
+                    Wait.ForTheLoader();
+                }
+                else
+                {
+                    Wait.ForElementToBeClickable(dropdown);
+                    action.MoveToElement(dropdown).Click(dropdown).Build().Perform();
+                    if (items.Count > 0)
+                    {
+                        action.MoveToElement(items[itemnumber]).Click(items[itemnumber]).Build().Perform();
+                        Wait.ForTheLoader();
+                    }
+                    else if (multiItems.Count > 0)
+                    {
+                        action.MoveToElement(multiItems[itemnumber]).Click(multiItems[itemnumber]).Build().Perform();
+                        Wait.ForTheLoader();
+                    }
+                    else
+                    {
+                        Assert.IsTrue(items.Count == 0, "The dropdown is not opened");
+                        Assert.IsTrue(multiItems.Count == 0, "The dropdown is not opened");
+                    }
                 }
             }
             catch (Exception)
             {
-                Console.WriteLine($"Cannot select item: {item} from dropdown: {dropdown}");
+                Console.WriteLine($"Cannot select item from the dropdown: {dropdown} ");
                 throw;
             }
 
         }
 
-        public void DragAndDrop(IWebElement element1, IWebElement element2)
-        {
-            try
-            {
-                var UserAction = new Actions(driver);
-                //var jsFile = File.ReadAllText(@"C:\Users\Denislav\Desktop\DragDropHelper\drag_and_drop_helper.js");
-                //IJavaScriptExecutor js = driver as IJavaScriptExecutor;
-                //js.ExecuteScript(jsFile + "$('').simulateDragDrop({ dropTarget: ''});");
-
-                UserAction.DragAndDrop(element1, element2).Perform();
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Drag and Drop element failed");
-                throw;
-            }
-        }
     }
 }
