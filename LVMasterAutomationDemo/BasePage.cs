@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using System.IO;
 
 namespace LVPages
 {
@@ -28,7 +29,7 @@ namespace LVPages
             Chrome, IE, Firefox
         }
 
-        public virtual string PageUrl { get; }
+        public virtual string PageUrl => "https://loanvantage.dev/IBS/master/";
         public IList<IWebElement> Exception =>
           driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
         public IList<IWebElement> Warning =>
@@ -80,7 +81,7 @@ namespace LVPages
             }
         }
 
-        public void IGoToThisPageUrl()
+        public void GoToThisPageUrl()
         {
             try
             {

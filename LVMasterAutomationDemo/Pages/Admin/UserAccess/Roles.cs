@@ -12,7 +12,8 @@ namespace LVPages.Pages.Admin.UserAccess
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Roles/";
+        public override string PageUrl => base.PageUrl + "master/LVWEB/Admin/#/Roles/";
+
         private IWebElement LinkAdd => driver.FindElement(By.CssSelector("a[data-bind='click: add']"));
         private IWebElement NameInputField => driver.FindElement(By.CssSelector("input[name='Name']"));
         private IWebElement SearchArea => driver.FindElement(By.CssSelector("input[name='GridToolbarSearch']"));

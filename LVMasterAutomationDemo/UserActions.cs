@@ -26,14 +26,17 @@ namespace LVPages
                 {
                     if (element.Displayed && element.Enabled)
                     {
+                        action.MoveToElement(element).Build().Perform();
                         element.Click();
                         Thread.Sleep(700);
                         break;
                     }
                     else if (timeout >= 5000)
                     {
-                        Assert.IsTrue(element.Displayed && element.Enabled, 
+                        Assert.IsTrue(element.Displayed || element.Enabled,
                             "The Element is neither displayed nor enabled and cannot be clicked.");
+                        action.MoveToElement(element).Click().Build().Perform();
+                        break;
                     }
                     else
                     {
@@ -45,6 +48,22 @@ namespace LVPages
             catch (StaleElementReferenceException)
             {
                 Console.WriteLine($"The element: {element} is not clickable");
+                throw;
+            }
+        }
+
+        public void ClickWithActionsClass(IWebElement element)
+        {
+            try
+            {
+                if (element.Displayed || element.Enabled)
+                {
+                    action.MoveToElement(element).Click(element).Build().Perform();
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("The element is not clickable");
                 throw;
             }
         }
