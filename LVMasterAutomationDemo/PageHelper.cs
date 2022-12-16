@@ -17,6 +17,7 @@ namespace LVPages
         public static Users UsersPage;
         public static ReportDefinitionPage ReportDefinitionPage;
         public static PostApprovalPage PostApprovalPage;
+        public static LoanWizardPage LoanWizardPage;
 
         public static void PageBuilder(IWebDriver driver)
         {
@@ -29,6 +30,7 @@ namespace LVPages
             UsersPage = new Users(driver);
             ReportDefinitionPage = new ReportDefinitionPage(driver);
             PostApprovalPage = new PostApprovalPage(driver);
+            LoanWizardPage= new LoanWizardPage(driver);
         }
     }
 }

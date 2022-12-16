@@ -7,15 +7,15 @@ namespace LVPages.Pages.Admin.ProcessFlow
     {
         private readonly IWait Wait;
         private readonly IUserActions I;
-        string ItemNumber = "";
 
         public PostApprovalPage(IWebDriver driver) : base(driver)
         {
+            this.driver = driver;
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
 
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/Post-Approvals/";
+        public override string PageUrl => base.PageUrl + "lvadmin/#/Post-Approvals/";
 
         private IList<IWebElement> GridItems => driver.FindElements(By.XPath("//tr[contains(@class,'k-master-row')]")).ToList();
         private IWebElement AddNewPostApproval => driver.FindElement(By.CssSelector("button[data-ui='post-approval-toolbar-add-btn']"));
@@ -26,11 +26,9 @@ namespace LVPages.Pages.Admin.ProcessFlow
         private IWebElement IsActiveCheckbox => driver.FindElement(By.CssSelector("label[data-ui='post-approval-details-checkbox-is-active']"));
         private IWebElement PostApprovalEntitiesTab => driver.FindElement(By.XPath("//span[text()='Post-Approval Entities']"));
         private IWebElement AddTeam => driver.FindElement(By.CssSelector("button[data-ui='post-approval-entities-add-team-btn']"));
-        private IWebElement ApproveOnAmount => driver.FindElement(By.CssSelector("input[name='ApprovalLimitAmt']"));
+        private IList<IWebElement> ApproveOnAmount => driver.FindElements(By.CssSelector("input[name='ApprovalLimitAmt']")).ToList();
         private IWebElement MembersRequired => driver.FindElement(By.CssSelector("input[name='NumberOfUsersRequired']"));
-        private IWebElement ReasonDropdown => driver.FindElement(By.CssSelector("div[data-ui='post-approval-entities-multiselect-reason']"));
-        private IWebElement FinalDecisionTab => driver.FindElement(By.CssSelector("//span[text()='Final Decision']"));
-        private IWebElement NotificationsTab => driver.FindElement(By.CssSelector("//span[text()='Notifications']"));
+        private IList<IWebElement> ReasonDropdown => driver.FindElements(By.CssSelector("div[data-ui='post-approval-entities-multiselect-reason']")).ToList();
         private IWebElement EditButton => driver.FindElement(By.CssSelector("button[data-ui='post-approval-grid-edit-btn']"));
         private IWebElement SaveAndClose => driver.FindElement(By.CssSelector("button[data-ui='post-approval-edit-save-close-btn']"));
         private IWebElement DeleteButton => driver.FindElement(By.CssSelector("button[data-ui='post-approval-entities-grid-delete-btn']"));
@@ -39,7 +37,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
         private By SearchBox = By.CssSelector("input[data-ui='search-component-input']");
         private By NoRecordsAvailable = By.XPath("//td[text()='No records available']");
         private By ReasonDropdownValues = By.XPath("//div[contains(@class,'multiValue')]");
-        private By DeleteTeamButton = By.CssSelector("button[data-ui='post-approval-entities-grid-delete-btn']");
+        private By DeleteButton2ndRow = By.XPath("//td[contains(@data-ui,'row-2')]/button[contains(@data-ui,'grid-delete-btn')]");
 
         List<string> PAEDropdowns = new List<string>()
             {
@@ -54,20 +52,35 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ForElementToBeClickable(AddNewPostApproval);
             Wait.ForElementToBeClickable(TestPostApproval);
             Wait.ToSee(SearchBox);
+            AssertDriverUrlIsEqualToPageUrl();
         }
 
-        public void PopulateDropdowns(List<string> paeDropdowns)
+        public void PopulateGridRows(List<string> paeDropdowns)
         {
             foreach (var dropdown in paeDropdowns)
             {
                 int randomItem = new Random().Next(2, 5);
-                var dropdowns = driver.FindElement(By.CssSelector($"div[data-ui='post-approval-entities-{dropdown}']"));
-                I.SelectItemFromDropdown(dropdowns, randomItem);
-                var dropdownValues = By.XPath($"//div[@data-ui='post-approval-entities-{dropdown}']//div[contains(@class,'single-value')]");
-                Wait.ToSee(dropdownValues);
+                var dropdowns1Row = driver.FindElements(By.CssSelector($"div[data-ui='post-approval-entities-{dropdown}']")).ToList();
+                I.SelectItemFromDropdown(dropdowns1Row[0], randomItem);
+                var dropdownValues1Row = By.XPath(
+                    $"//td[contains(@data-ui,'row-1')]/div[@data-ui='post-approval-entities-{dropdown}']//div[contains(@class,'single-value')]");
+                Wait.ToSee(dropdownValues1Row);
             }
-            I.SelectItemFromDropdown(ReasonDropdown, 0);
+            I.SelectItemFromDropdown(ReasonDropdown[0], 0);
             Wait.ToSee(ReasonDropdownValues);
+            foreach (var dropdown2Row in paeDropdowns)
+            {
+                int randomItem2 = new Random().Next(2, 5);
+                var dropdowns2Row = driver.FindElements(By.CssSelector($"div[data-ui='post-approval-entities-{dropdown2Row}']")).ToList();
+                I.SelectItemFromDropdown(dropdowns2Row[1], randomItem2);
+                var dropdownValues2Row = By.XPath(
+                    $"//td[contains(@data-ui,'row-2')]/div[@data-ui='post-approval-entities-{dropdown2Row}']//div[contains(@class,'single-value')]");
+                Wait.ToSee(dropdownValues2Row);
+            }
+            I.SelectItemFromDropdown(ReasonDropdown[1], 0);
+            I.FillInField(ApproveOnAmount[0], "100000");
+            I.Click(ApproveOnAmount[1]);
+            I.FillInField(ApproveOnAmount[1], "150000");
         }
 
         public void AddPostApproval()
@@ -81,9 +94,8 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ForTheLoader();
             Wait.ToSee(NoRecordsAvailable);
             I.Click(AddTeam);
-            Wait.ToSee(DeleteTeamButton);
-            PopulateDropdowns(PAEDropdowns);
-            I.FillInField(ApproveOnAmount, "100000");
+            I.Click(AddTeam);
+            PopulateGridRows(PAEDropdowns);
             I.Click(SaveAndClose);
             Wait.ForAjax();
             Wait.ForTheLoader();
@@ -102,7 +114,9 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ForTheLoader();
             Wait.ForNoElement(NoRecordsAvailable);
             Wait.ToSee(ReasonDropdownValues);
-            I.SelectItemFromDropdown(ReasonDropdown, 1);
+            I.SelectItemFromDropdown(ReasonDropdown[0], 1);
+            I.Click(DeleteButton);
+            Wait.ForNoElement(DeleteButton2ndRow);
             I.Click(SaveAndClose);
             Wait.ForAjax();
             Wait.ForTheLoader();

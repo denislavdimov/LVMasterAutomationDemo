@@ -12,7 +12,8 @@ namespace LVPages.Pages.Admin
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/";
+        //public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/";
+        public override string PageUrl => base.PageUrl + "lvadmin/#/";
 
         private IWebElement HamburgerButton => driver.FindElement(By.XPath("//div[@class='lv-header-dropdown-menu']//button"));
         private IWebElement SearhInputArea => driver.FindElement(By.XPath("//input[contains(@class,'lv-form-control-input')]"));
@@ -22,6 +23,8 @@ namespace LVPages.Pages.Admin
         public IWebElement Users => driver.FindElement(By.LinkText("Users"));
         public IWebElement ReportDefinition => driver.FindElement(By.LinkText("Report Definition"));
         public IWebElement PostApproval => driver.FindElement(By.LinkText("Post-Approvals"));
+        public IWebElement LoanWizard => driver.FindElement(By.LinkText("Loan Wizard"));
+
 
         private By AllAdminPages = By.XPath("//div[@class='lv-custom-admin-container']//a");
         private By SearchArea = By.XPath("//input[contains(@class,'lv-form-control-input')]");

@@ -14,7 +14,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/Define-Reports/";
+        public override string PageUrl => base.PageUrl + "lvadmin/#/Define-Reports/";
 
         //PresentationReportsTab
         // //td[text()='No records available']
@@ -82,6 +82,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ForElementToBeClickable(SectionTab);
             Wait.ForElement(AboutPresentationReportsLink);
             Wait.ForElement(AdminBreadCrumbLink);
+            AssertDriverUrlIsEqualToPageUrl();
         }
 
         public void AddPresentationReport()

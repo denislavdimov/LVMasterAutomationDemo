@@ -1,6 +1,7 @@
 ﻿using LVPages.IClasses;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using System.Linq;
 
 namespace LVPages.Pages.Portal
 {
@@ -14,11 +15,12 @@ namespace LVPages.Pages.Portal
             I = new UserActions(driver);
         }
 
+        public override string PageUrl => base.PageUrl + "lvweb/Portal/Index#/";
+        private string CachePage => base.PageUrl + "lvweb/Cache/ClearAll";
+
         private IWebElement Username => driver.FindElement(By.Id("signInName"));
         private IWebElement Password => driver.FindElement(By.Id("password"));
         private IWebElement LoginButton => driver.FindElement(By.XPath("//button[contains(.,'Log in')]"));
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/Index#/";
-        private string CachePage => "https://loanvantage.dev/IBS/master/lvweb/Cache/ClearAll";
         private IList<IWebElement> CacheTableContent => driver.FindElements(By.XPath("//div[@id='cache-table-content']//tr")).ToList();
 
         public By UsernameField = By.Id("signInName");
@@ -52,7 +54,7 @@ namespace LVPages.Pages.Portal
 
         public void OpenLoanVantageAndLogin()
         {
-            IGoToThisPageUrl();
+            GoToThisPageUrl();
             FillInUsernameAndPassword("ddimov@vsgbg.com", "De126000!");
             I.Click(LoginButton);
             Wait.ForPageToLoad();

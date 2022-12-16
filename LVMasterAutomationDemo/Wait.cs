@@ -10,7 +10,6 @@ namespace LVPages
     {
         protected IWebDriver driver;
         private static int _secondsBeforeTimeout = 35;
-        //private WebDriverWait wait { get { return new WebDriverWait(driver, TimeSpan.FromSeconds(_secondsBeforeTimeout)); } }
         private WebDriverWait wait => new WebDriverWait(driver, TimeSpan.FromSeconds(_secondsBeforeTimeout));
 
         public Wait(IWebDriver driver)
@@ -168,7 +167,7 @@ namespace LVPages
             }
             catch (Exception e)
             {
-                Console.WriteLine("The loader is not displayed. ", e.Message);
+                Console.WriteLine("Please check. ", e.Message);
                 throw;
             }   
         }
@@ -179,7 +178,7 @@ namespace LVPages
             {
                 return driver.FindElement(by).Displayed;
             }
-            catch (NoSuchElementException)
+            catch (Exception)
             {
 
                 return false;
@@ -285,8 +284,8 @@ namespace LVPages
             {
                 while ((!success) && (elapsed < 10000))
                 {
-                    Thread.Sleep(1000);
-                    elapsed += 1000;
+                    Thread.Sleep(500);
+                    elapsed += 500;
                     success = Item == NumberOfItems;
                 }
             }

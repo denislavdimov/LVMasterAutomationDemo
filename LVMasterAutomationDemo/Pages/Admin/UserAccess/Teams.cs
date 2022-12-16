@@ -14,7 +14,7 @@ namespace LVPages.Pages.Admin.UserAccess
             I = new UserActions(driver);
         }
 
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Teams/";
+        public override string PageUrl => base.PageUrl + "LVWEB/Admin/#/Teams/";
 
         private IWebElement NoticeCloseButton => driver.FindElement(By.CssSelector(".k-icon.k-i-close"));
         private IList<IWebElement> GridItems => driver.FindElements

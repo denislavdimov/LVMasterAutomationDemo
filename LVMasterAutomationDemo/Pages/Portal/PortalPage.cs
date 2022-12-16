@@ -13,7 +13,7 @@ namespace LVPages.Pages.Portal
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/lvweb/Portal/Index#/";
+        public override string PageUrl => base.PageUrl + "lvweb/Portal/Index#/";
 
         private IWebElement HamburgerMenu => driver.FindElement(By.XPath("//button[@class='lv-dropdown-icon-button']"));
         private IWebElement QueuesButton => driver.FindElement(By.XPath("//button[contains(.,'Queues')]"));

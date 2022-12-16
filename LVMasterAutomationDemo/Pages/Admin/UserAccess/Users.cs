@@ -14,7 +14,7 @@ namespace LVPages.Pages.Admin.UserAccess
             I = new UserActions(driver);
         }
 
-        public override string PageUrl => "https://loanvantage.dev/IBS/master/LVWEB/Admin/#/Users/";
+        public override string PageUrl => base.PageUrl + "LVWEB/Admin/#/Users/";
 
         private IWebElement AddUserButton => driver.FindElement(By.XPath("//button[contains(.,'Add')]"));
         private IWebElement UploadButton => driver.FindElement(By.XPath("//button[contains(.,'Upload')]"));
