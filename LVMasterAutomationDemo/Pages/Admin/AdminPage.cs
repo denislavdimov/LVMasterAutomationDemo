@@ -12,7 +12,7 @@ namespace LVPages.Pages.Admin
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
-        //public override string PageUrl => "https://loanvantage.dev/IBS/master/lvadmin/#/";
+
         public override string PageUrl => base.PageUrl + "lvadmin/#/";
 
         private IWebElement HamburgerButton => driver.FindElement(By.XPath("//div[@class='lv-header-dropdown-menu']//button"));

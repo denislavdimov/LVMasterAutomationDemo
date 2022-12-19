@@ -30,10 +30,6 @@ namespace LVPages
         }
 
         public virtual string PageUrl => "https://loanvantage.dev/IBS/master/";
-        public IList<IWebElement> Exception =>
-          driver.FindElements(By.XPath("//div[@class='toast toast-error']")).ToList();
-        public IList<IWebElement> Warning =>
-            driver.FindElements(By.XPath("//div[contains(@class, 'toast toast-warning')]")).ToList();
 
         public IWebDriver CreateInstance(Browsers browser)
         {

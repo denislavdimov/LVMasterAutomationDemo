@@ -8,14 +8,18 @@ namespace LVPages
 {
     public class Wait : IWait
     {
-        protected IWebDriver driver;
+        private IWebDriver driver;
         private static int _secondsBeforeTimeout = 35;
-        private WebDriverWait wait => new WebDriverWait(driver, TimeSpan.FromSeconds(_secondsBeforeTimeout));
 
         public Wait(IWebDriver driver)
         {
             this.driver = driver;
         }
+
+        private WebDriverWait wait => new WebDriverWait(driver, TimeSpan.FromSeconds(_secondsBeforeTimeout));
+
+        public IList<IWebElement> NewAdminException =>
+            driver.FindElements(By.XPath("//div[contains(@class, 'Toastify__toast--error')]")).ToList();
 
         public void ForElement(By by)
         {
@@ -81,79 +85,29 @@ namespace LVPages
             }
         }
 
-        public void ForLoaderToDissaper()
-        {
-            try
-            {
-                var NewAdminLoaderIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='lv-loader-container']"));
-                var NewAdminLoaderBackdropIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='loader-backdrop']"));
-                var Exception = PageHelper.BasePage.Exception;
-                int elapsed = 0;
-                int timeout = 15000;
-                bool stop1 = false;
-                bool stop2 = false;
-                if (NewAdminLoaderIsDisplayed && NewAdminLoaderBackdropIsDisplayed)
-                {
-                    while ((!stop1) && (!stop2) && (elapsed <= timeout))
-                    {
-                        Thread.Sleep(250);
-                        elapsed += 250;
-                        stop1 = !NewAdminLoaderIsDisplayed;
-                        stop2 = !NewAdminLoaderBackdropIsDisplayed;
-                    }
-                    Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
-                }
-                else if (!NewAdminLoaderIsDisplayed && !NewAdminLoaderBackdropIsDisplayed)
-                {
-                    Thread.Sleep(700);
-                    if (NewAdminLoaderIsDisplayed && NewAdminLoaderBackdropIsDisplayed)
-                    {
-                        while ((!stop1) && (!stop2) && (elapsed <= timeout))
-                        {
-                            Thread.Sleep(250);
-                            elapsed += 250;
-                            stop1 = !NewAdminLoaderIsDisplayed;
-                            stop2 = !NewAdminLoaderBackdropIsDisplayed;
-                        }
-                        Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
-                    }
-                    Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
-                    return;
-                }
-                Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
-                return;
-            }
-            catch(Exception) 
-            {
-                Console.WriteLine("The Loader is not displayed on the page.");
-                throw;
-            }
-        }
-
         public void ForTheLoader()
         {
             try
             {
                 var NewAdminLoaderIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='lv-loader-container']"));
                 var NewAdminLoaderBackdropIsDisplayed = IsElementDisplayed(By.XPath("//div[@class='loader-backdrop']"));
-                var Exception = PageHelper.BasePage.Exception;
                 if (NewAdminLoaderIsDisplayed || NewAdminLoaderBackdropIsDisplayed)
                 {
                     if (NewAdminLoaderIsDisplayed)
                     {
                         wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='lv-loader-container']")));
-                        Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                        Assert.IsTrue(NewAdminException.Count == 0, "An exception is thrown");
                     }
                     else if (NewAdminLoaderBackdropIsDisplayed)
                     {
                         wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='loader-backdrop']")));
-                        Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                        Assert.IsTrue(NewAdminException.Count == 0, "An exception is thrown");
                     }
                     else
                     {
                         wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='lv-loader-container']")));
                         wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='loader-backdrop']")));
-                        Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                        Assert.IsTrue(NewAdminException.Count == 0, "An exception is thrown");
                         return;
                     }
                 }
@@ -162,7 +116,7 @@ namespace LVPages
                     Thread.Sleep(500);
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='lv-loader-container']")));
                     wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath("//div[@class='loader-backdrop']")));
-                    Assert.IsTrue(Exception.Count == 0, "An exception is thrown");
+                    Assert.IsTrue(NewAdminException.Count == 0, "An exception is thrown");
                 }
             }
             catch (Exception e)

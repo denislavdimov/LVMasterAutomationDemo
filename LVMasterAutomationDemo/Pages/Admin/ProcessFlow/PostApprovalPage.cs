@@ -10,7 +10,6 @@ namespace LVPages.Pages.Admin.ProcessFlow
 
         public PostApprovalPage(IWebDriver driver) : base(driver)
         {
-            this.driver = driver;
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }

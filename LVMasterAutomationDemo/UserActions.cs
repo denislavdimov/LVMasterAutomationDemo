@@ -7,16 +7,16 @@ namespace LVPages
 {
     public class UserActions : IUserActions
     {
-        protected IWebDriver driver;
+        private IWebDriver driver;
         private readonly IWait Wait;
-        private Actions action => new Actions(driver);
         int timeout = 0;
 
         public UserActions(IWebDriver driver)
         {
-            Wait = new Wait(driver);
             this.driver = driver;
+            Wait = new Wait(driver);
         }
+        private Actions action => new Actions(driver);
 
         public void Click(IWebElement element)
         {

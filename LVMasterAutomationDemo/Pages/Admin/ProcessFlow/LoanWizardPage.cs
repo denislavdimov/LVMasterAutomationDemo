@@ -10,7 +10,6 @@ namespace LVPages.Pages.Admin.ProcessFlow
         private readonly IUserActions I;
         public LoanWizardPage(IWebDriver driver) : base(driver)
         {
-            this.driver = driver;
             Wait = new Wait(driver);
             I = new UserActions(driver);
         }
@@ -90,7 +89,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ToSee(LoanWizardContent);
             Wait.ToSee(SaveButton);
             I.FillInField(LoanWizardTitle, $"DDAutoLoanWizard{randomNumber}");
-            I.Click(IsActiveCheckbox);
+            //I.Click(IsActiveCheckbox);
             PopulateAllLWDropdowns(LWDropdowns);
             I.Click(Save);
             Wait.ForAjax();
@@ -105,9 +104,9 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ForItemInTheGrid(GridItems.Count, 1);
             I.Click(WizardName);
             Wait.ForTheLoader();
-            I.Click(SetupTab);
-            I.Click(IncludePFSCheckbox);
-            I.Click(IncludeReviewCheckbox);
+            //I.Click(SetupTab);
+            //I.Click(IncludePFSCheckbox);
+            //I.Click(IncludeReviewCheckbox);
             I.Click(RoleAssignmentTab);
             Wait.ForTheLoader();
             I.Click(AddAllButton);
