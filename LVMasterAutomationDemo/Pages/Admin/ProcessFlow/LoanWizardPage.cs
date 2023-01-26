@@ -65,16 +65,40 @@ namespace LVPages.Pages.Admin.ProcessFlow
                     I.Click(LRTab);
                     Wait.ForTheLoader();
                 }
-                else if(dropdown == LWDropdowns[5])
+                else if (dropdown == LWDropdowns[5])
                 {
                     var ComplianceTab = driver.FindElement(By.XPath("//span[contains(.,'Compliance')]"));
                     I.Click(ComplianceTab);
                     Wait.ForTheLoader();
                 }
-                else if(dropdown == LWDropdowns[6])
+                else if (dropdown == LWDropdowns[6])
                 {
                     var CollateralTab = driver.FindElement(By.XPath("//span[contains(.,'Collateral')]"));
                     I.Click(CollateralTab);
+                    Wait.ForTheLoader();
+                }
+                var lwDropdown = driver.FindElement(By.XPath($"//div[@class='lv-select-wrapper'][contains(@data-ui,'loan-wizard-{dropdown}')]"));
+                I.SelectItemFromDropdown(lwDropdown, 2);
+            }
+        }
+
+        public void PopulateAllLWDropdownsMap(List<string> LoanWizardDropdowns)
+        {
+            var dropdownMappings = new Dictionary<string, (string, string)>
+                {
+                    { LWDropdowns[3], ("Party Information", "//span[contains(.,'Party Information')]") },
+                    { LWDropdowns[4], ("Loan Request", "//span[contains(.,'Loan Request')]") },
+                    { LWDropdowns[5], ("Compliance", "//span[contains(.,'Compliance')]") },
+                    { LWDropdowns[6], ("Collateral", "//span[contains(.,'Collateral')]") }
+                };
+
+            foreach (var dropdown in LWDropdowns)
+            {
+                if (dropdownMappings.ContainsKey(dropdown))
+                {
+                    var (tabName, tabXPath) = dropdownMappings[dropdown];
+                    var tab = driver.FindElement(By.XPath(tabXPath));
+                    I.Click(tab);
                     Wait.ForTheLoader();
                 }
                 var lwDropdown = driver.FindElement(By.XPath($"//div[@class='lv-select-wrapper'][contains(@data-ui,'loan-wizard-{dropdown}')]"));
@@ -90,7 +114,7 @@ namespace LVPages.Pages.Admin.ProcessFlow
             Wait.ToSee(SaveButton);
             I.FillInField(LoanWizardTitle, $"DDAutoLoanWizard{randomNumber}");
             //I.Click(IsActiveCheckbox);
-            PopulateAllLWDropdowns(LWDropdowns);
+            PopulateAllLWDropdownsMap(LWDropdowns);
             I.Click(Save);
             Wait.ForAjax();
             Wait.ForTheLoader();

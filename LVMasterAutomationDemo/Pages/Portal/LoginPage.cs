@@ -55,7 +55,7 @@ namespace LVPages.Pages.Portal
         public void OpenLoanVantageAndLogin()
         {
             GoToThisPageUrl();
-            FillInUsernameAndPassword("ddimov@vsgbg.com", "De126000!");
+            FillInUsernameAndPassword("uname", "pass");
             I.Click(LoginButton);
             Wait.ForPageToLoad();
             Wait.ForAjax();

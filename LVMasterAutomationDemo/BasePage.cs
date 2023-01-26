@@ -29,7 +29,7 @@ namespace LVPages
             Chrome, IE, Firefox
         }
 
-        public virtual string PageUrl => "https://loanvantage.dev/IBS/master/";
+        public virtual string PageUrl => "URL";
 
         public IWebDriver CreateInstance(Browsers browser)
         {
